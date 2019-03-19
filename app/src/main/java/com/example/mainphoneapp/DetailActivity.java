@@ -1,6 +1,6 @@
 package com.example.mainphoneapp;
 
-
+import java.io.Serializable;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.io.Serializable;
 
 import com.example.mainphoneapp.Model.BEFriend;
 
@@ -28,6 +27,8 @@ public class DetailActivity extends AppCompatActivity {
          etName = findViewById(R.id.etName);
          etPhone = findViewById(R.id.etPhone);
          cbFav = findViewById(R.id.cbFavorite);
+
+         setGui();
      }
 
      private void setGui(){

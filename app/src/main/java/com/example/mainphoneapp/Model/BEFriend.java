@@ -27,7 +27,8 @@ public class BEFriend implements Serializable {
         return m_name;
     }
 
-    public Boolean isFavorite() { return m_isFavorite; }
+    public Boolean isFavorite() {
+        return m_isFavorite; }
 
 
 }

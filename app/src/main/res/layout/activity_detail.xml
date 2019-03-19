@@ -28,7 +28,7 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:Text="Name" />
+                android:text="Name" />
         </TableRow>
 
         <TableRow
@@ -41,7 +41,8 @@
 
             <EditText
                 android:id="@+id/etPhone"
-                android:Text="Phone" />
+                android:text="Phone" />
+
         </TableRow>
 
         <TableRow
