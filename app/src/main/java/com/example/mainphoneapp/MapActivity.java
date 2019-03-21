@@ -33,7 +33,6 @@ public class MapActivity extends AppCompatActivity {
     MarkerOptions easv_marker;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +72,11 @@ public class MapActivity extends AppCompatActivity {
 
             }
 
-
-            private void onClickBackToDetail() {
-                Intent mainIntent = new Intent(this, MainActivity.class);
-                startActivity(mainIntent);
-            }
         });
     }
+
+    private void onClickBackToDetail() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+    }
+}
