@@ -43,6 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     String TAG = MainActivity.TAG;
 
     String phoneNumber;
+    String web;
 
      EditText m_etMail;
      EditText m_etName;
@@ -50,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
      EditText m_etWeb;
      EditText m_etBirthday;
      EditText m_etAddress;
-    private String web;
+
 
 
     @Override
@@ -74,7 +75,6 @@ public class DetailActivity extends AppCompatActivity {
          m_etBirthday = findViewById(R.id.etBirthday);
 
          Button btnMap = findViewById(R.id.btnMap);
-
          requestPermissionsInGeneral();
         setGui();
         phoneNumber = m_etPhone.getText().toString();
@@ -100,7 +100,7 @@ public class DetailActivity extends AppCompatActivity {
          browserBtn.setOnClickListener(new View.OnClickListener() {
 
              public void onClick(View arg0) {
-                 startBrowser(web);
+                 startBrowser();
 
              }});
 
@@ -239,7 +239,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    private void startBrowser(String web)
+    private void startBrowser()
     {
         String url = web;
         Intent i = new Intent(Intent.ACTION_VIEW);
