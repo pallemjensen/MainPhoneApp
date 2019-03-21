@@ -48,7 +48,6 @@ public class DetailActivity extends AppCompatActivity {
 
      EditText etName;
      EditText etPhone;
-     CheckBox cbFav;
 
      @Override
         protected void onCreate(Bundle savedInstanceState){
@@ -65,7 +64,6 @@ public class DetailActivity extends AppCompatActivity {
          mFilename.setBackgroundColor(Color.LTGRAY);
          etName = findViewById(R.id.etName);
          etPhone = findViewById(R.id.etPhone);
-         cbFav = findViewById(R.id.cbFavorite);
 
          Button btnMap = findViewById(R.id.btnMap);
 
@@ -121,7 +119,6 @@ public class DetailActivity extends AppCompatActivity {
          BEFriend friend = (BEFriend) getIntent().getSerializableExtra("friend");
          etName.setText(friend.getName());
          etPhone.setText(friend.getPhone());
-         cbFav.setChecked(friend.isFavorite());
      }
 
     @Override

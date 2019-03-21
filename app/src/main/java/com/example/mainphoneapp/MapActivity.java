@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -33,13 +34,15 @@ public class MapActivity extends AppCompatActivity {
 
     Spinner m_zoomLevelView;
 
+    TextView m_txtDistance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         Button btnBackFromMap = findViewById(R.id.btnBackFromMap);
-
+        m_txtDistance = this.findViewById(R.id.txtDistance);
 
         Log.d(LOGTAG, "getting the map async");
         ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
@@ -67,6 +70,9 @@ public class MapActivity extends AppCompatActivity {
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
+                String distance = String.valueOf(distance(55.488230,55.511104,8.446936,8.410175,0,0));
+
+                m_txtDistance.setText("Distance is " + distance + " meters.");
                 setupZoomLevel();
             }
         });
@@ -107,10 +113,8 @@ public class MapActivity extends AppCompatActivity {
     }
 
 
-        double distance = distance(55.488230,55.511104,8.446936,8.410175,0,0);
-
-        private double distance(double lat1, double lat2, double lon1,
-                                  double lon2, double el1, double el2) {
+        private String distance(double lat1, double lat2, double lon1,
+                                double lon2, double el1, double el2) {
 
         final int R = 6371; // Radius of the earth
 
@@ -126,7 +130,11 @@ public class MapActivity extends AppCompatActivity {
 
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return Math.sqrt(distance);
+        String temp = String.valueOf(Math.sqrt(distance));
+        String[] parts = temp.split("[.]");
+        String distanceRounded = parts[0];
+
+        return distanceRounded;
     }
 
 }
