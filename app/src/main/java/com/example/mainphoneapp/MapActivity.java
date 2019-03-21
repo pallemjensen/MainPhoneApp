@@ -25,19 +25,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapActivity extends AppCompatActivity {
 
     private static String LOGTAG = "MAP_LOG";
-    private GoogleMap m_map;
-    Spinner m_zoomLevelView;
-
 
     private final LatLng EASV = new LatLng(55.488230, 8.446936);
+    private final LatLng BAKER = new LatLng(55.485386, 8.451585);
+    private final LatLng ROUND = new LatLng(55.473939, 8.435959);
+
+
     MarkerOptions easv_marker;
+    MarkerOptions baker_marker;
+    MarkerOptions round_marker;
 
 
+    private GoogleMap m_map;
+
+    Spinner m_zoomLevelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        Button btnBackFromMap = findViewById(R.id.btnBackFromMap);
+
 
         Log.d(LOGTAG, "getting the map async");
         ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
@@ -56,27 +65,41 @@ public class MapActivity extends AppCompatActivity {
                     }
                 });
 
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.map);
-                mapFragment.getMapAsync(this);
+                easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
+                round_marker = new MarkerOptions().alpha((float) 0.3).position(ROUND).title("Round about");
+
+                m_map.addMarker(easv_marker);
+               // m_map.addMarker(baker_marker);
+              //  m_map.addMarker(round_marker);
+
+                //m_zoomLevelView = (Spinner) findViewById(R.id.spinnerZoomLevel);
 
 
-                //Button back from map
-                Button btnBackFromMap = findViewById(R.id.btnBackFromMap);
-
-
-                btnBackFromMap.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        onClickBackToDetail();
-                    }
-                });
-
-            }
-
-
-            private void onClickBackToDetail() {
-                Intent mainIntent = new Intent(this, MainActivity.class);
-                startActivity(mainIntent);
             }
         });
+
+
+        btnBackFromMap.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onClickBackToDetail();
+            }
+        });
+
     }
+
+
+    private void onClickBackToDetail() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+    }
+
+
+    public void onClickEASV(View v) {
+        int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
+        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(EASV, level);
+        // zoomlevel 0..21, where 0 is the world and 21 is single street
+        Log.d(LOGTAG, "Will zoom to easv to level " + level);
+        m_map.animateCamera(viewPoint);
+
+    }
+}
