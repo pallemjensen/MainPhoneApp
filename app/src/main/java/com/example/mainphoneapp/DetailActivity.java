@@ -76,9 +76,9 @@ public class DetailActivity extends AppCompatActivity {
 
          Button btnMap = findViewById(R.id.btnMap);
          requestPermissionsInGeneral();
-        setGui();
-        phoneNumber = m_etPhone.getText().toString();
-        web = m_etWeb.getText().toString().trim();
+         setGui();
+         phoneNumber = m_etPhone.getText().toString();
+         web = m_etWeb.getText().toString().trim();
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -134,6 +134,7 @@ public class DetailActivity extends AppCompatActivity {
          m_etAddress.setText(friend.getBirthday());
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
+         m_etAddress.setText(friend.getAddress());
      }
 
     @Override
