@@ -20,7 +20,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.example.mainphoneapp.Model.BEFriend;
+import com.example.mainphoneapp.Model.Friends;
+
 public class MapActivity extends AppCompatActivity {
+
+    Friends m_friends;
 
     private static String LOGTAG = "MAP_LOG";
 

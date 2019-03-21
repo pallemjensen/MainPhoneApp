@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 import com.example.mainphoneapp.Model.BEFriend;
 
@@ -44,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
 
     String TAG = MainActivity.TAG;
 
-    String phoneNumber = "31240918";
+    String phoneNumber;
 
      EditText m_etMail;
      EditText m_etName;
@@ -52,10 +50,10 @@ public class DetailActivity extends AppCompatActivity {
      EditText m_etWeb;
      EditText m_etBirthday;
      EditText m_etAddress;
+    private String web;
 
 
-
-     @Override
+    @Override
         protected void onCreate(Bundle savedInstanceState){
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_detail);
@@ -78,6 +76,9 @@ public class DetailActivity extends AppCompatActivity {
          Button btnMap = findViewById(R.id.btnMap);
 
          requestPermissionsInGeneral();
+        setGui();
+        phoneNumber = m_etPhone.getText().toString();
+        web = m_etWeb.getText().toString().trim();
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -99,7 +100,7 @@ public class DetailActivity extends AppCompatActivity {
          browserBtn.setOnClickListener(new View.OnClickListener() {
 
              public void onClick(View arg0) {
-                 startBrowser();
+                 startBrowser(web);
 
              }});
 
@@ -117,7 +118,7 @@ public class DetailActivity extends AppCompatActivity {
              }
          });
 
-         setGui();
+
      }
 
     private void clickMapButton() {
@@ -229,7 +230,7 @@ public class DetailActivity extends AppCompatActivity {
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        String[] receivers = { "pmj74@hotmail.com" };
+        String[] receivers = { m_etMail.getText().toString()};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
         emailIntent.putExtra(Intent.EXTRA_TEXT,
@@ -238,9 +239,9 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    private void startBrowser()
+    private void startBrowser(String web)
     {
-        String url = "http://www.dr.dk";
+        String url = web;
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
