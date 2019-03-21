@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -71,11 +72,11 @@ public class MapActivity extends AppCompatActivity {
 
                 m_map.addMarker(easv_marker);
                // m_map.addMarker(baker_marker);
-              //  m_map.addMarker(round_marker);
+               // m_map.addMarker(round_marker);
 
-                //m_zoomLevelView = (Spinner) findViewById(R.id.spinnerZoomLevel);
+                m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
-
+                setupZoomLevel();
             }
         });
 
@@ -103,6 +104,19 @@ public class MapActivity extends AppCompatActivity {
         Log.d(LOGTAG, "Will zoom to easv to level " + level);
         m_map.animateCamera(viewPoint);
 
+    }
+
+    void setupZoomLevel() {
+
+        // Create an ArrayAdapter using the string array and a default m_zoomLevelView layout
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(this,
+                        R.array.zoomlevels,
+                        android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        m_zoomLevelView.setAdapter(adapter);
     }
 
 }

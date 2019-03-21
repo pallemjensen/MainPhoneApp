@@ -1,28 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".MapActivity"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/header"-->
+        <!--android:text="@string/header" android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnBackFromMap"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Back"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_margin="1dp" />-->
+
+
+    <!--<fragment-->
+        <!--android:id="@+id/map"-->
+        <!--android:name="com.google.android.gms.maps.MapFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--tools:context=".MapsActivity"-->
+         <!--/>-->
+
+    <!--<Spinner-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/spinnerZoomLevel"-->
+        <!--android:layout_alignBottom="@+id/map"-->
+        <!--android:layout_alignRight="@+id/map"-->
+        <!--android:spinnerMode="dropdown" />-->
+    <!---->
+<!--</LinearLayout>-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MapActivity">
+
+<TextView
+    android:id="@+id/header"
+    android:text="@string/header" android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+<fragment
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.MapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity">
+    tools:context=".MapsActivity"
+    />
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="EASV"-->
+        <!--android:id="@+id/btnEASV"-->
+        <!--android:layout_alignTop="@+id/map"-->
+        <!--android:layout_alignLeft="@+id/map"-->
+        <!--android:onClick="onClickEASV" />-->
+
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Back"
+    android:id="@+id/btnBackFromMap"
+    android:layout_alignTop="@+id/map"
+    android:layout_alignRight="@+id/map"
+    />
 
 
-    <Button
-        android:id="@+id/btnBackFromMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_weight="1"
-        android:layout_margin="1dp" />
+<Spinner
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/spinnerZoomLevel"
+    android:layout_alignBottom="@+id/map"
+    android:layout_centerHorizontal="@+id/map"
+    android:spinnerMode="dropdown" />
 
-
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MapsActivity"
-         />
-
-
-</LinearLayout>
+</RelativeLayout>
