@@ -36,6 +36,7 @@ public class MapActivity extends AppCompatActivity {
     MarkerOptions round_marker;
 
 
+
     private GoogleMap m_map;
 
     Spinner m_zoomLevelView;
@@ -79,6 +80,7 @@ public class MapActivity extends AppCompatActivity {
         });
 
 
+
         btnBackFromMap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onClickBackToDetail();
@@ -102,4 +104,5 @@ public class MapActivity extends AppCompatActivity {
         m_map.animateCamera(viewPoint);
 
     }
+
 }
