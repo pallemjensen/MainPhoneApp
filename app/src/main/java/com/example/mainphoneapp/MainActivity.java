@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.Model.Friends;
