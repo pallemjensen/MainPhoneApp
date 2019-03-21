@@ -23,20 +23,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends AppCompatActivity {
+public abstract class MapActivity extends AppCompatActivity {
 
     private static String LOGTAG = "MAP_LOG";
 
     private final LatLng EASV = new LatLng(55.488230, 8.446936);
-    private final LatLng BAKER = new LatLng(55.485386, 8.451585);
-    private final LatLng ROUND = new LatLng(55.473939, 8.435959);
-
+    private final LatLng PALLE_HOME = new LatLng(55.511104, 8.410175);
 
     MarkerOptions easv_marker;
-    MarkerOptions baker_marker;
-    MarkerOptions round_marker;
-
-
+    MarkerOptions  palleHome_marker;
 
     private GoogleMap m_map;
 
@@ -67,12 +62,12 @@ public class MapActivity extends AppCompatActivity {
                     }
                 });
 
+                palleHome_marker = new MarkerOptions().position(PALLE_HOME).title("Palle lives here");
                 easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
-                round_marker = new MarkerOptions().alpha((float) 0.3).position(ROUND).title("Round about");
 
                 m_map.addMarker(easv_marker);
-               // m_map.addMarker(baker_marker);
-               // m_map.addMarker(round_marker);
+                m_map.addMarker(palleHome_marker);
+
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
@@ -80,16 +75,12 @@ public class MapActivity extends AppCompatActivity {
             }
         });
 
-
-
         btnBackFromMap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onClickBackToDetail();
             }
         });
-
     }
-
 
     private void onClickBackToDetail() {
         Intent mainIntent = new Intent(this, MainActivity.class);
@@ -97,9 +88,9 @@ public class MapActivity extends AppCompatActivity {
     }
 
 
-    public void onClickEASV(View v) {
+    public void onClickZoom(View v) {
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
-        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(EASV, level);
+        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(PALLE_HOME, level);
         // zoomlevel 0..21, where 0 is the world and 21 is single street
         Log.d(LOGTAG, "Will zoom to easv to level " + level);
         m_map.animateCamera(viewPoint);
@@ -117,6 +108,29 @@ public class MapActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         m_zoomLevelView.setAdapter(adapter);
+    }
+
+
+        double distance = distance(55.488230,55.511104,8.446936,8.410175,0,0);
+
+        private double distance(double lat1, double lat2, double lon1,
+                                  double lon2, double el1, double el2) {
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = el1 - el2;
+
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+        return Math.sqrt(distance);
     }
 
 }
