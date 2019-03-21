@@ -32,6 +32,35 @@
         </TableRow>
 
         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Address:"/>
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:text="Address" />
+
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShowLocHome"
+                android:text="Home"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShowLocOnMap"
+                android:text="Show"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dip" >
@@ -43,21 +72,87 @@
                 android:id="@+id/etPhone"
                 android:text="Phone" />
 
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCALL"
+                android:text="Call"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSMS"
+                android:text="sms"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="5dip">
+
+            <TextView
+                android:text="Mail:"/>
+
+            <EditText
+                android:id="@+id/etMail"
+                android:text="Mail" />
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnEMAIL"
+                android:text="Send mail"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Birthday:"/>
+
+            <EditText
+                android:id="@+id/etBirthday"
+                android:text="Birthday" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Website:"/>
+
+            <EditText
+                android:id="@+id/etWebsite"
+                android:text="Website" />
 
 
             <Button
                 android:id="@+id/btnBrowser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="Website"
                 android:layout_weight="1"
                 android:layout_margin="1dp"/>
+
+        </TableRow>
+
+
+
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
 
 
             <Button
@@ -69,38 +164,6 @@
                 android:layout_margin="1dp"
                 />
         </TableRow>
-
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-
-        <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSMS"
-            android:text="sms"
-            android:layout_weight="1"
-            android:layout_margin="1dp"/>
-
-        <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCALL"
-            android:text="Call"
-            android:layout_weight="1"
-
-            android:layout_margin="1dp"/>
-
-        <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnEMAIL"
-            android:text="Email"
-            android:layout_weight="1"
-            android:layout_margin="1dp"/>
-
-
-    </TableRow>
-
 
         <TableRow
             android:layout_width="wrap_content"
@@ -144,6 +207,29 @@
                 android:layout_alignParentTop="true"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Friend"
+                android:id="@+id/btnDelete"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Friend"
+                android:id="@+id/btnSave"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
         </TableRow>
     </TableLayout>
 
