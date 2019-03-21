@@ -67,6 +67,8 @@ public class DetailActivity extends AppCompatActivity {
          etPhone = findViewById(R.id.etPhone);
          cbFav = findViewById(R.id.cbFavorite);
 
+         Button btnMap = findViewById(R.id.btnMap);
+
          requestPermissionsInGeneral();
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +95,13 @@ public class DetailActivity extends AppCompatActivity {
 
              }});
 
+         //Go to Map Activity
+         btnMap.setOnClickListener(new View.OnClickListener(){
+             public void onClick(View v){
+                clickMapButton();
+             }
+         });
+
          findViewById(R.id.btnTakePics).setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -103,7 +112,12 @@ public class DetailActivity extends AppCompatActivity {
          setGui();
      }
 
-     private void setGui(){
+    private void clickMapButton() {
+         Intent mapIntent = new Intent(this, MapActivity.class );
+         startActivity(mapIntent);
+    }
+
+    private void setGui(){
          BEFriend friend = (BEFriend) getIntent().getSerializableExtra("friend");
          etName.setText(friend.getName());
          etPhone.setText(friend.getPhone());
@@ -245,6 +259,9 @@ public class DetailActivity extends AppCompatActivity {
 
         alertDialog.show();
     }
+
+
+
 
     private void onClickTakePics()
     {

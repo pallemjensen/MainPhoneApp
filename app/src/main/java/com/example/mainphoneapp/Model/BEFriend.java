@@ -16,6 +16,7 @@ public class BEFriend implements Serializable {
         m_name = name;
         m_phone = phone;
         m_isFavorite = isFavorite;
+
     }
 
     public String getPhone() {
