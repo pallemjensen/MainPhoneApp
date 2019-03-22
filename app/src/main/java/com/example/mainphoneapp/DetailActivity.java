@@ -242,7 +242,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void startBrowser()
     {
-        String url = web;
+        String url = "http://www.dr.dk";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

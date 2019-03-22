@@ -43,21 +43,6 @@
                 android:id="@+id/etAddress"
                 android:text="Address" />
 
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnShowLocHome"
-                android:text="Home"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnShowLocOnMap"
-                android:text="Show"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
         </TableRow>
 
         <TableRow
@@ -72,20 +57,7 @@
                 android:id="@+id/etPhone"
                 android:text="Phone" />
 
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnCALL"
-                android:text="Call"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
 
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnSMS"
-                android:text="sms"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
 
         </TableRow>
 
@@ -101,12 +73,6 @@
                 android:id="@+id/etMail"
                 android:text="Mail" />
 
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnEMAIL"
-                android:text="Send mail"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
 
         </TableRow>
 
@@ -136,6 +102,14 @@
                 android:text="Website" />
 
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+
             <Button
                 android:id="@+id/btnBrowser"
                 android:layout_width="wrap_content"
@@ -144,15 +118,12 @@
                 android:layout_weight="1"
                 android:layout_margin="1dp"/>
 
-        </TableRow>
-
-
-
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnEMAIL"
+                android:text="Send mail"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
 
 
             <Button
@@ -163,8 +134,73 @@
                 android:layout_weight="1"
                 android:layout_margin="1dp"
                 />
+
         </TableRow>
 
+
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShowLocHome"
+                android:text="Home"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShowLocOnMap"
+                android:text="Show"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCALL"
+                android:text="Call"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+
+
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSMS"
+                android:text="sms"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Friend"
+                android:id="@+id/btnDelete"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Friend"
+                android:id="@+id/btnSave"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+        </TableRow>
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -178,6 +214,7 @@
                 android:id="@+id/btnTakePics"
                 android:layout_weight="1"
                 android:layout_margin="1dp"/>
+
         </TableRow>
 
         <TableRow
@@ -209,28 +246,7 @@
                 android:scaleType="fitCenter" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
 
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete Friend"
-                android:id="@+id/btnDelete"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save Friend"
-                android:id="@+id/btnSave"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-        </TableRow>
     </TableLayout>
 
 </LinearLayout>
