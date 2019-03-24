@@ -64,38 +64,44 @@
             <ImageButton
                 android:id="@+id/btnBrowser"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_home" />
 
 
             <ImageButton
                 android:id="@+id/btnMap"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:src="@drawable/ic_map" />
 
             <ImageButton
                 android:id="@+id/btnSMS"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:src="@drawable/ic_sms" />
 
             <ImageButton
                 android:id="@+id/btnCALL"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:src="@drawable/ic_phone"
                 android:tooltipText="Make call" />
 
             <ImageButton
                 android:id="@+id/btnEMAIL"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:src="@drawable/ic_email" />
 
         </TableRow>
