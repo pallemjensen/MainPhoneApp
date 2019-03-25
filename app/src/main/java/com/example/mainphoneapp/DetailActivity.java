@@ -42,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
 
     String TAG = MainActivity.TAG;
 
-    String phoneNumber;
+
 
      EditText m_etMail;
      EditText m_etName;
@@ -76,7 +76,6 @@ public class DetailActivity extends AppCompatActivity {
          Button btnMap = findViewById(R.id.btnMap);
          requestPermissionsInGeneral();
          setGui();
-         phoneNumber = m_etPhone.getText().toString();
 
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +189,7 @@ public class DetailActivity extends AppCompatActivity {
 
         SmsManager m = SmsManager.getDefault();
         String text = "Hi, it goes well on the android course...";
-        m.sendTextMessage(phoneNumber, null, text, null, null);
+        m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
     }
 
     @Override
@@ -207,7 +206,7 @@ public class DetailActivity extends AppCompatActivity {
             SmsManager m = SmsManager.getDefault();
 
             String text = "Hi, it goes well on the android course...";
-            m.sendTextMessage(phoneNumber, null, text, null, null);
+            m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
         }
 
     }
@@ -216,14 +215,14 @@ public class DetailActivity extends AppCompatActivity {
     {
 
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setData(Uri.parse("sms:" + phoneNumber));
+        sendIntent.setData(Uri.parse("sms:" + m_etPhone.getText().toString()));
         sendIntent.putExtra("sms_body", "Hi, it goes well on the android course...");
         startActivity(sendIntent);
     }
 
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
+        intent.setData(Uri.parse("tel:" + m_etPhone.getText().toString()));
         startActivity(intent);
     }
 
