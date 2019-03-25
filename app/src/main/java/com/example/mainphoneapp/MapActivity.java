@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.Model.Friends;
 
 public class MapActivity extends AppCompatActivity {
@@ -117,7 +116,6 @@ public class MapActivity extends AppCompatActivity {
         m_zoomLevelView.setAdapter(adapter);
     }
 
-
         private String distance(double lat1, double lat2, double lon1,
                                 double lon2, double el1, double el2) {
 
@@ -141,5 +139,4 @@ public class MapActivity extends AppCompatActivity {
 
         return distanceRounded;
     }
-
 }

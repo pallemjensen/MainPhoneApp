@@ -43,7 +43,6 @@ public class DetailActivity extends AppCompatActivity {
     String TAG = MainActivity.TAG;
 
     String phoneNumber;
-    String web;
 
      EditText m_etMail;
      EditText m_etName;
@@ -78,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
          requestPermissionsInGeneral();
          setGui();
          phoneNumber = m_etPhone.getText().toString();
-         web = m_etWeb.getText().toString().trim();
+
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -242,7 +241,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void startBrowser()
     {
-        String url = "http://www.dr.dk";
+        String url = m_etWeb.getText().toString();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
