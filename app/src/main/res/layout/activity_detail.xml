@@ -105,146 +105,88 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:gravity="center_horizontal">
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnBrowser"
-                android:layout_width="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Website"
                 android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnEMAIL"
-                android:text="Send mail"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_home"
+                android:tooltipText="Homepage"/>
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnMap"
-                android:layout_width="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Map"
                 android:layout_weight="1"
-                android:layout_margin="1dp"
-                />
+                android:src="@drawable/ic_map"
+                android:tooltipText="Show on map"/>
 
-        </TableRow>
-
-
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-
-
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnShowLocHome"
-                android:text="Home"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnShowLocOnMap"
-                android:text="Show"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnCALL"
-                android:text="Call"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-
-
-
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
                 android:id="@+id/btnSMS"
-                android:text="sms"
-                android:layout_weight="1"
-                android:layout_margin="1dp"/>
-
-
-
-            <Button
-                android:layout_width="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Delete Friend"
-                android:id="@+id/btnDelete"
                 android:layout_weight="1"
-                android:layout_margin="1dp"/>
+                android:src="@drawable/ic_sms"
+                android:tooltipText="Send SMS"/>
 
-            <Button
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/btnCALL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Save Friend"
-                android:id="@+id/btnSave"
                 android:layout_weight="1"
-                android:layout_margin="1dp"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
+                android:src="@drawable/ic_phone"
+                android:tooltipText="Make call" />
 
-
-            <Button
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/btnEMAIL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="New image..."
-                android:id="@+id/btnTakePics"
                 android:layout_weight="1"
-                android:layout_margin="1dp"/>
+                android:src="@drawable/ic_email"
+                android:tooltipText="Send email"/>
 
         </TableRow>
 
-        <TableRow
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:gravity="right"
+            android:padding="5dip">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Filename..."
-                android:id="@+id/txtFileName"
-                android:layout_above="@id/btnTakePics"
-                android:layout_centerHorizontal="true" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/imgView"
-                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
+                android:background="@color/colorPrimary"
                 android:scaleType="fitCenter" />
-        </TableRow>
+
+            <ImageButton
+                android:id="@+id/btnTakePics"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:maxWidth="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_photo" />
+
+        </LinearLayout>
 
 
     </TableLayout>

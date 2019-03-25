@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.graphics.Color;
@@ -38,11 +39,8 @@ public class DetailActivity extends AppCompatActivity {
 
     File mFile;
     ImageView mImage;
-    TextView mFilename;
 
     String TAG = MainActivity.TAG;
-
-
 
      EditText m_etMail;
      EditText m_etName;
@@ -59,13 +57,12 @@ public class DetailActivity extends AppCompatActivity {
          setContentView(R.layout.activity_detail);
          Log.d(TAG, " Detail activity is running");
 
-         Button smsBtn = findViewById(R.id.btnSMS);
-         Button callBtn = findViewById(R.id.btnCALL);
-         Button emailBtn = findViewById(R.id.btnEMAIL);
-         Button browserBtn = findViewById(R.id.btnBrowser);
+         ImageButton smsBtn = findViewById(R.id.btnSMS);
+         ImageButton callBtn = findViewById(R.id.btnCALL);
+         ImageButton emailBtn = findViewById(R.id.btnEMAIL);
+         ImageButton browserBtn = findViewById(R.id.btnBrowser);
+         ImageButton btnMap = findViewById(R.id.btnMap);
          mImage = (ImageView) findViewById(R.id.imgView);
-         mFilename = (TextView) findViewById(R.id.txtFileName);
-         mFilename.setBackgroundColor(Color.LTGRAY);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
          m_etMail = findViewById(R.id.etMail);
@@ -73,7 +70,6 @@ public class DetailActivity extends AppCompatActivity {
          m_etAddress = findViewById(R.id.etAddress);
          m_etBirthday = findViewById(R.id.etBirthday);
 
-         Button btnMap = findViewById(R.id.btnMap);
          requestPermissionsInGeneral();
          setGui();
 
@@ -370,9 +366,8 @@ public class DetailActivity extends AppCompatActivity {
     private void showPictureTaken(File f, Bitmap bitmap) {
         mImage.setImageBitmap(bitmap);
         //mImage.setImageURI(Uri.fromFile(f));
-        mImage.setBackgroundColor(Color.RED);
+        //mImage.setBackgroundColor(Color.RED);
         //mImage.setRotation(90);
-        mFilename.setText(f.getAbsolutePath());
     }
 
 
