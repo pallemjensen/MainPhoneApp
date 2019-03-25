@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,7 +30,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import com.example.mainphoneapp.Model.BEFriend;
 
 public class DetailActivity extends AppCompatActivity {
@@ -45,13 +43,19 @@ public class DetailActivity extends AppCompatActivity {
 
     String TAG = MainActivity.TAG;
 
-    String phoneNumber = "31240918";
+    String phoneNumber;
+    String web;
 
-     EditText etName;
-     EditText etPhone;
-     CheckBox cbFav;
+     EditText m_etMail;
+     EditText m_etName;
+     EditText m_etPhone;
+     EditText m_etWeb;
+     EditText m_etBirthday;
+     EditText m_etAddress;
 
-     @Override
+
+
+    @Override
         protected void onCreate(Bundle savedInstanceState){
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_detail);
@@ -64,13 +68,19 @@ public class DetailActivity extends AppCompatActivity {
          mImage = (ImageView) findViewById(R.id.imgView);
          mFilename = (TextView) findViewById(R.id.txtFileName);
          mFilename.setBackgroundColor(Color.LTGRAY);
-         etName = findViewById(R.id.etName);
-         etPhone = findViewById(R.id.etPhone);
-         cbFav = findViewById(R.id.cbFavorite);
+         m_etName = findViewById(R.id.etName);
+         m_etPhone = findViewById(R.id.etPhone);
+         m_etMail = findViewById(R.id.etMail);
+         m_etWeb = findViewById(R.id.etWebsite);
+         m_etAddress = findViewById(R.id.etAddress);
+         m_etBirthday = findViewById(R.id.etBirthday);
 
          ImageButton btnMap = findViewById(R.id.btnMap);
 
          requestPermissionsInGeneral();
+         setGui();
+         phoneNumber = m_etPhone.getText().toString();
+         web = m_etWeb.getText().toString().trim();
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -110,7 +120,7 @@ public class DetailActivity extends AppCompatActivity {
              }
          });
 
-         setGui();
+
      }
 
     private void clickMapButton() {
@@ -120,9 +130,13 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setGui(){
          BEFriend friend = (BEFriend) getIntent().getSerializableExtra("friend");
-         etName.setText(friend.getName());
-         etPhone.setText(friend.getPhone());
-         cbFav.setChecked(friend.isFavorite());
+         m_etName.setText(friend.getName());
+         m_etPhone.setText(friend.getPhone());
+         m_etBirthday.setText(friend.getBirthday());
+         m_etAddress.setText(friend.getBirthday());
+         m_etWeb.setText(friend.getWebsite());
+         m_etMail.setText(friend.getMail());
+         m_etAddress.setText(friend.getAddress());
      }
 
     @Override
@@ -219,7 +233,7 @@ public class DetailActivity extends AppCompatActivity {
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        String[] receivers = { "pmj74@hotmail.com" };
+        String[] receivers = { m_etMail.getText().toString()};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
         emailIntent.putExtra(Intent.EXTRA_TEXT,

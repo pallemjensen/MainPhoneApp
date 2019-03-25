@@ -31,6 +31,20 @@
         </TableRow>
 
         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Address:"/>
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:text="Address" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dip">
@@ -41,18 +55,17 @@
                 android:id="@+id/etPhone"
                 android:text="Phone" />
 
+
+
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dip">
 
             <TextView android:text="Favorite:" />
 
-            <CheckBox
-                android:id="@+id/cbFavorite"
-                android:checked="false" />
         </TableRow>
 
         <TableRow
@@ -111,6 +124,22 @@
         </TableRow>
 
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Friend"
+                android:id="@+id/btnDelete"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Friend"
+                android:id="@+id/btnSave"
+                android:layout_weight="1"
+                android:layout_margin="1dp"/>
+        </TableRow>
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,6 +183,8 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
         </TableRow>
+
+
     </TableLayout>
 
 </LinearLayout>
