@@ -47,6 +47,14 @@ public class DetailActivity extends AppCompatActivity {
 
     String phoneNumber = "31240918";
 
+
+     EditText m_etMail;
+     EditText m_etName;
+     EditText m_etPhone;
+     EditText m_etWeb;
+     EditText m_etBirthday;
+     EditText m_etAddress;
+
      EditText etName;
      EditText etPhone;
      CheckBox cbFav;
@@ -71,6 +79,11 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton btnMap = findViewById(R.id.btnMap);
 
          requestPermissionsInGeneral();
+
+         setGui();
+         phoneNumber = m_etPhone.getText().toString();
+
+
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -230,7 +243,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void startBrowser()
     {
-        String url = "http://www.dr.dk";
+        String url = m_etWeb.getText().toString();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
