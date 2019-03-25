@@ -360,7 +360,7 @@ public class DetailActivity extends AppCompatActivity {
     private void showPictureTaken(File f, Bitmap bitmap) {
         mImage.setImageBitmap(bitmap);
         //mImage.setImageURI(Uri.fromFile(f));
-        mImage.setBackgroundColor(Color.RED);
+        //mImage.setBackgroundColor(Color.RED);
         //mImage.setRotation(90);
         mFilename.setText(f.getAbsolutePath());
     }

@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_home" />
+                android:src="@drawable/ic_home"
+                android:tooltipText="Homepage"/>
 
 
             <ImageButton
@@ -77,7 +78,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_map" />
+                android:src="@drawable/ic_map"
+                android:tooltipText="Show on map"/>
 
             <ImageButton
                 android:id="@+id/btnSMS"
@@ -85,7 +87,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_sms" />
+                android:src="@drawable/ic_sms"
+                android:tooltipText="Send SMS"/>
 
             <ImageButton
                 android:id="@+id/btnCALL"
@@ -102,7 +105,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_email" />
+                android:src="@drawable/ic_email"
+                android:tooltipText="Send email"/>
 
         </TableRow>
 
@@ -145,7 +149,7 @@
             <ImageView
                 android:id="@+id/imgView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
