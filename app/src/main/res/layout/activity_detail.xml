@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailActivity">
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detail"
+        android:layout_gravity="center"
+        style="@style/Base.TextAppearance.AppCompat.Large"/>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"  >
+
+            <TextView
+                android:text="Name:"/>
+
+            <EditText
+                android:id="@+id/etName"
+                android:text="Name" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Address:"/>
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:text="Address" />
+
+            <ImageButton
+                android:id="@+id/btnMap"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_map"
+                android:tooltipText="Show on map"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:text="Phone:" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:text="Phone" />
+
+            <ImageButton
+                android:id="@+id/btnSMS"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_sms"
+                android:tooltipText="Send SMS"/>
+
+            <ImageButton
+                android:id="@+id/btnCALL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_phone"
+                android:tooltipText="Make call" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Mail:"/>
+
+            <EditText
+                android:id="@+id/etMail"
+                android:text="Mail" />
+
+            <ImageButton
+                android:id="@+id/btnEMAIL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_email"
+                android:tooltipText="Send email"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Birthday:"/>
+
+            <EditText
+                android:id="@+id/etBirthday"
+                android:text="Birthday" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Website:"/>
+
+            <TextView
+                android:textSize="10pt"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/etWebsite"
+                android:text="Website" />
+
+            <ImageButton
+                android:id="@+id/btnBrowser"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_home"
+                android:tooltipText="Homepage"/>
+
+        </TableRow>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:padding="5dip">
+
+
+            <ImageView
+                android:id="@+id/imgView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@color/colorPrimary"
+                android:clickable="true"
+                android:scaleType="fitCenter"
+                tools:clickable="@tools:sample/lorem/random" />
+
+            <ImageButton
+                android:id="@+id/btnTakePics"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:maxWidth="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_photo" />
+
+        </LinearLayout>
+
+
+    </TableLayout>
+
+</LinearLayout>
