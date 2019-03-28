@@ -56,11 +56,13 @@ public class DetailActivity extends AppCompatActivity {
      EditText m_etBirthday;
      EditText m_etAddress;
 
-//GPS LOCATION
+
+     //GPS LOCATION
     private Button b;
     private TextView t;
     private LocationManager locationManager;
     private LocationListener listener;
+    private Button btnSaveLocation;
 
 
 
@@ -83,7 +85,15 @@ public class DetailActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                t.append("\n " + location.getLongitude() + " " + location.getLatitude());
+                t.setText("\n " + location.getLongitude() + " " + location.getLatitude());
+
+                Double lng = location.getLongitude();
+                Double lat = location.getLatitude();
+
+                friend.setLat(lat);
+                friend.setLng(lng);
+                Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -136,7 +146,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton smsBtn = findViewById(R.id.btnSMS);
+         ImageButton smsBtn = findViewById(R.id.btnSMS);
          ImageButton callBtn = findViewById(R.id.btnCALL);
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
@@ -148,6 +158,9 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb = findViewById(R.id.etWebsite);
          m_etAddress = findViewById(R.id.etAddress);
          m_etBirthday = findViewById(R.id.etBirthday);
+
+
+
 
          m_etWeb.setOnClickListener(new View.OnClickListener() {
              @Override

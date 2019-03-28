@@ -38,6 +38,16 @@ public class BEFriend implements Serializable {
 
     public Double getLat() {return m_lat;}
 
+    public void setLat(Double lat) {
+        this.m_lat = lat;
+    }
+
+    public void setLng(Double lng){
+        this.m_lon = lng;
+    }
+
+    public void setLng(String lng) {}
+
     public String getMail() {return m_mail;}
 
     public String getWebsite() {return m_website;}
