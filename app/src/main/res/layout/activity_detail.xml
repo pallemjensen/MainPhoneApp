@@ -29,6 +29,7 @@
             <EditText
                 android:id="@+id/etName"
                 android:text="Name" />
+
         </TableRow>
 
         <TableRow
@@ -43,6 +44,14 @@
                 android:id="@+id/etAddress"
                 android:text="Address" />
 
+            <ImageButton
+                android:id="@+id/btnMap"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_map"
+                android:tooltipText="Show on map"/>
         </TableRow>
 
         <TableRow
@@ -57,7 +66,23 @@
                 android:id="@+id/etPhone"
                 android:text="Phone" />
 
+            <ImageButton
+                android:id="@+id/btnSMS"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_sms"
+                android:tooltipText="Send SMS"/>
 
+            <ImageButton
+                android:id="@+id/btnCALL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_phone"
+                android:tooltipText="Make call" />
 
         </TableRow>
 
@@ -73,6 +98,14 @@
                 android:id="@+id/etMail"
                 android:text="Mail" />
 
+            <ImageButton
+                android:id="@+id/btnEMAIL"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_email"
+                android:tooltipText="Send email"/>
 
         </TableRow>
 
@@ -97,18 +130,11 @@
             <TextView
                 android:text="Website:"/>
 
-            <EditText
+            <TextView
+                android:textSize="10pt"
+                android:textColor="@color/colorPrimary"
                 android:id="@+id/etWebsite"
                 android:text="Website" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
 
             <ImageButton
                 android:id="@+id/btnBrowser"
@@ -120,50 +146,13 @@
                 android:src="@drawable/ic_home"
                 android:tooltipText="Homepage"/>
 
-
-            <ImageButton
-                android:id="@+id/btnMap"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_map"
-                android:tooltipText="Show on map"/>
-
-            <ImageButton
-                android:id="@+id/btnSMS"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_sms"
-                android:tooltipText="Send SMS"/>
-
-            <ImageButton
-                android:id="@+id/btnCALL"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_phone"
-                android:tooltipText="Make call" />
-
-            <ImageButton
-                android:id="@+id/btnEMAIL"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_email"
-                android:tooltipText="Send email"/>
-
         </TableRow>
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:padding="5dip">
 
 
@@ -174,7 +163,9 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@color/colorPrimary"
-                android:scaleType="fitCenter" />
+                android:clickable="true"
+                android:scaleType="fitCenter"
+                tools:clickable="@tools:sample/lorem/random" />
 
             <ImageButton
                 android:id="@+id/btnTakePics"

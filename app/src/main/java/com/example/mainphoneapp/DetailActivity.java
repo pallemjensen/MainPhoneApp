@@ -45,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
      EditText m_etMail;
      EditText m_etName;
      EditText m_etPhone;
-     EditText m_etWeb;
+     TextView m_etWeb;
      EditText m_etBirthday;
      EditText m_etAddress;
 
@@ -69,6 +69,27 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb = findViewById(R.id.etWebsite);
          m_etAddress = findViewById(R.id.etAddress);
          m_etBirthday = findViewById(R.id.etBirthday);
+
+         m_etWeb.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 startBrowser();
+             }
+         });
+
+         m_etMail.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 sendEmail();
+             }
+         });
+
+         mImage.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 onClickTakePics();
+             }
+         });
 
          requestPermissionsInGeneral();
          setGui();
