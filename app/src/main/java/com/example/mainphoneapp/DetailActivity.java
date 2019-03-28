@@ -165,6 +165,11 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Help will be shown - NIY", Toast.LENGTH_SHORT)
                         .show();
                 break;
+            case R.id.newFriend:
+                Toast.makeText(this, "Create friend pressed", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+
         }
         return true;
 
@@ -176,6 +181,8 @@ public class DetailActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
+
+
 
 
     static int PERMISSION_REQUEST_CODE = 1;
