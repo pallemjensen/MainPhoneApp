@@ -25,5 +25,4 @@ public class Friends {
         }
         return res;
     }
-
 }

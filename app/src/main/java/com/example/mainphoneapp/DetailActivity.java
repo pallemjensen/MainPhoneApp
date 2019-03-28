@@ -157,17 +157,17 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.itemAbout:
-                Toast.makeText(this, "About will be show - NIY", Toast.LENGTH_SHORT)
+            case R.id.deleteFriend:
+                Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
                 break;
 
-            case R.id.itemHelp:
-                Toast.makeText(this, "Help will be shown - NIY", Toast.LENGTH_SHORT)
+            case R.id.updateFriend:
+                Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
                 break;
             case R.id.newFriend:
-                Toast.makeText(this, "Create friend pressed", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
                 break;
 

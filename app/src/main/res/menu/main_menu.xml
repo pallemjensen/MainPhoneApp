@@ -4,11 +4,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     xmlns:tools="http://schemas.android.com/tools" tools:context=".DetailActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never"/>
+<item android:id="@+id/newFriend" android:title="Add Friend" android:enabled="true"
+    android:icon="@drawable/ic_friend_add" app:showAsAction="always"></item>
 
-<item android:id="@+id/itemAbout" android:title="About" android:enabled="true"
-    android:icon="@android:drawable/ic_menu_info_details" app:showAsAction="always"></item>
-<item android:id="@+id/itemHelp" android:title="Help" android:enabled="true"
-    android:icon="@android:drawable/ic_menu_help" app:showAsAction="always"></item>
-<item android:id="@+id/newFriend" android:title="New Friend" android:enabled="true"
-        android:icon="@drawable/ic_friend_add" app:showAsAction="always"></item>
+    <item android:id="@+id/deleteFriend" android:title="Delete Friend" android:enabled="true"
+        android:icon="@drawable/ic_friend_delete" app:showAsAction="always"></item>
+
+    <item android:id="@+id/updateFriend" android:title="Update Friend" android:enabled="true"
+        android:icon="@drawable/ic_friend_update" app:showAsAction="always"></item>
 </menu>
