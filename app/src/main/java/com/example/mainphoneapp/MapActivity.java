@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,24 +21,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.example.mainphoneapp.Model.Friends;
 
 public class MapActivity extends AppCompatActivity {
-
-    Friends m_friends;
 
     private static String LOGTAG = "MAP_LOG";
 
     private final LatLng EASV = new LatLng(55.488230, 8.446936);
-    private final LatLng PALLE_HOME = new LatLng(55.511104, 8.410175);
 
     MarkerOptions easv_marker;
-    MarkerOptions  palleHome_marker;
+    MarkerOptions home;
 
     private GoogleMap m_map;
 
     Spinner m_zoomLevelView;
-
+    BEFriend friend;
     TextView m_txtDistance;
 
     @Override
@@ -64,12 +61,14 @@ public class MapActivity extends AppCompatActivity {
                         return false;
                     }
                 });
+                friend = (BEFriend) getIntent().getSerializableExtra("friend");
 
-                palleHome_marker = new MarkerOptions().position(PALLE_HOME).title("Palle lives here");
+                final LatLng homeMarker = new LatLng(friend.getLat(),friend.getLon());
+                home = new MarkerOptions().position(homeMarker).title(friend.getName() + " lives here");
                 easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
 
                 m_map.addMarker(easv_marker);
-                m_map.addMarker(palleHome_marker);
+                m_map.addMarker(home);
 
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
@@ -96,8 +95,7 @@ public class MapActivity extends AppCompatActivity {
 
     public void onClickZoom(View v) {
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
-        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(PALLE_HOME, level);
-        // zoomlevel 0..21, where 0 is the world and 21 is single street
+        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(new LatLng(friend.getLat(),friend.getLon()), level);
         Log.d(LOGTAG, "Will zoom to easv to level " + level);
         m_map.animateCamera(viewPoint);
 

@@ -39,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
 
     File mFile;
     ImageView mImage;
-
+    BEFriend friend;
     String TAG = MainActivity.TAG;
 
      EditText m_etMail;
@@ -122,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
          //Go to Map Activity
          btnMap.setOnClickListener(new View.OnClickListener(){
              public void onClick(View v){
-                clickMapButton();
+                clickMapButton(friend);
              }
          });
 
@@ -136,13 +136,14 @@ public class DetailActivity extends AppCompatActivity {
 
      }
 
-    private void clickMapButton() {
+    private void clickMapButton(BEFriend friend) {
          Intent mapIntent = new Intent(this, MapActivity.class );
+         mapIntent.putExtra("friend", friend);
          startActivity(mapIntent);
     }
 
     private void setGui(){
-         BEFriend friend = (BEFriend) getIntent().getSerializableExtra("friend");
+        friend = (BEFriend) getIntent().getSerializableExtra("friend");
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
          m_etBirthday.setText(friend.getBirthday());
