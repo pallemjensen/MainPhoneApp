@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -75,7 +74,7 @@ public class MapActivity extends AppCompatActivity {
 
                 String distance = String.valueOf(distance(55.488230,friend.getLat(),8.446936,friend.getLon(),0,0));
 
-                m_txtDistance.setText("Distance is " + distance + " meters.");
+                m_txtDistance.setText("Distance to EASV is " + distance + " meters.");
                 setupZoomLevel();
             }
         });
