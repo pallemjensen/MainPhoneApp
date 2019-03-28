@@ -73,7 +73,7 @@ public class MapActivity extends AppCompatActivity {
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
-                String distance = String.valueOf(distance(55.488230,55.511104,8.446936,8.410175,0,0));
+                String distance = String.valueOf(distance(55.488230,friend.getLat(),8.446936,friend.getLon(),0,0));
 
                 m_txtDistance.setText("Distance is " + distance + " meters.");
                 setupZoomLevel();
