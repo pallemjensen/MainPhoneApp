@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface IDataAccess {
 
-    long insert(BEFriend p);
+    long insert(BEFriend f);
 
     void deleteAll();
 
     void deleteById(long id);
 
-    void update(BEFriend p);
+    void update(BEFriend f);
 
     List<BEFriend> getAll();
 

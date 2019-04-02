@@ -48,6 +48,7 @@ public class MainActivity extends ListActivity {
         addData(detailIntent, friend);
         startActivity(detailIntent);
         Log.d(TAG, "Detail activity is now running");
+
     }
 
     private void addData(Intent detailIntent, BEFriend friend){

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class BEFriend implements Serializable {
 
+    long m_id;
     private String m_name;
     private String m_phone;
     private double m_lat;
@@ -57,6 +58,8 @@ public class BEFriend implements Serializable {
     public String getBirthday() {return m_birthday;}
 
     public String getAddress() {return m_address;}
+
+
 
 
 }

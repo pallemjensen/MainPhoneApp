@@ -30,8 +30,23 @@ public class SQLiteImpl implements IDataAccess {
             + "(name, phone) values (?,?)";
 
     @Override
-    public long insert(BEFriend p) {
-        return 0;
+    public long insert(BEFriend f) {
+        this.insertStmt.bindString(1,f.getName());
+        this.insertStmt.bindString(2,f.getPhone());
+        this.insertStmt.bindString(3,f.getLat());
+        this.insertStmt.bindString(4,f.getLon());
+        this.insertStmt.bindString(5,f.getMail());
+        this.insertStmt.bindString(6,f.getWebsite());
+        this.insertStmt.bindString(7,f.getPicture());
+        this.insertStmt.bindString(8,f.getBirthday());
+        this.insertStmt.bindString(9,f.getAddress());
+
+        long id = this.insertStmt.executeInsert();
+
+        f.m_id = id;
+
+
+        return id;
     }
 
     @Override
