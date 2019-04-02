@@ -38,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.example.mainphoneapp.Model.BEFriend;
+import com.example.mainphoneapp.Model.DataAccessFactory;
+import com.example.mainphoneapp.Model.IDataAccess;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -49,7 +51,11 @@ public class DetailActivity extends AppCompatActivity {
     BEFriend friend;
     String TAG = MainActivity.TAG;
 
-     EditText m_etMail;
+    //SQL
+    IDataAccess mData;
+
+
+    EditText m_etMail;
      EditText m_etName;
      EditText m_etPhone;
      TextView m_etWeb;
@@ -72,7 +78,8 @@ public class DetailActivity extends AppCompatActivity {
          setContentView(R.layout.activity_detail);
          Log.d(TAG, " Detail activity is running");
 
-
+         //SQL
+        mData = DataAccessFactory.getInstance();
 
          //GPS
 

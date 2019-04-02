@@ -10,7 +10,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.mainphoneapp.Model.BEFriend;
+import com.example.mainphoneapp.Model.DataAccessFactory;
 import com.example.mainphoneapp.Model.Friends;
+import com.example.mainphoneapp.Model.IDataAccess;
 
 public class MainActivity extends ListActivity {
 
@@ -18,11 +20,16 @@ public class MainActivity extends ListActivity {
 
     Friends m_friends;
 
+    IDataAccess mData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
         m_friends = new Friends();
+
+        DataAccessFactory.init(this);
+        mData = DataAccessFactory.getInstance();
 
         String[] friends;
 
