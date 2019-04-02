@@ -33,8 +33,8 @@ public class SQLiteImpl implements IDataAccess {
     public long insert(BEFriend f) {
         this.insertStmt.bindString(1,f.getName());
         this.insertStmt.bindString(2,f.getPhone());
-        this.insertStmt.bindString(3,f.getLat());
-        this.insertStmt.bindString(4,f.getLon());
+        this.insertStmt.bindDouble(3,f.getLat());
+        this.insertStmt.bindDouble(4,f.getLon());
         this.insertStmt.bindString(5,f.getMail());
         this.insertStmt.bindString(6,f.getWebsite());
         this.insertStmt.bindString(7,f.getPicture());
@@ -44,7 +44,6 @@ public class SQLiteImpl implements IDataAccess {
         long id = this.insertStmt.executeInsert();
 
         f.m_id = id;
-
 
         return id;
     }
@@ -84,7 +83,7 @@ public class SQLiteImpl implements IDataAccess {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
-                    + " (id INTEGER PRIMARY KEY, name TEXT, phone TEXT)");
+                    + " (id INTEGER PRIMARY KEY, name TEXT, phone TEXT, lat DOUBLE, lon DOUBLE, mail TEXT, website TEXT, picture TEXT, birthday TEXT, address TEXT)");
 
         }
 
