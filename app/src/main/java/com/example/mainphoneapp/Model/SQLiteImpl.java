@@ -29,7 +29,7 @@ public class SQLiteImpl implements IDataAccess {
     private static final String INSERT = "insert into " + TABLE_NAME
             + "(name, phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
 
-    @Override
+
     public long insert(BEFriend f) {
         this.insertStmt.bindString(1,f.getName());
         this.insertStmt.bindString(2,f.getPhone());
@@ -48,27 +48,26 @@ public class SQLiteImpl implements IDataAccess {
         return id;
     }
 
-    @Override
+
     public void deleteAll() {
         this.db.delete(TABLE_NAME, null, null);
     }
 
-    @Override
+
     public void deleteById(long id) {
         this.db.delete(TABLE_NAME, "id = ?", new String[]{""+id});
     }
 
-    @Override
+
     public void update(BEFriend p) {
 
     }
 
-    @Override
+
     public List<BEFriend> getAll() {
         return null;
     }
 
-    @Override
     public BEFriend getById(long id) {
         return null;
     }

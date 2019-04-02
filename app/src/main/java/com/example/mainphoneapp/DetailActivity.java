@@ -193,9 +193,6 @@ public class DetailActivity extends AppCompatActivity {
          requestPermissionsInGeneral();
          setGui();
 
-
-
-
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
                  showYesNoDialog();
@@ -233,8 +230,6 @@ public class DetailActivity extends AppCompatActivity {
                  onClickTakePics();
              }
          });
-
-
      }
 
     private void clickMapButton(BEFriend friend) {
