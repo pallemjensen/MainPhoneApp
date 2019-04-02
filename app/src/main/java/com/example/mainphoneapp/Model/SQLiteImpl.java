@@ -27,7 +27,7 @@ public class SQLiteImpl implements IDataAccess {
 
 
     private static final String INSERT = "insert into " + TABLE_NAME
-            + "(name, phone) values (?,?)";
+            + "(name, phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
 
     @Override
     public long insert(BEFriend p) {
@@ -36,12 +36,12 @@ public class SQLiteImpl implements IDataAccess {
 
     @Override
     public void deleteAll() {
-
+        this.db.delete(TABLE_NAME, null, null);
     }
 
     @Override
     public void deleteById(long id) {
-
+        this.db.delete(TABLE_NAME, "id = ?", new String[]{""+id});
     }
 
     @Override
