@@ -32,15 +32,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
-import com.example.mainphoneapp.Model.SQLiteImpl;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -68,11 +65,10 @@ public class DetailActivity extends AppCompatActivity {
 
 
     //GPS LOCATION
-    private Button b;
-    private TextView t;
+    private Button btnUpdateCoords;
+    private TextView txtShowUpdatingCoords;
     private LocationManager locationManager;
     private LocationListener listener;
-    private Button btnSaveLocation;
 
 
     @Override
@@ -86,8 +82,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //GPS
 
-        t = (TextView) findViewById(R.id.textView);
-        b = (Button) findViewById(R.id.button);
+        txtShowUpdatingCoords = (TextView) findViewById(R.id.txtViewNewCoords);
+        btnUpdateCoords = (Button) findViewById(R.id.btnUpdateLocation);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -95,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                t.setText("\n " + location.getLongitude() + " " + location.getLatitude());
+                txtShowUpdatingCoords.setText("\n " + location.getLongitude() + " " + location.getLatitude());
 
                 lng = location.getLongitude();
                 lat = location.getLatitude();
@@ -148,7 +144,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
         // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
-        b.setOnClickListener(new View.OnClickListener() {
+        btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //noinspection MissingPermission
