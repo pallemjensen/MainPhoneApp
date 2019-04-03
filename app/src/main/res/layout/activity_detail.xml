@@ -200,12 +200,12 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnInsertToDb"
+            android:id="@+id/btnCreateNewFriend"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Insert to DB" />
+            android:text="Add New friend" />
 
         <Button
             android:id="@+id/btnUpdateLocation"

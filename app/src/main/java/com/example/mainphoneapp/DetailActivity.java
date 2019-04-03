@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
          ImageButton btnMap = findViewById(R.id.btnMap);
-         Button btnInsert = findViewById(R.id.btnInsertToDb);
+         Button btnCreateNewFriendUsingInsert = findViewById(R.id.btnCreateNewFriend);
          mImage = (ImageView) findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
@@ -197,7 +197,7 @@ public class DetailActivity extends AppCompatActivity {
                  showYesNoDialog();
              }
          });
-         btnInsert.setOnClickListener(new View.OnClickListener(){
+         btnCreateNewFriendUsingInsert.setOnClickListener(new View.OnClickListener(){
              public void onClick(View v) {
                  addFriend();
              }
