@@ -32,6 +32,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +40,7 @@ import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
+import com.example.mainphoneapp.Model.SQLiteImpl;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -49,20 +51,23 @@ public class DetailActivity extends AppCompatActivity {
     ImageView mImage;
     BEFriend friend;
     String TAG = MainActivity.TAG;
+    Double lng;
+    Double lat;
+
 
     //SQL
     IDataAccess mData;
 
 
     EditText m_etMail;
-     EditText m_etName;
-     EditText m_etPhone;
-     TextView m_etWeb;
-     EditText m_etBirthday;
-     EditText m_etAddress;
+    EditText m_etName;
+    EditText m_etPhone;
+    TextView m_etWeb;
+    EditText m_etBirthday;
+    EditText m_etAddress;
 
 
-     //GPS LOCATION
+    //GPS LOCATION
     private Button b;
     private TextView t;
     private LocationManager locationManager;
@@ -70,17 +75,16 @@ public class DetailActivity extends AppCompatActivity {
     private Button btnSaveLocation;
 
 
-
     @Override
-        protected void onCreate(Bundle savedInstanceState){
-         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_detail);
-         Log.d(TAG, " Detail activity is running");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+        Log.d(TAG, " Detail activity is running");
 
-         //SQL
+        //SQL
         mData = DataAccessFactory.getInstance();
 
-         //GPS
+        //GPS
 
         t = (TextView) findViewById(R.id.textView);
         b = (Button) findViewById(R.id.button);
@@ -93,8 +97,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 t.setText("\n " + location.getLongitude() + " " + location.getLatitude());
 
-                Double lng = location.getLongitude();
-                Double lat = location.getLatitude();
+                lng = location.getLongitude();
+                lat = location.getLatitude();
 
                 friend.setLat(lat);
                 friend.setLng(lng);
@@ -125,7 +129,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 10:
                 configure_button();
                 break;
@@ -134,12 +138,12 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    void configure_button(){
+    void configure_button() {
         // first check for permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.INTERNET}
-                        ,10);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}
+                        , 10);
             }
             return;
         }
@@ -157,6 +161,7 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
          ImageButton btnMap = findViewById(R.id.btnMap);
+         Button btnInsert = findViewById(R.id.btnInsertToDb);
          mImage = (ImageView) findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
@@ -164,8 +169,6 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb = findViewById(R.id.etWebsite);
          m_etAddress = findViewById(R.id.etAddress);
          m_etBirthday = findViewById(R.id.etBirthday);
-
-
 
 
          m_etWeb.setOnClickListener(new View.OnClickListener() {
@@ -192,11 +195,18 @@ public class DetailActivity extends AppCompatActivity {
          requestPermissionsInGeneral();
          setGui();
 
+
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
                  showYesNoDialog();
              }
          });
+         btnInsert.setOnClickListener(new View.OnClickListener(){
+             public void onClick(View v) {
+                 addFriend();
+             }
+         });
+
          callBtn.setOnClickListener(new View.OnClickListener() {
 
              public void onClick(View v) {
@@ -271,6 +281,22 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+
+    public void addFriend() {
+        String dBName = m_etName.getText().toString();
+        String dBPhone = m_etPhone.getText().toString();
+        String dBMail = m_etMail.getText().toString();
+        String dBWeb = m_etWeb.getText().toString();
+        String dBAddress = m_etAddress.getText().toString();
+        String dBBirthday = m_etBirthday.getText().toString();
+        double lat = friend.getLat();
+        double lon = friend.getLon();
+
+        Log.d(TAG, "db data test");
+        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
+        Log.d(TAG, "mData insert has run without crashing");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -279,6 +305,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    private
 
 
     static int PERMISSION_REQUEST_CODE = 1;
@@ -312,24 +339,24 @@ public class DetailActivity extends AppCompatActivity {
         m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
     }
 
-    /*@Override
-    public void onRequestPermissionsResult (int requestCode,
-                                            String[] permissions,
-                                            int[] grantResults)
-    {
-
-        Log.d(TAG, "Permission: " + permissions[0] + " - grantResult: " + grantResults[0]);
-
-        if (permissions[0].equals(Manifest.permission.SEND_SMS) && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-
-        {
-            SmsManager m = SmsManager.getDefault();
-
-            String text = "Hi, it goes well on the android course...";
-            m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
-        }
-
-    }*/
+//    @Override
+//    public void onRequestPermissionsResult (int requestCode,
+//                                            String[] permissions,
+//                                            int[] grantResults)
+//    {
+//
+//        Log.d(TAG, "Permission: " + permissions[0] + " - grantResult: " + grantResults[0]);
+//
+//        if (permissions[0].equals(Manifest.permission.SEND_SMS) && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//
+//        {
+//            SmsManager m = SmsManager.getDefault();
+//
+//            String text = "Hi, it goes well on the android course...";
+//            m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
+//        }
+//
+//    }
 
     private void startSMSActivity()
     {

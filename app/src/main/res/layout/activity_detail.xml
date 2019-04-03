@@ -199,6 +199,13 @@
                 android:textSize="30sp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnInsertToDb"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Insert to DB" />
 
         <Button
             android:id="@+id/button"
@@ -207,8 +214,6 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Update Home Location" />
-
-
     </TableLayout>
 
 </LinearLayout>
