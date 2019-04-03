@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -37,9 +36,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.Model.BEFriend;
-import com.example.mainphoneapp.Model.DataAccessFactory;
-import com.example.mainphoneapp.Model.IDataAccess;
+import com.example.mainphoneapp.DB.IDataAccess;
 
 public class DetailActivity extends AppCompatActivity {
 

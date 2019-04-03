@@ -1,4 +1,6 @@
-package com.example.mainphoneapp.Model;
+package com.example.mainphoneapp.DB;
+
+import com.example.mainphoneapp.Model.BEFriend;
 
 import java.util.List;
 

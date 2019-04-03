@@ -9,10 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.Model.BEFriend;
-import com.example.mainphoneapp.Model.DataAccessFactory;
 import com.example.mainphoneapp.Model.Friends;
-import com.example.mainphoneapp.Model.IDataAccess;
+import com.example.mainphoneapp.DB.IDataAccess;
 
 public class MainActivity extends ListActivity {
 

@@ -59,7 +59,4 @@ public class BEFriend implements Serializable {
 
     public String getAddress() {return m_address;}
 
-
-
-
 }

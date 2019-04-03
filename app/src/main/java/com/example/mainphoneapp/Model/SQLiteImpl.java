@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.mainphoneapp.DB.IDataAccess;
+
 import java.util.List;
 
 public class SQLiteImpl implements IDataAccess {
