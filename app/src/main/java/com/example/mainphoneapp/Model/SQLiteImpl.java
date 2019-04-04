@@ -47,7 +47,7 @@ public class SQLiteImpl implements IDataAccess {
 
         long id = this.insertStmt.executeInsert();
 
-        f.m_id = id;
+        f.setId(id);
 
         return id;
     }

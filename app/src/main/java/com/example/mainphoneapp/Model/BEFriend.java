@@ -64,7 +64,7 @@ public class BEFriend implements Serializable {
 
     public long getId() {return m_id;}
 
-    public long setId() {return m_id;}
+    public void setId(long id) {this.m_id = id;}
     }
 
 
