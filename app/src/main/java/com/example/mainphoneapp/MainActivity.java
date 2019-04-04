@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
+    Button deleteButton;
     //Friends m_friends;
 
     ListView listViewFriends;
@@ -36,25 +38,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
+        setContentView(R.layout.activity_main);
        // m_friends = new Friends();
 
         DataAccessFactory.init(this);
         mData = DataAccessFactory.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
-
-
-
-        //ListActivity[] friends;
-
-        //ListOfFriends = mData.getAll();
-
-       // fillList();
-
-        //ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, friends);
-
-
+        deleteButton = findViewById(R.id.btnDelete);
+        
+        fillList();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,5 +79,10 @@ public class MainActivity extends AppCompatActivity {
                         mData.getAll() );
                 listViewFriends.setAdapter(arrayAdapter);
 
+    }
+
+    void onClickDeleteAll() {
+        mData.deleteAll();
+        fillList();
     }
 }
