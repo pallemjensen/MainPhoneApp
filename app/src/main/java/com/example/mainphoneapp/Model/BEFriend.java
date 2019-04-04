@@ -59,4 +59,8 @@ public class BEFriend implements Serializable {
 
     public String getAddress() {return m_address;}
 
-}
+    public String toString() {return "" + m_name;}
+    }
+
+
+

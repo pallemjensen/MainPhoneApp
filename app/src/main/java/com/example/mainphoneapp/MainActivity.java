@@ -24,17 +24,19 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
-    Friends m_friends;
+    //Friends m_friends;
 
     ListView listViewFriends;
+
     List<BEFriend>[] ListOfFriends;
+
     IDataAccess mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
-        m_friends = new Friends();
+       // m_friends = new Friends();
 
         DataAccessFactory.init(this);
         mData = DataAccessFactory.getInstance();
@@ -42,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
         listViewFriends = findViewById(R.id.ListViewFriends);
 
 
-        ListActivity[] friends;
+
+        //ListActivity[] friends;
 
         //ListOfFriends = mData.getAll();
 
-
+        fillList();
 
         //ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, friends);
 
