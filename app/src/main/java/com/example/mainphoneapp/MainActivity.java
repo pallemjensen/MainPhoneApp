@@ -17,12 +17,17 @@ import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.Model.Friends;
 import com.example.mainphoneapp.DB.IDataAccess;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
     Friends m_friends;
 
+    ListView listViewFriends;
+    List<BEFriend>[] ListOfFriends;
     IDataAccess mData;
 
     @Override
@@ -34,15 +39,18 @@ public class MainActivity extends AppCompatActivity {
         DataAccessFactory.init(this);
         mData = DataAccessFactory.getInstance();
 
-        String[] friends;
+        listViewFriends = findViewById(R.id.ListViewFriends);
 
-        friends = mData.getAll();
 
-               // m_friends.getNames();
+        ListActivity[] friends;
 
-        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, friends);
+        //ListOfFriends = mData.getAll();
 
-        //setListAdapter(adapter);
+
+
+        //ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, friends);
+
+
     }
 
     @Override
@@ -64,5 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void addData(Intent detailIntent, BEFriend friend){
         detailIntent.putExtra("friend", friend);
+    }
+
+    void fillList(){
+        ArrayAdapter<BEFriend> arrayAdapter =
+                new ArrayAdapter<BEFriend>(this,
+                        android.R.layout.simple_list_item_1,
+                        mData.getAll() );
+                listViewFriends.setAdapter(arrayAdapter);
+
     }
 }
