@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listViewFriends;
 
-    List<BEFriend>[] ListOfFriends;
+    List<BEFriend> ListOfFriends;
 
     IDataAccess mData;
 
@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.btnDelete);
         
         fillList();
+
+        listViewFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
 
@@ -58,15 +65,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /*@Override
+
     public void onListItemClick(ListView parent, View v, int position, long id){
         Intent detailIntent = new Intent(this, DetailActivity.class );
-        Log.d(TAG, "We start the detail activity here");
-        BEFriend friend = m_friends.getAll().get(position);
-        addData(detailIntent, friend);
+
+        BEFriend friend = ListOfFriends.get(position);
+        detailIntent.putExtra("id", friend.getId());
+
         startActivity(detailIntent);
-        Log.d(TAG, "Detail activity is now running");
-    }*/
+
+    }
 
     private void addData(Intent detailIntent, BEFriend friend){
         detailIntent.putExtra("friend", friend);
