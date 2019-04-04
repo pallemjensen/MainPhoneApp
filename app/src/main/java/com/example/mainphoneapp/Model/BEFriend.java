@@ -15,6 +15,19 @@ public class BEFriend implements Serializable {
     private String m_birthday;
     private String m_address;
 
+    public BEFriend(String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address, long id) {
+        this.m_name = name;
+        this.m_phone = phone;
+        this.m_lat = lat;
+        this.m_lon = lon;
+        this.m_mail = mail;
+        this.m_website = website;
+        this.m_picture = picture;
+        this.m_birthday = birthday;
+        this.m_address = address;
+        this.m_id = id;
+    }
+
     public BEFriend(String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address) {
         this.m_name = name;
         this.m_phone = phone;
@@ -48,6 +61,9 @@ public class BEFriend implements Serializable {
         this.m_lon = lng;
     }
 
+    public long getId(){
+        return m_id;
+    }
 
     public String getMail() {return m_mail;}
 

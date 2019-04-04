@@ -18,6 +18,7 @@ public class SQLiteImpl implements IDataAccess {
 
     private SQLiteDatabase db;
     private SQLiteStatement insertStmt;
+    private SQLiteStatement updateStmt;
 
 
     public SQLiteImpl(Context context) {
@@ -25,14 +26,31 @@ public class SQLiteImpl implements IDataAccess {
         OpenHelper openHelper = new OpenHelper(context);
         this.db = openHelper.getWritableDatabase();
         this.insertStmt = this.db.compileStatement(INSERT);
-    }
+        this.updateStmt = this.db.compileStatement(UPDATE);
+;    }
 
+    private final String UPDATE = "update " + TABLE_NAME + " SET " +
+
+
+
+
+    public void update(BEFriend f) {
+        this.updateStmt.bindString(1,f.getName());
+        this.updateStmt.bindString(2,f.getPhone());
+        this.updateStmt.bindDouble(3,f.getLat());
+        this.updateStmt.bindDouble(4,f.getLon());
+        this.updateStmt.bindString(5,f.getMail());
+        this.updateStmt.bindString(6,f.getWebsite());
+        this.updateStmt.bindString(7,f.getPicture());
+        this.updateStmt.bindString(8,f.getBirthday());
+        this.updateStmt.bindString(9,f.getAddress());
+        this.updateStmt.bindString(9, String.valueOf(f.getId()));
+    }
 
     private static final String INSERT = "insert into " + TABLE_NAME
             + "(name, phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
 
-
-    public long insert(BEFriend f) {
+    public void insert(BEFriend f) {
         this.insertStmt.bindString(1,f.getName());
         this.insertStmt.bindString(2,f.getPhone());
         this.insertStmt.bindDouble(3,f.getLat());
@@ -47,7 +65,6 @@ public class SQLiteImpl implements IDataAccess {
 
         f.m_id = id;
 
-        return id;
     }
 
 
@@ -60,10 +77,6 @@ public class SQLiteImpl implements IDataAccess {
         this.db.delete(TABLE_NAME, "id = ?", new String[]{""+id});
     }
 
-
-    public void update(BEFriend p) {
-
-    }
 
 
     public List<BEFriend> getAll() {

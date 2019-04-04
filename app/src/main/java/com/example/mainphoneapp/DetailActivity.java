@@ -277,6 +277,20 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    public void updateFriend() {
+        String dBName = m_etName.getText().toString();
+        String dBPhone = m_etPhone.getText().toString();
+        String dBMail = m_etMail.getText().toString();
+        String dBWeb = m_etWeb.getText().toString();
+        String dBAddress = m_etAddress.getText().toString();
+        String dBBirthday = m_etBirthday.getText().toString();
+        double lat = friend.getLat();
+        double lon = friend.getLon();
+
+        Log.d(TAG, "db data update test");
+        mData.update(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress, friend.getId()));
+        Log.d(TAG, "mData update has run without crashing");
+    }
 
     public void addFriend() {
         String dBName = m_etName.getText().toString();
@@ -288,7 +302,7 @@ public class DetailActivity extends AppCompatActivity {
         double lat = friend.getLat();
         double lon = friend.getLon();
 
-        Log.d(TAG, "db data test");
+        Log.d(TAG, "db data insert test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
     }
