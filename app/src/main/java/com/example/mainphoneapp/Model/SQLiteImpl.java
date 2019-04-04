@@ -77,15 +77,15 @@ public class SQLiteImpl implements IDataAccess {
         if (cursor.moveToFirst()) {
             do {
                 list.add(new BEFriend(
-                        cursor.getString(0),
                         cursor.getString(1),
-                        cursor.getDouble(2),
+                        cursor.getString(2),
                         cursor.getDouble(3),
-                        cursor.getString(4),
+                        cursor.getDouble(4),
                         cursor.getString(5),
                         cursor.getString(6),
                         cursor.getString(7),
-                        cursor.getString(8)
+                        cursor.getString(8),
+                        cursor.getString(9)
                         ));
             }
             while (cursor.moveToNext());
