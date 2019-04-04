@@ -244,7 +244,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
-        long thisid = getIntent().getLongExtra("id",1);
+         long thisid = getIntent().getLongExtra("id",1);
+
          friend = (BEFriend) mData.getById(thisid);   // getIntent().getSerializableExtra("friend");
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
