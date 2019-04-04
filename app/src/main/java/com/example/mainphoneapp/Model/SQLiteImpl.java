@@ -1,12 +1,14 @@
 package com.example.mainphoneapp.Model;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.mainphoneapp.DB.IDataAccess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteImpl implements IDataAccess {
@@ -67,7 +69,31 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public List<BEFriend> getAll() {
-        return null;
+        List<BEFriend> list = new ArrayList<BEFriend>();
+        Cursor cursor = this.db.query(TABLE_NAME,
+                new String[]{"id", "name", "phone", "lat", "lon", "mail", "website", "picture", "birthday", "address"},
+                null, null,
+                null, null, "name");
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new BEFriend(cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getDouble(2),
+                        cursor.getDouble(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getString(8)
+                        ));
+            }
+            while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+
+        }
+        return list;
     }
 
     public BEFriend getById(long id) {

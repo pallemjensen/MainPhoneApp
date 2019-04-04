@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         friends = mData.getAll();
 
-                //m_friends.getNames();
+               // m_friends.getNames();
 
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, friends);
 
