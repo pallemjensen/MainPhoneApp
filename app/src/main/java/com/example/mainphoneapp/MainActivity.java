@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -39,24 +40,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
-       // m_friends = new Friends();
+        // m_friends = new Friends();
 
         DataAccessFactory.init(this);
         mData = DataAccessFactory.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
         deleteButton = findViewById(R.id.btnDelete);
-        
+
         fillList();
 
-        listViewFriends.setOnClickListener(new View.OnClickListener() {
+        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent x = new Intent(MainActivity.this, DetailActivity.class);
+
+                x.putExtra("id", ListOfFriends.get(position).getId());
+                startActivity(x);
+                //Toast.makeText(MainActivity.this, "Say hi to " + DAO.getInstance().getByIndex(position).m_name, Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

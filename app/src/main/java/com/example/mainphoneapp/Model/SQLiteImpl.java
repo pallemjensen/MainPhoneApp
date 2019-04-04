@@ -98,7 +98,23 @@ public class SQLiteImpl implements IDataAccess {
     }
 
     public BEFriend getById(long id) {
-        return null;
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {""+id});
+
+        if (cursor.moveToFirst()) {
+            return new BEFriend(cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getDouble(3),
+                    cursor.getDouble(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getString(7),
+                    cursor.getString(8),
+                    cursor.getString(9)
+            );
+        }
+        throw new IllegalArgumentException("Could not get Friend by id " + id);
     }
 
 
