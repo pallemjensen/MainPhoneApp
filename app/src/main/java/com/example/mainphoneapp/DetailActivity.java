@@ -244,7 +244,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
-        friend = (BEFriend) getIntent().getSerializableExtra("friend");
+        long thisid = getIntent().getLongExtra("id",1);
+         friend = (BEFriend) mData.getById(thisid);   // getIntent().getSerializableExtra("friend");
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
          m_etBirthday.setText(friend.getBirthday());
@@ -300,12 +301,7 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-
-    private
-
-
     static int PERMISSION_REQUEST_CODE = 1;
-
 
     private void sendSMS() {
         Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
