@@ -77,6 +77,7 @@ public class SQLiteImpl implements IDataAccess {
         if (cursor.moveToFirst()) {
             do {
                 list.add(new BEFriend(
+                        cursor.getLong(0),
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getDouble(3),
@@ -103,7 +104,9 @@ public class SQLiteImpl implements IDataAccess {
         Cursor cursor = db.rawQuery(selectQuery, new String[] {""+id});
 
         if (cursor.moveToFirst()) {
-            return new BEFriend(cursor.getString(1),
+            return new BEFriend(
+                    cursor.getLong(0),
+                    cursor.getString(1),
                     cursor.getString(2),
                     cursor.getDouble(3),
                     cursor.getDouble(4),
