@@ -27,11 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static String TAG = "MainPhoneApp";
 
     Button deleteButton;
-    //Friends m_friends;
 
     ListView listViewFriends;
-
-    List<BEFriend> ListOfFriends;
 
     IDataAccess mData;
 
@@ -40,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
-        // m_friends = new Friends();
 
         DataAccessFactory.init(this);
         mData = DataAccessFactory.getInstance();
@@ -56,9 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent x = new Intent(MainActivity.this, DetailActivity.class);
 
-                x.putExtra("id", ListOfFriends.get(position).getId());
+                x.putExtra("id", mData.getAll().get(position).getId());
                 startActivity(x);
-                //Toast.makeText(MainActivity.this, "Say hi to " + DAO.getInstance().getByIndex(position).m_name, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -68,21 +63,6 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
-    }
-
-
-    public void onListItemClick(ListView parent, View v, int position, long id){
-        Intent detailIntent = new Intent(this, DetailActivity.class );
-
-        BEFriend friend = ListOfFriends.get(position);
-        detailIntent.putExtra("id", friend.getId());
-
-        startActivity(detailIntent);
-
-    }
-
-    private void addData(Intent detailIntent, BEFriend friend){
-        detailIntent.putExtra("friend", friend);
     }
 
     void fillList(){
