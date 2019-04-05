@@ -332,25 +332,6 @@ public class DetailActivity extends AppCompatActivity {
         m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
     }
 
-//    @Override
-//    public void onRequestPermissionsResult (int requestCode,
-//                                            String[] permissions,
-//                                            int[] grantResults)
-//    {
-//
-//        Log.d(TAG, "Permission: " + permissions[0] + " - grantResult: " + grantResults[0]);
-//
-//        if (permissions[0].equals(Manifest.permission.SEND_SMS) && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//
-//        {
-//            SmsManager m = SmsManager.getDefault();
-//
-//            String text = "Hi, it goes well on the android course...";
-//            m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
-//        }
-//
-//    }
-
     private void startSMSActivity()
     {
 
