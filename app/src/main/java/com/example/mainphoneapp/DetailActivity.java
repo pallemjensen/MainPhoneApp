@@ -94,7 +94,6 @@ public class DetailActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -280,6 +279,8 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
+                updateFriend();
+                goBackToMainView();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
@@ -324,13 +325,27 @@ public class DetailActivity extends AppCompatActivity {
 
         picPath = "";
 
-
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
+    }
 
+    public void updateFriend() {
+        String dBName = m_etName.getText().toString();
+        String dBPhone = m_etPhone.getText().toString();
+        String dBMail = m_etMail.getText().toString();
+        String dBWeb = m_etWeb.getText().toString();
+        String dBAddress = m_etAddress.getText().toString();
+        String dBBirthday = m_etBirthday.getText().toString();
+        //double lat = friend.getLat();
+        //double lon = friend.getLon();
+        double lat = DEFAULT_LAT;
+        double lon = DEFAULT_LON;
 
+        String picPath;
 
+        picPath = "pictest";
+        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
     }
 
     //Creates the menu bar
