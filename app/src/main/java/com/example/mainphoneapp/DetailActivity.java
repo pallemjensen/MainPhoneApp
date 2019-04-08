@@ -1,6 +1,7 @@
 package com.example.mainphoneapp;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -52,6 +54,8 @@ public class DetailActivity extends AppCompatActivity {
     Double lat;
 
 
+
+
     //SQL
     IDataAccess mData;
 
@@ -59,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
-    TextView m_etWeb;
+    EditText m_etWeb;
     EditText m_etBirthday;
     EditText m_etAddress;
 
@@ -69,7 +73,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txtShowUpdatingCoords;
     private LocationManager locationManager;
     private LocationListener listener;
+    private long thisid;
 
+    private final static long DEFAULT_LAT = 0;
+    private final static long DEFAULT_LON = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +105,8 @@ public class DetailActivity extends AppCompatActivity {
 
                 friend.setLat(lat);
                 friend.setLng(lng);
-                Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -157,7 +165,7 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
          ImageButton btnMap = findViewById(R.id.btnMap);
-         Button btnCreateNewFriendUsingInsert = findViewById(R.id.btnCreateNewFriend);
+
          mImage = (ImageView) findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
@@ -195,11 +203,6 @@ public class DetailActivity extends AppCompatActivity {
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
                  showYesNoDialog();
-             }
-         });
-         btnCreateNewFriendUsingInsert.setOnClickListener(new View.OnClickListener(){
-             public void onClick(View v) {
-                 addFriend();
              }
          });
 
@@ -244,8 +247,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
-         long thisid = getIntent().getLongExtra("id",1);
 
+        if (getIntent().hasExtra("id")) {
+
+         long thisid = getIntent().getLongExtra("id",1);
          friend = (BEFriend) mData.getById(thisid);   // getIntent().getSerializableExtra("friend");
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
@@ -254,32 +259,55 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
+
+         //mImage.setImageURI();
+         //mImage.setImageURI(Uri.fromFile(mFile));
+         //mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
+         //mImage.setImageURI(Uri.parse(friend.getPicture()));
+        }
      }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
+                deleteById();
+                goBackToMainView();
                 break;
 
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
                 break;
-            case R.id.newFriend:
+            case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
-                break;
+                addFriend();
 
+                goBackToMainView();
+                break;
         }
         return true;
-
     }
 
 
+    void deleteById(){
+
+        mData.deleteById(friend.getId());
+
+    }
+
+    //Go backup to main view after creating a new friend.
+    public void goBackToMainView(){
+        Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
+
+        startActivity(goBackToMainIntent);
+
+    }
+
+    //Gets the input friends, and creates a new friend.
     public void addFriend() {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
@@ -287,18 +315,29 @@ public class DetailActivity extends AppCompatActivity {
         String dBWeb = m_etWeb.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
         String dBBirthday = m_etBirthday.getText().toString();
-        double lat = friend.getLat();
-        double lon = friend.getLon();
+        //double lat = friend.getLat();
+        //double lon = friend.getLon();
+        double lat = DEFAULT_LAT;
+        double lon = DEFAULT_LON;
+
+        String picPath;
+
+        picPath = "";
+
 
         Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
+        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
+
+
+
     }
 
+    //Creates the menu bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.detail_menu, menu);
         return true;
     }
 
@@ -332,25 +371,8 @@ public class DetailActivity extends AppCompatActivity {
         m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
     }
 
-//    @Override
-//    public void onRequestPermissionsResult (int requestCode,
-//                                            String[] permissions,
-//                                            int[] grantResults)
-//    {
-//
-//        Log.d(TAG, "Permission: " + permissions[0] + " - grantResult: " + grantResults[0]);
-//
-//        if (permissions[0].equals(Manifest.permission.SEND_SMS) && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//
-//        {
-//            SmsManager m = SmsManager.getDefault();
-//
-//            String text = "Hi, it goes well on the android course...";
-//            m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
-//        }
-//
-//    }
-
+    //Starts SMS app
+    //Takes the text, and creates a new message + sends.
     private void startSMSActivity()
     {
 
@@ -360,12 +382,14 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(sendIntent);
     }
 
+    //Opens phone built in app.
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + m_etPhone.getText().toString()));
         startActivity(intent);
     }
 
+    //Opens built in mail app.
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
@@ -377,7 +401,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(emailIntent);
     }
 
-
+    //Opens a browser, with the website assigned.
     private void startBrowser()
     {
         String url = m_etWeb.getText().toString();
@@ -412,8 +436,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-
-
+    //Opens the phones camera.
     private void onClickTakePics()
     {
 
@@ -425,7 +448,8 @@ public class DetailActivity extends AppCompatActivity {
         }
         // create Intent to take a picture
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mFile));
+
+
 
         Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile).toString());
 
@@ -483,6 +507,7 @@ public class DetailActivity extends AppCompatActivity {
         return mediaFile;
     }
 
+    //Askes for permission to open apps.
     private void requestPermissionsInGeneral() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -494,6 +519,7 @@ public class DetailActivity extends AppCompatActivity {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                mImage.setImageBitmap(bitmap);
                 showPictureTaken(mFile, bitmap);
 
 
@@ -507,17 +533,20 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //Views the picture that has been taken, in a bitmap.
     private void showPictureTaken(File f, Bitmap bitmap) {
         mImage.setImageBitmap(bitmap);
         //mImage.setImageURI(Uri.fromFile(f));
         //mImage.setBackgroundColor(Color.RED);
         //mImage.setRotation(90);
+
     }
 
-
+    //Shows logs
     void log(String s)
     { Log.d(LOGTAG, s); }
 
+    //Scaling the image that has been captured by the camera.
     private void scaleImage()
     {
         final Display display = getWindowManager().getDefaultDisplay();
