@@ -59,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
-    TextView m_etWeb;
+    EditText m_etWeb;
     EditText m_etBirthday;
     EditText m_etAddress;
 
@@ -69,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txtShowUpdatingCoords;
     private LocationManager locationManager;
     private LocationListener listener;
+    private long thisid;
 
 
     @Override
@@ -244,8 +245,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
-         long thisid = getIntent().getLongExtra("id",1);
 
+        if (getIntent().hasExtra("id")) {
+
+         long thisid = getIntent().getLongExtra("id",1);
          friend = (BEFriend) mData.getById(thisid);   // getIntent().getSerializableExtra("friend");
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
@@ -254,6 +257,7 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
+        }
      }
 
     @Override
@@ -269,7 +273,7 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
                 break;
-            case R.id.newFriend:
+            case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
                 break;
@@ -287,8 +291,10 @@ public class DetailActivity extends AppCompatActivity {
         String dBWeb = m_etWeb.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
         String dBBirthday = m_etBirthday.getText().toString();
-        double lat = friend.getLat();
-        double lon = friend.getLon();
+        //double lat = friend.getLat();
+        //double lon = friend.getLon();
+        double lat = 11.3;
+        double lon = 12.3;
 
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
@@ -298,7 +304,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.detail_menu, menu);
         return true;
     }
 

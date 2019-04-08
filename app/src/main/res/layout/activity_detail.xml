@@ -28,7 +28,8 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:text="Name" />
+                android:layout_width="152dp"
+                android:text="" />
 
         </TableRow>
 
@@ -42,7 +43,7 @@
 
             <EditText
                 android:id="@+id/etAddress"
-                android:text="Address" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnMap"
@@ -64,7 +65,7 @@
 
             <EditText
                 android:id="@+id/etPhone"
-                android:text="Phone" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnSMS"
@@ -96,7 +97,7 @@
 
             <EditText
                 android:id="@+id/etMail"
-                android:text="Mail" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnEMAIL"
@@ -119,7 +120,7 @@
 
             <EditText
                 android:id="@+id/etBirthday"
-                android:text="Birthday" />
+                android:text="" />
         </TableRow>
 
         <TableRow
@@ -130,11 +131,11 @@
             <TextView
                 android:text="Website:"/>
 
-            <TextView
+            <EditText
                 android:textSize="10pt"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/etWebsite"
-                android:text="Website" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnBrowser"
