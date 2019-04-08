@@ -81,13 +81,13 @@ public class MapActivity extends AppCompatActivity {
 
         btnBackFromMap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onClickBackToDetail();
+                onClickBackToMain();
             }
         });
     }
 
 
-    private void onClickBackToDetail() {
+    private void onClickBackToMain() {
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
     }
