@@ -2,8 +2,6 @@ package com.example.mainphoneapp.DB;
 
 import android.content.Context;
 
-import com.example.mainphoneapp.Model.SQLiteImpl;
-
 public class DataAccessFactory {
 
     static IDataAccess mInstance;

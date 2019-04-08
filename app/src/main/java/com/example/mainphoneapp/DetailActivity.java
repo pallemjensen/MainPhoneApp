@@ -263,14 +263,12 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
                 deleteById();
                 goBackToMainView();
-
                 break;
 
             case R.id.updateFriend:
@@ -284,10 +282,8 @@ public class DetailActivity extends AppCompatActivity {
 
                 goBackToMainView();
                 break;
-
         }
         return true;
-
     }
 
 
