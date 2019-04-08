@@ -259,7 +259,8 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
-         mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
+         mImage.setImageURI(Uri.fromFile(mFile));
+         //mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
          //mImage.setImageURI(Uri.parse(friend.getPicture()));
         }
      }
@@ -451,6 +452,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         // create Intent to take a picture
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mFile));
 
         Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile).toString());
