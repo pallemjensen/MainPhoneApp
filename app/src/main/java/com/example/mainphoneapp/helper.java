@@ -2,6 +2,8 @@ package com.example.mainphoneapp;
 
 public class helper {
 
+    // Algorithm to calculate distance, based on lng and lat and height. We don't use height, so we set that to 0.
+    // We changed it, so it returns the result in whole meters
     public static String distance(double lat1, double lat2, double lon1,
                             double lon2, double el1, double el2) {
 

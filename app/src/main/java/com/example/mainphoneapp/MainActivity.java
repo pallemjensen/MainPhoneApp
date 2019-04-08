@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
-    ListView listViewFriends;
+    ListView listViewFriends; // listview to show friends
 
-    IDataAccess mData;
+    IDataAccess mData; // make instance of the IDataAccess interface to use in this class
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +67,6 @@ public class MainActivity extends AppCompatActivity {
                         android.R.layout.simple_list_item_1,
                         mData.getAll() );
                 listViewFriends.setAdapter(arrayAdapter);
-    }
-
-
-    //Deletes all items.
-    void onClickDeleteAll() {
-        mData.deleteAll();
-        fillList();
     }
 
     //Go to detail, create empty friend template

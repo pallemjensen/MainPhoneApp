@@ -86,12 +86,13 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
+
     private void onClickBackToDetail() {
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
     }
 
-
+    // method to zoom to the level of zoom selected
     public void onClickZoom(View v) {
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
         CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(new LatLng(friend.getLat(),friend.getLon()), level);
