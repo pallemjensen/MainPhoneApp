@@ -1,6 +1,7 @@
 package com.example.mainphoneapp;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -52,6 +53,8 @@ public class DetailActivity extends AppCompatActivity {
     Double lat;
 
 
+
+
     //SQL
     IDataAccess mData;
 
@@ -71,6 +74,8 @@ public class DetailActivity extends AppCompatActivity {
     private LocationListener listener;
     private long thisid;
 
+    private final static long DEFAULT_LAT = 0;
+    private final static long DEFAULT_LON = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +163,7 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
          ImageButton btnMap = findViewById(R.id.btnMap);
-         Button btnCreateNewFriendUsingInsert = findViewById(R.id.btnCreateNewFriend);
+
          mImage = (ImageView) findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
@@ -196,11 +201,6 @@ public class DetailActivity extends AppCompatActivity {
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
                  showYesNoDialog();
-             }
-         });
-         btnCreateNewFriendUsingInsert.setOnClickListener(new View.OnClickListener(){
-             public void onClick(View v) {
-                 addFriend();
              }
          });
 
@@ -276,6 +276,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
+                addFriend();
                 break;
 
         }
@@ -293,12 +294,14 @@ public class DetailActivity extends AppCompatActivity {
         String dBBirthday = m_etBirthday.getText().toString();
         //double lat = friend.getLat();
         //double lon = friend.getLon();
-        double lat = 11.3;
-        double lon = 12.3;
+        double lat = DEFAULT_LAT;
+        double lon = DEFAULT_LON;
 
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
+
+
     }
 
     @Override
