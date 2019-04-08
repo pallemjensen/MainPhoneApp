@@ -277,6 +277,8 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
                 addFriend();
+
+                goBackToMainView();
                 break;
 
         }
@@ -285,6 +287,15 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    //Go backup to main view after creating a new friend.
+    public void goBackToMainView(){
+        Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
+
+        startActivity(goBackToMainIntent);
+
+    }
+
+    //Gets the input friends, and creates a new friend.
     public void addFriend() {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
@@ -302,8 +313,10 @@ public class DetailActivity extends AppCompatActivity {
         Log.d(TAG, "mData insert has run without crashing");
 
 
+
     }
 
+    //Creates the menu bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -341,6 +354,8 @@ public class DetailActivity extends AppCompatActivity {
         m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
     }
 
+    //Starts SMS app
+    //Takes the text, and creates a new message + sends.
     private void startSMSActivity()
     {
 
@@ -350,12 +365,14 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(sendIntent);
     }
 
+    //Opens phone built in app.
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + m_etPhone.getText().toString()));
         startActivity(intent);
     }
 
+    //Opens built in mail app.
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
@@ -367,7 +384,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(emailIntent);
     }
 
-
+    //Opens a browser, with the website assigned.
     private void startBrowser()
     {
         String url = m_etWeb.getText().toString();
@@ -402,8 +419,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-
-
+    //Opens the phones camera.
     private void onClickTakePics()
     {
 
@@ -473,6 +489,7 @@ public class DetailActivity extends AppCompatActivity {
         return mediaFile;
     }
 
+    //Askes for permission to open apps.
     private void requestPermissionsInGeneral() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -497,6 +514,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //Views the picture that has been taken, in a bitmap.
     private void showPictureTaken(File f, Bitmap bitmap) {
         mImage.setImageBitmap(bitmap);
         //mImage.setImageURI(Uri.fromFile(f));
@@ -504,10 +522,11 @@ public class DetailActivity extends AppCompatActivity {
         //mImage.setRotation(90);
     }
 
-
+    //Shows logs
     void log(String s)
     { Log.d(LOGTAG, s); }
 
+    //Scaling the image that has been captured by the camera.
     private void scaleImage()
     {
         final Display display = getWindowManager().getDefaultDisplay();

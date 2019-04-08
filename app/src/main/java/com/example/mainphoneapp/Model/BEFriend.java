@@ -40,8 +40,6 @@ public class BEFriend implements Serializable {
         this.m_address = address;
     }
 
-
-
     public String getPhone() {
         return m_phone;
     }
@@ -54,7 +52,6 @@ public class BEFriend implements Serializable {
 
     public Double getLat() {return m_lat;}
 
-
     public void setLat(Double lat) {
         this.m_lat = lat;
     }
@@ -62,7 +59,6 @@ public class BEFriend implements Serializable {
     public void setLng(Double lng){
         this.m_lon = lng;
     }
-
 
     public String getMail() {return m_mail;}
 

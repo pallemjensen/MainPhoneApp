@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listViewFriends;
 
-
-
     IDataAccess mData;
 
     @Override
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Method to see which item that has been selected in the menu bar.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
