@@ -34,6 +34,7 @@ import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -258,6 +259,8 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
+         mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
+         //mImage.setImageURI(Uri.parse(friend.getPicture()));
         }
      }
 
@@ -313,9 +316,20 @@ public class DetailActivity extends AppCompatActivity {
         //double lon = friend.getLon();
         double lat = DEFAULT_LAT;
         double lon = DEFAULT_LON;
+        String picPath;
+
+        if (mFile.getAbsolutePath().isEmpty())
+        {
+            picPath = "drawable-hdpi/mybestfriend_picture.png";
+        }
+        else
+        {
+          picPath = mFile.getAbsolutePath();
+        }
+
 
         Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, "picture", dBBirthday, dBAddress));
+        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
 
 
@@ -526,6 +540,7 @@ public class DetailActivity extends AppCompatActivity {
         //mImage.setImageURI(Uri.fromFile(f));
         //mImage.setBackgroundColor(Color.RED);
         //mImage.setRotation(90);
+
     }
 
     //Shows logs
