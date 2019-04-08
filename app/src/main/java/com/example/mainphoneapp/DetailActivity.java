@@ -314,6 +314,16 @@ public class DetailActivity extends AppCompatActivity {
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
         String dBWeb = m_etWeb.getText().toString();
+
+        if (!(dBWeb.contains("www")))
+        {
+            dBWeb = "https://www." + dBWeb;
+        }
+
+        if (!(dBWeb.contains("https://")))
+        {
+            dBWeb = "https://" + dBWeb;
+        }
         String dBAddress = m_etAddress.getText().toString();
         String dBBirthday = m_etBirthday.getText().toString();
         //double lat = friend.getLat();
@@ -337,6 +347,17 @@ public class DetailActivity extends AppCompatActivity {
         String dBWeb = m_etWeb.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
         String dBBirthday = m_etBirthday.getText().toString();
+
+        if (!(dBWeb.contains("www")))
+        {
+            dBWeb = "https://www." + dBWeb;
+        }
+
+        if (!(dBWeb.contains("https://")))
+        {
+            dBWeb = "https://" + dBWeb;
+        }
+        
         //double lat = friend.getLat();
         //double lon = friend.getLon();
         double lat = DEFAULT_LAT;
