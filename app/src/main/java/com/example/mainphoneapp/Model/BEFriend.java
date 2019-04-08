@@ -66,6 +66,8 @@ public class BEFriend implements Serializable {
 
     public String getPicture() {return m_picture;}
 
+    public void setPicture(String picture) {this.m_picture = picture;}
+
     public String getBirthday() {return m_birthday;}
 
     public String getAddress() {return m_address;}
