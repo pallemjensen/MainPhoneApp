@@ -28,7 +28,8 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:text="Name" />
+                android:layout_width="152dp"
+                android:text="" />
 
         </TableRow>
 
@@ -42,7 +43,7 @@
 
             <EditText
                 android:id="@+id/etAddress"
-                android:text="Address" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnMap"
@@ -64,7 +65,7 @@
 
             <EditText
                 android:id="@+id/etPhone"
-                android:text="Phone" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnSMS"
@@ -96,7 +97,7 @@
 
             <EditText
                 android:id="@+id/etMail"
-                android:text="Mail" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnEMAIL"
@@ -119,7 +120,7 @@
 
             <EditText
                 android:id="@+id/etBirthday"
-                android:text="Birthday" />
+                android:text="" />
         </TableRow>
 
         <TableRow
@@ -130,11 +131,11 @@
             <TextView
                 android:text="Website:"/>
 
-            <TextView
+            <EditText
                 android:textSize="10pt"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/etWebsite"
-                android:text="Website" />
+                android:text="" />
 
             <ImageButton
                 android:id="@+id/btnBrowser"
@@ -178,6 +179,36 @@
                 android:src="@drawable/ic_photo" />
 
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:id="@+id/txtViewNewCoords"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/button"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:text="Coordinates: "
+                android:textSize="30sp" />
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/btnUpdateLocation"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Update Home Location" />
 
 
     </TableLayout>
