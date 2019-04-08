@@ -1,7 +1,6 @@
 package com.example.mainphoneapp;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,8 +32,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
-import java.io.File;
-import java.net.URI;
+import java.io.File;;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -52,9 +50,6 @@ public class DetailActivity extends AppCompatActivity {
     String TAG = MainActivity.TAG;
     Double lng;
     Double lat;
-
-
-
 
     //SQL
     IDataAccess mData;
@@ -357,7 +352,7 @@ public class DetailActivity extends AppCompatActivity {
         {
             dBWeb = "https://" + dBWeb;
         }
-        
+
         //double lat = friend.getLat();
         //double lon = friend.getLon();
         double lat = DEFAULT_LAT;
@@ -441,6 +436,16 @@ public class DetailActivity extends AppCompatActivity {
     private void startBrowser()
     {
         String url = m_etWeb.getText().toString();
+
+        if (!(url.contains("www")))
+        {
+            url = "https://www." + url;
+        }
+
+        if (!(url.contains("https://")))
+        {
+            url = "https://" + url;
+        }
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
