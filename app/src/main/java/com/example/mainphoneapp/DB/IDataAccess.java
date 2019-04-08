@@ -8,8 +8,6 @@ public interface IDataAccess {
 
     long insert(BEFriend f);
 
-    void deleteAll();
-
     void deleteById(long id);
 
     void update(BEFriend f);

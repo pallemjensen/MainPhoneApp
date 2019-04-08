@@ -14,14 +14,14 @@ import java.util.List;
 
 public class SQLiteImpl implements IDataAccess {
 
-    private static final String DATABASE_NAME = "contacts.db";
+    private static final String DATABASE_NAME = "contacts.db"; // defines the db name
     private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_NAME = "friend_table";
+    private static final String TABLE_NAME = "friend_table"; // defines a variable for the db friend table
 
 
-    private SQLiteDatabase db;
-    private SQLiteStatement insertStmt;
-    private SQLiteStatement updateStmt;
+    private SQLiteDatabase db; // defines a db variable
+    private SQLiteStatement insertStmt; // defines a variable for our sql lite create friend statement
+    private SQLiteStatement updateStmt; // defines a variable for our sql lite update friend statement
 
 
     public SQLiteImpl(Context context) {
@@ -31,11 +31,10 @@ public class SQLiteImpl implements IDataAccess {
         this.insertStmt = this.db.compileStatement(INSERT);
     }
 
-             //name  = , phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
-
-
+    //updates the current chosen friend from detailactivity in the sql lite db
     public void update(BEFriend f){
-    String UPDATE = "UPDATE " + TABLE_NAME + " SET name = ?, phone = ?, lat = ?, lon = ?, mail = ?, website = ?, picture = ?, birthday = ?, address = ? WHERE id = ?;";
+    String UPDATE = "UPDATE " + TABLE_NAME + " SET name = ?, phone = ?, lat = ?, lon = ?," +
+            " mail = ?, website = ?, picture = ?, birthday = ?, address = ? WHERE id = ?;"; // String variable to use in our update statement
     this.updateStmt = this.db.compileStatement(UPDATE);
 
         this.updateStmt.bindString(1,f.getName());
@@ -53,10 +52,11 @@ public class SQLiteImpl implements IDataAccess {
 
     }
 
+    // create the insert string for creating a new friend to be used in the sql insert statement
     private static final String INSERT = "insert into " + TABLE_NAME
             + "(name, phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
 
-
+    // create a new friend in the sql lite db
     public long insert(BEFriend f) {
         this.insertStmt.bindString(1,f.getName());
         this.insertStmt.bindString(2,f.getPhone());
@@ -75,17 +75,12 @@ public class SQLiteImpl implements IDataAccess {
         return id;
     }
 
-
-    public void deleteAll() {
-        this.db.delete(TABLE_NAME, null, null);
-    }
-
-
+    // Delete the current selected friend in detail activity
     public void deleteById(long id) {
         this.db.delete(TABLE_NAME, "id = ?", new String[]{""+id});
     }
 
-
+    // Get all current friends from the db and return them in a list
     public List<BEFriend> getAll() {
         List<BEFriend> list = new ArrayList<BEFriend>();
         Cursor cursor = this.db.query(TABLE_NAME,
@@ -116,6 +111,7 @@ public class SQLiteImpl implements IDataAccess {
         return list;
     }
 
+    // Get current selected friend from the db, selected by id and return the friend if it exist
     public BEFriend getById(long id) {
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
