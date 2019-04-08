@@ -104,7 +104,8 @@ public class DetailActivity extends AppCompatActivity {
 
                 friend.setLat(lat);
                 friend.setLng(lng);
-                Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -267,6 +268,9 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
+                deleteById();
+                goBackToMainView();
+
                 break;
 
             case R.id.updateFriend:
@@ -286,6 +290,12 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+
+    void deleteById(){
+
+        mData.deleteById(friend.getId());
+
+    }
 
     //Go backup to main view after creating a new friend.
     public void goBackToMainView(){

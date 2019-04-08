@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
-    Button deleteButton;
-
     ListView listViewFriends;
 
     IDataAccess mData;
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mData = DataAccessFactory.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
-        deleteButton = findViewById(R.id.btnDelete);
+
 
         fillList();
 

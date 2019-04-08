@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".DetailActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never"/>
-    <item android:id="@+id/saveNewFriend" android:title="Add Friend" android:enabled="true"
-        android:icon="@drawable/ic_friend_add" app:showAsAction="always"></item>
+    <item android:id="@+id/saveNewFriend" android:title="Save Friend" android:enabled="true"
+        android:icon="@drawable/ic_friend_save" app:showAsAction="always"></item>
 
     <item android:id="@+id/deleteFriend" android:title="Delete Friend" android:enabled="true"
         android:icon="@drawable/ic_friend_delete" app:showAsAction="always"></item>
