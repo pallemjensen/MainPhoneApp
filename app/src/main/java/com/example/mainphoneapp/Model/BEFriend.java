@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 public class BEFriend implements Serializable {
 
+    private long m_id;
     private String m_name;
     private String m_phone;
-    private double m_lat;
-    private double m_lon;
+    private Double m_lat;
+    private Double m_lon;
     private String m_mail;
     private String m_website;
     private String m_picture;
     private String m_birthday;
     private String m_address;
 
-    public BEFriend(String name, String phone, double lat, double lon, String mail, String website, String picture, String birthday, String address) {
+    public BEFriend(long id, String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address) {
+        this.m_id = id;
         this.m_name = name;
         this.m_phone = phone;
         this.m_lat = lat;
@@ -25,6 +27,20 @@ public class BEFriend implements Serializable {
         this.m_birthday = birthday;
         this.m_address = address;
     }
+
+    public BEFriend(String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address) {
+        this.m_name = name;
+        this.m_phone = phone;
+        this.m_lat = lat;
+        this.m_lon = lon;
+        this.m_mail = mail;
+        this.m_website = website;
+        this.m_picture = picture;
+        this.m_birthday = birthday;
+        this.m_address = address;
+    }
+
+
 
     public String getPhone() {
         return m_phone;
@@ -38,6 +54,7 @@ public class BEFriend implements Serializable {
 
     public Double getLat() {return m_lat;}
 
+
     public void setLat(Double lat) {
         this.m_lat = lat;
     }
@@ -46,7 +63,6 @@ public class BEFriend implements Serializable {
         this.m_lon = lng;
     }
 
-    public void setLng(String lng) {}
 
     public String getMail() {return m_mail;}
 
@@ -57,4 +73,13 @@ public class BEFriend implements Serializable {
     public String getBirthday() {return m_birthday;}
 
     public String getAddress() {return m_address;}
-}
+
+    public String toString() {return "" + m_name;}
+
+    public long getId() {return m_id;}
+
+    public void setId(long id) {this.m_id = id;}
+    }
+
+
+

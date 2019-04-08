@@ -188,7 +188,7 @@
             android:layout_alignParentEnd="true">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/txtViewNewCoords"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/button"
@@ -199,16 +199,21 @@
                 android:textSize="30sp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnCreateNewFriend"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Add New friend" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnUpdateLocation"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Update Home Location" />
-
-
     </TableLayout>
 
 </LinearLayout>
