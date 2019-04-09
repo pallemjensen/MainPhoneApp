@@ -33,6 +33,7 @@ import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
 import java.io.File;;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -45,6 +46,8 @@ public class DetailActivity extends AppCompatActivity {
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     File mFile;
+    String mFilePath;
+
     ImageView mImage;
     BEFriend friend;
     String TAG = MainActivity.TAG;
@@ -254,7 +257,7 @@ public class DetailActivity extends AppCompatActivity {
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
 
-         //mImage.setImageURI();
+         mImage.setImageURI(Uri.parse(friend.getPicture()));
          //mImage.setImageURI(Uri.fromFile(mFile));
          //mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
          //mImage.setImageURI(Uri.parse(friend.getPicture()));
@@ -329,6 +332,10 @@ public class DetailActivity extends AppCompatActivity {
         String picPath;
 
         picPath = "";
+
+        if (!mFilePath.isEmpty()){
+            picPath = mFilePath;
+        }
 
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
@@ -489,10 +496,10 @@ public class DetailActivity extends AppCompatActivity {
         }
         // create Intent to take a picture
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, URI.create(mFilePath));
 
 
-
-        Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile).toString());
+        Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile));
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             Log.d(LOGTAG, "camera app will be started");
@@ -544,7 +551,7 @@ public class DetailActivity extends AppCompatActivity {
         File mediaFile = new File(mediaStorageDir.getPath() +
                 File.separator + prefix +
                 "_"+ timeStamp + "." + postfix);
-
+        mFilePath = mediaFile.getAbsolutePath();
         return mediaFile;
     }
 
