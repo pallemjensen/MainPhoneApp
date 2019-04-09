@@ -1,6 +1,7 @@
 package com.example.mainphoneapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.TextView;
 import java.io.File;;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -326,9 +328,7 @@ public class DetailActivity extends AppCompatActivity {
         double lat = DEFAULT_LAT;
         double lon = DEFAULT_LON;
 
-        String picPath;
-
-        picPath = "";
+        String picPath = "";
 
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
@@ -490,8 +490,6 @@ public class DetailActivity extends AppCompatActivity {
         // create Intent to take a picture
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-
-
         Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile).toString());
 
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -563,6 +561,14 @@ public class DetailActivity extends AppCompatActivity {
                 mImage.setImageBitmap(bitmap);
                 showPictureTaken(mFile, bitmap);
 
+                try {
+                    FileOutputStream out = new FileOutputStream(mFile);
+                    //FileOutputStream out = openFileOutput(mFile.getName(), Context.MODE_PRIVATE);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             } else
             if (resultCode == RESULT_CANCELED) {
