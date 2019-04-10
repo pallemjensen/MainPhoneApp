@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -35,6 +36,7 @@ import android.view.Display;
 import android.widget.TextView;
 import java.io.File;;
 import java.io.FileOutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -247,7 +249,7 @@ public class DetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra("id")) {
 
          long thisid = getIntent().getLongExtra("id",1);
-         friend = (BEFriend) mData.getById(thisid);   // getIntent().getSerializableExtra("friend");
+         friend = (BEFriend) mData.getById(thisid);   // load friend from database by id
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
          m_etBirthday.setText(friend.getBirthday());
@@ -255,11 +257,8 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
-
-         //mImage.setImageURI();
-         //mImage.setImageURI(Uri.fromFile(mFile));
-         //mImage.setImageURI(Uri.fromFile(new File(friend.getPicture())));
-         //mImage.setImageURI(Uri.parse(friend.getPicture()));
+            Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
+         mImage.setImageBitmap(bitmap);
         }
      }
 
@@ -329,6 +328,9 @@ public class DetailActivity extends AppCompatActivity {
         double lon = DEFAULT_LON;
 
         String picPath = "";
+        if (mFile.isFile()) {
+            picPath = mFile.getPath();
+        }
 
         Log.d(TAG, "db data test");
         mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
@@ -480,17 +482,8 @@ public class DetailActivity extends AppCompatActivity {
     //Opens the phones camera.
     private void onClickTakePics()
     {
-
-        mFile = getOutputMediaFile(); // create a file to save the image
-        if (mFile == null)
-        {
-            Toast.makeText(this, "Could not create file...", Toast.LENGTH_LONG).show();
-            return;
-        }
         // create Intent to take a picture
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        Log.d(LOGTAG, "file uri = " + Uri.fromFile(mFile).toString());
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             Log.d(LOGTAG, "camera app will be started");
@@ -558,17 +551,23 @@ public class DetailActivity extends AppCompatActivity {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-                mImage.setImageBitmap(bitmap);
-                showPictureTaken(mFile, bitmap);
+
+                mFile = getOutputMediaFile(); // create a file to save the image
+                if (mFile == null)
+                {
+                    Toast.makeText(this, "Could not create file...", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 try {
                     FileOutputStream out = new FileOutputStream(mFile);
-                    //FileOutputStream out = openFileOutput(mFile.getName(), Context.MODE_PRIVATE);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                     out.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                showPictureTaken(mFile);
 
             } else
             if (resultCode == RESULT_CANCELED) {
@@ -581,28 +580,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     //Views the picture that has been taken, in a bitmap.
-    private void showPictureTaken(File f, Bitmap bitmap) {
-        mImage.setImageBitmap(bitmap);
-        //mImage.setImageURI(Uri.fromFile(f));
-        //mImage.setBackgroundColor(Color.RED);
-        //mImage.setRotation(90);
-
+    private void showPictureTaken(File f) {
+        mImage.setImageURI(Uri.fromFile(f));
     }
 
     //Shows logs
     void log(String s)
     { Log.d(LOGTAG, s); }
-
-    //Scaling the image that has been captured by the camera.
-    private void scaleImage()
-    {
-        final Display display = getWindowManager().getDefaultDisplay();
-        Point p = new Point();
-        display.getSize(p);
-        final float screenWidth = p.x;
-        final float screenHeight = p.y-100;
-        mImage.setMaxHeight((int)screenHeight);
-        mImage.setMaxWidth((int)screenWidth);
-    }
 
 }
