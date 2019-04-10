@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     private final static String LOGTAG = "Camtag";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
-    File mFile;
+    File mFile = null;
     ImageView mImage;
     BEFriend friend;
     String TAG = MainActivity.TAG;
@@ -333,7 +333,7 @@ public class DetailActivity extends AppCompatActivity {
         double lon = DEFAULT_LON;
 
         String picPath = "";
-        if (mFile.isFile()) {
+        if (mFile != null) {
             picPath = mFile.getPath();
         }
 
@@ -366,8 +366,12 @@ public class DetailActivity extends AppCompatActivity {
         double lon = DEFAULT_LON;
 
         String picPath;
+        if (mFile != null) {
+            picPath = mFile.getPath();
+        } else {
+            picPath = friend.getPicture();
+        }
 
-        picPath = "pictest";
         mData.update(new BEFriend(friend.getId(),dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
     }
 
