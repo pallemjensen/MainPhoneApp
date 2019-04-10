@@ -257,8 +257,13 @@ public class DetailActivity extends AppCompatActivity {
          m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
-            Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
-         mImage.setImageBitmap(bitmap);
+         if (friend.getPicture().isEmpty()){
+             mImage.setImageResource(R.drawable.mybestfriend_picture);
+         } else {
+             Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
+             mImage.setImageBitmap(bitmap);
+         }
+
         }
      }
 
