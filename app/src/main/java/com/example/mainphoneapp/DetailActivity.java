@@ -99,9 +99,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 friend.setLat(lat);
                 friend.setLng(lng);
-                //Toast.makeText(DetailActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
-
-
             }
 
             @Override
