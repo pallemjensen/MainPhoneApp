@@ -70,9 +70,6 @@ public class DetailActivity extends AppCompatActivity {
     private LocationListener listener;
     private long thisid;
 
-    private final static long DEFAULT_LAT = 0;
-    private final static long DEFAULT_LON = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +94,6 @@ public class DetailActivity extends AppCompatActivity {
                 lng = location.getLongitude();
                 lat = location.getLatitude();
 
-                friend.setLat(lat);
-                friend.setLng(lng);
             }
 
             @Override
@@ -320,10 +315,20 @@ public class DetailActivity extends AppCompatActivity {
         }
         String dBAddress = m_etAddress.getText().toString();
         String dBBirthday = m_etBirthday.getText().toString();
-        //double lat = friend.getLat();
-        //double lon = friend.getLon();
-        double lat = DEFAULT_LAT;
-        double lon = DEFAULT_LON;
+
+        double latLocation = 0;
+        double lngLocation = 0;
+
+        if (lat!=null)
+        {
+            latLocation = lat;
+        }
+
+        if (lng!=null)
+        {
+            lngLocation = lng;
+        }
+
 
         String picPath = "";
         if (mFile != null) {
@@ -331,7 +336,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
     }
 
@@ -353,10 +358,18 @@ public class DetailActivity extends AppCompatActivity {
             dBWeb = "https://" + dBWeb;
         }
 
-        //double lat = friend.getLat();
-        //double lon = friend.getLon();
-        double lat = DEFAULT_LAT;
-        double lon = DEFAULT_LON;
+        double latLocation = friend.getLat();
+        double lngLocation = friend.getLon();
+
+        if (lat!=null)
+        {
+            latLocation = lat;
+        }
+
+        if (lng!=null)
+        {
+            lngLocation = lng;
+        }
 
         String picPath;
         if (mFile != null) {
@@ -365,7 +378,7 @@ public class DetailActivity extends AppCompatActivity {
             picPath = friend.getPicture();
         }
 
-        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, lat, lon, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
     }
 
     //Creates the menu bar
