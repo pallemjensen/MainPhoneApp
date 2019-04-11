@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 
 import java.util.ArrayList;

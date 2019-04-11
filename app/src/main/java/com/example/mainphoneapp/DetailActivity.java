@@ -1,7 +1,6 @@
 package com.example.mainphoneapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,14 +28,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.Display;
 import android.widget.TextView;
 import java.io.File;;
 import java.io.FileOutputStream;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.mainphoneapp.DB.DataAccessFactory;
@@ -153,7 +149,7 @@ public class DetailActivity extends AppCompatActivity {
         btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //noinspection MissingPermission
+                //noinspection MissingPermission, but works
                 locationManager.requestLocationUpdates("gps", 5000, 0, listener);
             }
         });
