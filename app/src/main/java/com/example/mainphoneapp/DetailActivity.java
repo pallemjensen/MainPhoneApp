@@ -1,23 +1,17 @@
 package com.example.mainphoneapp;
 
-import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,17 +21,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.widget.TextView;
-import java.io.File;;
+import android.widget.Toast;
+
+import com.example.mainphoneapp.DB.DataAccessFactory;
+import com.example.mainphoneapp.DB.IDataAccess;
+import com.example.mainphoneapp.Model.BEFriend;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.example.mainphoneapp.DB.DataAccessFactory;
-import com.example.mainphoneapp.Model.BEFriend;
-import com.example.mainphoneapp.DB.IDataAccess;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -81,8 +75,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //GPS
 
-        txtShowUpdatingCoords = (TextView) findViewById(R.id.txtViewNewCoords);
-        btnUpdateCoords = (Button) findViewById(R.id.btnUpdateLocation);
+        txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);
+        btnUpdateCoords = findViewById(R.id.btnUpdateLocation);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -133,7 +127,7 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton browserBtn = findViewById(R.id.btnBrowser);
          ImageButton btnMap = findViewById(R.id.btnMap);
 
-         mImage = (ImageView) findViewById(R.id.imgView);
+         mImage = findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
          m_etMail = findViewById(R.id.etMail);
@@ -218,7 +212,7 @@ public class DetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra("id")) {
 
          long thisid = getIntent().getLongExtra("id",1);
-         friend = (BEFriend) mData.getById(thisid);   // load friend from database by id
+         friend = mData.getById(thisid);   // load friend from database by id
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
          m_etBirthday.setText(friend.getBirthday());
@@ -428,7 +422,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         else
             Log.d(LOGTAG, "camera app could NOT be started");
-
     }
 
     /** Create a File for saving an image */
@@ -467,7 +460,6 @@ public class DetailActivity extends AppCompatActivity {
                     Toast.makeText(this, "Could not create file...", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 try {
                     FileOutputStream out = new FileOutputStream(mFile);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -477,7 +469,6 @@ public class DetailActivity extends AppCompatActivity {
                 }
 
                 showPictureTaken(mFile);
-
             } else
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Canceled...", Toast.LENGTH_LONG).show();
