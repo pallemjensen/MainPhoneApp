@@ -117,26 +117,7 @@ public class DetailActivity extends AppCompatActivity {
         configure_button();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 10:
-                configure_button();
-                break;
-            default:
-                break;
-        }
-    }
-
     void configure_button() {
-        // first check for permissions
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}
-                        , 10);
-            }
-            return;
-        }
         // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
         btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,26 +375,6 @@ public class DetailActivity extends AppCompatActivity {
     private void sendSMS() {
         Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
                 .show();
-
-
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.SEND_SMS)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d(TAG, "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.SEND_SMS};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-                return;
-
-            }
-            else
-                Log.d(TAG, "permission to SEND_SMS granted!");
-
-        }
-
         SmsManager m = SmsManager.getDefault();
         String text = "Hi, it goes well on the android course...";
         m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
