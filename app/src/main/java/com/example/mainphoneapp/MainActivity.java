@@ -1,7 +1,10 @@
 package com.example.mainphoneapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         listViewFriends = findViewById(R.id.ListViewFriends);
 
-
+        checkPermissions();
         fillList();
 
         listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,5 +95,24 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
 
+    }
+
+
+    private void checkPermissions() {
+        ArrayList<String> permissions = new ArrayList<String>();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.CAMERA);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.CALL_PHONE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.SEND_SMS);
+
+
+        if (permissions.size() > 0)
+            ActivityCompat.requestPermissions(this, permissions.toArray(new String[permissions.size()]), 1);
     }
 }
