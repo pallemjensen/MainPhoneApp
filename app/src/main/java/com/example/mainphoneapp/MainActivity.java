@@ -91,10 +91,8 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                     detailAddFriend();
                 break;
-
         }
         return true;
-
     }
 
 
@@ -110,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             permissions.add(Manifest.permission.CALL_PHONE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
             permissions.add(Manifest.permission.SEND_SMS);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
         if (permissions.size() > 0)

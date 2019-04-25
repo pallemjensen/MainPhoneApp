@@ -163,13 +163,13 @@ public class DetailActivity extends AppCompatActivity {
              }
          });
 
-         requestPermissionsInGeneral();
+
          setGui();
 
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 showYesNoDialog();
+                 startSMSActivity();
              }
          });
 
@@ -370,24 +370,11 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-    static int PERMISSION_REQUEST_CODE = 1;
-
-    private void sendSMS() {
-        Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
-                .show();
-        SmsManager m = SmsManager.getDefault();
-        String text = "Hi, it goes well on the android course...";
-        m.sendTextMessage(m_etPhone.getText().toString(), null, text, null, null);
-    }
-
     //Starts SMS app
-    //Takes the text, and creates a new message + sends.
     private void startSMSActivity()
     {
-
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setData(Uri.parse("sms:" + m_etPhone.getText().toString()));
-        sendIntent.putExtra("sms_body", "Hi, it goes well on the android course...");
         startActivity(sendIntent);
     }
 
@@ -429,32 +416,6 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void showYesNoDialog()
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        alertDialogBuilder.setTitle("SMS Handling");
-
-        alertDialogBuilder
-                .setMessage("Click Direct if SMS should be send directly. Click Start to start SMS app...")
-                .setCancelable(true)
-                .setPositiveButton("Direct",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        DetailActivity.this.sendSMS();
-                    }
-                })
-                .setNegativeButton("Start", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        DetailActivity.this.startSMSActivity();
-                    }
-                });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        alertDialog.show();
-    }
-
-
     //Opens the phones camera.
     private void onClickTakePics()
     {
@@ -472,28 +433,8 @@ public class DetailActivity extends AppCompatActivity {
 
     /** Create a File for saving an image */
     private File getOutputMediaFile(){
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d(TAG, "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-                return null;
-
-            }
-            else
-                Log.d(TAG, "permission to write to ext file granted!");
-
-        }
-
-
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Camera01");
-
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
 
@@ -502,7 +443,6 @@ public class DetailActivity extends AppCompatActivity {
                 return null;
             }
         }
-
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String postfix = "jpg";
@@ -514,13 +454,6 @@ public class DetailActivity extends AppCompatActivity {
 
         return mediaFile;
     }
-
-    //Askes for permission to open apps.
-    private void requestPermissionsInGeneral() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-        requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-    }}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
