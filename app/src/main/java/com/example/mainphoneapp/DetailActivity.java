@@ -1,5 +1,6 @@
 package com.example.mainphoneapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -125,6 +126,7 @@ public class DetailActivity extends AppCompatActivity {
     void configure_button() {
         // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
         btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
                 //noinspection MissingPermission, but works
@@ -250,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
 public void saveFriend() {
 
 //    String UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//    String user = fireDb.collection("Friends").getId();
+    String user = fireDb.collection("Friends").getId();
 
     double latLocation = 0;
     double lngLocation = 0;
