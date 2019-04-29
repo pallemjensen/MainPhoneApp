@@ -32,7 +32,7 @@ public class SQLiteImpl implements IDataAccess {
     //updates the current chosen friend from detailactivity in the sql lite db
     public void update(BEFriend f){
     String UPDATE = "UPDATE " + TABLE_NAME + " SET name = ?, phone = ?, lat = ?, lon = ?," +
-            " mail = ?, website = ?, picture = ?, birthday = ?, address = ? WHERE id = ?;"; // String variable to use in our update statement
+            " mail = ?, picture = ?, address = ? WHERE id = ?;"; // String variable to use in our update statement
     this.updateStmt = this.db.compileStatement(UPDATE);
 
         this.updateStmt.bindString(1,f.getName());
@@ -40,11 +40,9 @@ public class SQLiteImpl implements IDataAccess {
         this.updateStmt.bindDouble(3,f.getLat());
         this.updateStmt.bindDouble(4,f.getLon());
         this.updateStmt.bindString(5,f.getMail());
-        this.updateStmt.bindString(6,f.getWebsite());
-        this.updateStmt.bindString(7,f.getPicture());
-        this.updateStmt.bindString(8,f.getBirthday());
-        this.updateStmt.bindString(9,f.getAddress());
-        this.updateStmt.bindString(10, String.valueOf(f.getId()));
+        this.updateStmt.bindString(6,f.getPicture());
+        this.updateStmt.bindString(7,f.getAddress());
+        this.updateStmt.bindString(8, String.valueOf(f.getId()));
 
         this.updateStmt.executeUpdateDelete();
 
@@ -52,7 +50,7 @@ public class SQLiteImpl implements IDataAccess {
 
     // create the insert string for creating a new friend to be used in the sql insert statement
     private static final String INSERT = "insert into " + TABLE_NAME
-            + "(name, phone, lat, lon, mail, website, picture, birthday, address) values (?,?,?,?,?,?,?,?,?)";
+            + "(name, phone, lat, lon, mail, picture, address) values (?,?,?,?,?,?,?)";
 
     // create a new friend in the sql lite db
     public long insert(BEFriend f) {
@@ -61,10 +59,8 @@ public class SQLiteImpl implements IDataAccess {
         this.insertStmt.bindDouble(3,f.getLat());
         this.insertStmt.bindDouble(4,f.getLon());
         this.insertStmt.bindString(5,f.getMail());
-        this.insertStmt.bindString(6,f.getWebsite());
-        this.insertStmt.bindString(7,f.getPicture());
-        this.insertStmt.bindString(8,f.getBirthday());
-        this.insertStmt.bindString(9,f.getAddress());
+        this.insertStmt.bindString(6,f.getPicture());
+        this.insertStmt.bindString(7,f.getAddress());
 
         long id = this.insertStmt.executeInsert();
 
@@ -82,7 +78,7 @@ public class SQLiteImpl implements IDataAccess {
     public List<BEFriend> getAll() {
         List<BEFriend> list = new ArrayList<BEFriend>();
         Cursor cursor = this.db.query(TABLE_NAME,
-                new String[]{"id", "name", "phone", "lat", "lon", "mail", "website", "picture", "birthday", "address"},
+                new String[]{"id", "name", "phone", "lat", "lon", "mail", "picture", "address"},
                 null, null,
                 null, null, "name");
         if (cursor.moveToFirst()) {
@@ -95,9 +91,7 @@ public class SQLiteImpl implements IDataAccess {
                         cursor.getDouble(4),
                         cursor.getString(5),
                         cursor.getString(6),
-                        cursor.getString(7),
-                        cursor.getString(8),
-                        cursor.getString(9)
+                        cursor.getString(7)
                         ));
             }
             while (cursor.moveToNext());
@@ -124,9 +118,7 @@ public class SQLiteImpl implements IDataAccess {
                     cursor.getDouble(4),
                     cursor.getString(5),
                     cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8),
-                    cursor.getString(9)
+                    cursor.getString(7)
             );
         }
         throw new IllegalArgumentException("Could not get Friend by id " + id);
@@ -142,7 +134,7 @@ public class SQLiteImpl implements IDataAccess {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
-                    + " (id INTEGER PRIMARY KEY, name TEXT, phone TEXT, lat DOUBLE, lon DOUBLE, mail TEXT, website TEXT, picture TEXT, birthday TEXT, address TEXT)");
+                    + " (id INTEGER PRIMARY KEY, name TEXT, phone TEXT, lat DOUBLE, lon DOUBLE, mail TEXT, picture TEXT,  address TEXT)");
 
         }
 

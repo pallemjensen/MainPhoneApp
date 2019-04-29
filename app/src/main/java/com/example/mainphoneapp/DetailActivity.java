@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -28,15 +29,36 @@ import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
 
     private final static String LOGTAG = "Camtag";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+
+    // Firestore stuff
+    private static final String KEY_NAME = "name";
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_PHONE = "phone";
+    private static final String KEY_MAIL = "mail";
+    private static final String KEY_LNG = "longtitude";
+    private static final String KEY_LAT = "latitude";
+
+    private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+
+
 
     File mFile = null;
     ImageView mImage;
@@ -52,8 +74,8 @@ public class DetailActivity extends AppCompatActivity {
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
-    EditText m_etWeb;
-    EditText m_etBirthday;
+
+
     EditText m_etAddress;
 
 
@@ -69,6 +91,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Log.d(TAG, " Detail activity is running");
+
+
+
 
         //SQL
         mData = DataAccessFactory.getInstance();
@@ -124,24 +149,17 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton smsBtn = findViewById(R.id.btnSMS);
          ImageButton callBtn = findViewById(R.id.btnCALL);
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
-         ImageButton browserBtn = findViewById(R.id.btnBrowser);
+
          ImageButton btnMap = findViewById(R.id.btnMap);
 
          mImage = findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
          m_etMail = findViewById(R.id.etMail);
-         m_etWeb = findViewById(R.id.etWebsite);
          m_etAddress = findViewById(R.id.etAddress);
-         m_etBirthday = findViewById(R.id.etBirthday);
 
 
-         m_etWeb.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 startBrowser();
-             }
-         });
+
 
          m_etMail.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -179,12 +197,7 @@ public class DetailActivity extends AppCompatActivity {
                  sendEmail();
              }
          });
-         browserBtn.setOnClickListener(new View.OnClickListener() {
 
-             public void onClick(View arg0) {
-                 startBrowser();
-
-             }});
 
          //Go to Map Activity
          btnMap.setOnClickListener(new View.OnClickListener(){
@@ -215,9 +228,6 @@ public class DetailActivity extends AppCompatActivity {
          friend = mData.getById(thisid);   // load friend from database by id
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
-         m_etBirthday.setText(friend.getBirthday());
-         m_etAddress.setText(friend.getBirthday());
-         m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
          if (friend.getPicture().isEmpty()){
@@ -249,13 +259,50 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
-                addFriend();
 
+                saveFriend();
+               // addFriend();
                 goBackToMainView();
                 break;
         }
         return true;
     }
+
+public void saveFriend() {
+    String name = m_etName.getText().toString();
+    String address = m_etAddress.getText().toString();
+    String phone = m_etPhone.getText().toString();
+    String mail = m_etMail.getText().toString();
+
+
+    Map<String, Object> friend = new HashMap<>();
+
+    friend.put(KEY_NAME, name);
+    friend.put(KEY_ADDRESS, address);
+    friend.put(KEY_PHONE, phone);
+    friend.put(KEY_MAIL,mail);
+    friend.put(KEY_LNG,lng);
+    friend.put(KEY_LAT, lat);
+
+
+
+  //  geoFire.setLocation("Location", new GeoLocation(lat,lng));
+
+
+    fireDb.collection("Friends").document().set(friend)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DetailActivity.this, "Friend added", Toast.LENGTH_SHORT).show();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DetailActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+}
 
 
     void deleteById(){
@@ -277,19 +324,8 @@ public class DetailActivity extends AppCompatActivity {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
-        String dBWeb = m_etWeb.getText().toString();
-
-        if (!(dBWeb.contains("www")))
-        {
-            dBWeb = "https://www." + dBWeb;
-        }
-
-        if (!(dBWeb.contains("https://")))
-        {
-            dBWeb = "https://" + dBWeb;
-        }
         String dBAddress = m_etAddress.getText().toString();
-        String dBBirthday = m_etBirthday.getText().toString();
+
 
         double latLocation = 0;
         double lngLocation = 0;
@@ -311,7 +347,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
     }
 
@@ -319,19 +355,7 @@ public class DetailActivity extends AppCompatActivity {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
-        String dBWeb = m_etWeb.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
-        String dBBirthday = m_etBirthday.getText().toString();
-
-        if (!(dBWeb.contains("www")))
-        {
-            dBWeb = "https://www." + dBWeb;
-        }
-
-        if (!(dBWeb.contains("https://")))
-        {
-            dBWeb = "https://" + dBWeb;
-        }
 
         double latLocation = friend.getLat();
         double lngLocation = friend.getLon();
@@ -353,7 +377,7 @@ public class DetailActivity extends AppCompatActivity {
             picPath = friend.getPicture();
         }
 
-        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
     }
 
     //Creates the menu bar
@@ -391,25 +415,6 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(emailIntent);
     }
 
-    //Opens a browser, with the website assigned.
-    private void startBrowser()
-    {
-        String url = m_etWeb.getText().toString();
-
-        if (!(url.contains("www")))
-        {
-            url = "https://www." + url;
-        }
-
-        if (!(url.contains("https://")))
-        {
-            url = "https://" + url;
-        }
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
-    }
-
     //Opens the phones camera.
     private void onClickTakePics()
     {
@@ -423,6 +428,7 @@ public class DetailActivity extends AppCompatActivity {
         else
             Log.d(LOGTAG, "camera app could NOT be started");
     }
+
 
     /** Create a File for saving an image */
     private File getOutputMediaFile(){
