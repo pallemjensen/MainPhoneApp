@@ -295,8 +295,6 @@ public void saveFriend() {
 //    friend.put(KEY_LAT, latLocation);
     friend.put(KEY_GEO,EASV);
 
-  //  geoFire.setLocation("Location", new GeoLocation(lat,lng));
-
     fireDb.collection("Friends").document().set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
