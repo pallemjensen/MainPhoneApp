@@ -385,9 +385,9 @@ public class DetailActivity extends AppCompatActivity {
         emailIntent.setType("plain/text");
         String[] receivers = { m_etMail.getText().toString()};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT,
-                "Hej, Hope that it is ok, Best Regards android...;-)");
+                "Write your message here");
         startActivity(emailIntent);
     }
 
