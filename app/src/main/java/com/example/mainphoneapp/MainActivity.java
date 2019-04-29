@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    // Asks the user for permission to the different mobile applications
     private void checkPermissions() {
         ArrayList<String> permissions = new ArrayList<String>();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             permissions.add(Manifest.permission.SEND_SMS);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-
 
         if (permissions.size() > 0)
             ActivityCompat.requestPermissions(this, permissions.toArray(new String[permissions.size()]), 1);
