@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -235,13 +236,14 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
                 updateFriend();
+                updateFriendInFireStore();
                 goBackToMainView();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
 
-                saveFriend();
+                saveFriendtoFireStore();
                 addFriendLocal();
                 goBackToMainView();
                 break;
@@ -249,10 +251,45 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-public void saveFriend() {
+    public void updateFriendInFireStore(){
 
-//    String UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    String user = fireDb.collection("Friends").getId();
+        /*String friendId = fireDb.collection("Friends").document().getId();
+
+        String name = m_etName.getText().toString();
+        String address = m_etAddress.getText().toString();
+        String phone = m_etPhone.getText().toString();
+        String mail = m_etMail.getText().toString();
+
+        GeoPoint geoPoint = new GeoPoint(60.5, 10.5);
+
+        Map<String, Object> friend = new HashMap<>();
+
+        friend.put(KEY_NAME, name);
+        friend.put(KEY_ADDRESS, address);
+        friend.put(KEY_PHONE, phone);
+        friend.put(KEY_MAIL,mail);
+        friend.put(KEY_GEO,geoPoint);
+
+        fireDb.collection("Friends").document().update(friend)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(DetailActivity.this, "Friend updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailActivity.this, "Update Error", Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+    }
+
+    public void loadFriend(){
+
+    }
+
+    public void saveFriendtoFireStore() {
 
     double latLocation = 0;
     double lngLocation = 0;
