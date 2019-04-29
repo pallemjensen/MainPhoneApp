@@ -28,11 +28,9 @@ import android.widget.Toast;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
-
-
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
@@ -47,7 +45,6 @@ public class DetailActivity extends AppCompatActivity {
     private final static String LOGTAG = "Camtag";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
-
     // Firestore stuff
     private static final String KEY_NAME = "name";
     private static final String KEY_ADDRESS = "address";
@@ -55,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_MAIL = "mail";
     private static final String KEY_LNG = "longtitude";
     private static final String KEY_LAT = "latitude";
+    private static final String KEY_GEO = "geoLocation";
 
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
 
@@ -236,7 +234,6 @@ public class DetailActivity extends AppCompatActivity {
              Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
              mImage.setImageBitmap(bitmap);
          }
-
         }
      }
 
@@ -261,7 +258,7 @@ public class DetailActivity extends AppCompatActivity {
                         .show();
 
                 saveFriend();
-               // addFriend();
+                //addFriendLocal();
                 goBackToMainView();
                 break;
         }
@@ -269,25 +266,37 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 public void saveFriend() {
+    double latLocation = 0;
+    double lngLocation = 0;
+
+    if (lat!=null)
+    {
+        latLocation = lat;
+    }
+
+    if (lng!=null)
+    {
+        lngLocation = lng;
+    }
+
     String name = m_etName.getText().toString();
     String address = m_etAddress.getText().toString();
     String phone = m_etPhone.getText().toString();
     String mail = m_etMail.getText().toString();
-
-
+    LatLng EASV = new LatLng(latLocation, lngLocation);
+    
     Map<String, Object> friend = new HashMap<>();
 
     friend.put(KEY_NAME, name);
     friend.put(KEY_ADDRESS, address);
     friend.put(KEY_PHONE, phone);
     friend.put(KEY_MAIL,mail);
-    friend.put(KEY_LNG,lng);
-    friend.put(KEY_LAT, lat);
-
+//    friend.put(KEY_LNG,lngLocation);
+//    friend.put(KEY_LAT, latLocation);
+    friend.put(KEY_GEO,EASV);
 
 
   //  geoFire.setLocation("Location", new GeoLocation(lat,lng));
-
 
     fireDb.collection("Friends").document().set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -306,9 +315,7 @@ public void saveFriend() {
 
 
     void deleteById(){
-
         mData.deleteById(friend.getId());
-
     }
 
     //Go backup to main view after creating a new friend.
@@ -320,12 +327,11 @@ public void saveFriend() {
     }
 
     //Gets the input friends, and creates a new friend.
-    public void addFriend() {
+    public void addFriendLocal() {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
-
 
         double latLocation = 0;
         double lngLocation = 0;
@@ -339,7 +345,6 @@ public void saveFriend() {
         {
             lngLocation = lng;
         }
-
 
         String picPath = "";
         if (mFile != null) {

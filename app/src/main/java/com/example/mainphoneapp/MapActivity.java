@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import static com.example.mainphoneapp.helper.distance;
 
-
 public class MapActivity extends AppCompatActivity {
 
     private static String LOGTAG = "MAP_LOG";
