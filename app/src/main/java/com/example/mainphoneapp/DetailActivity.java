@@ -28,10 +28,13 @@ import android.widget.Toast;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
+import com.firebase.geofire.GeoFire;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,13 +53,9 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_ADDRESS = "address";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_MAIL = "mail";
-    private static final String KEY_LNG = "longtitude";
-    private static final String KEY_LAT = "latitude";
-    private static final String KEY_GEO = "geoLocation";
+    private static final String KEY_GEO = "location";
 
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
-
-
 
     File mFile = null;
     ImageView mImage;
@@ -72,10 +71,7 @@ public class DetailActivity extends AppCompatActivity {
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
-
-
     EditText m_etAddress;
-
 
     //GPS LOCATION
     private Button btnUpdateCoords;
@@ -89,9 +85,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Log.d(TAG, " Detail activity is running");
-
-
-
 
         //SQL
         mData = DataAccessFactory.getInstance();
@@ -107,25 +100,20 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 txtShowUpdatingCoords.setText("\n " + location.getLongitude() + " " + location.getLatitude());
-
                 lng = location.getLongitude();
                 lat = location.getLatitude();
-
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
             }
 
             @Override
             public void onProviderEnabled(String s) {
-
             }
 
             @Override
             public void onProviderDisabled(String s) {
-
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
@@ -156,9 +144,6 @@ public class DetailActivity extends AppCompatActivity {
          m_etMail = findViewById(R.id.etMail);
          m_etAddress = findViewById(R.id.etAddress);
 
-
-
-
          m_etMail.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -173,9 +158,7 @@ public class DetailActivity extends AppCompatActivity {
              }
          });
 
-
          setGui();
-
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -195,7 +178,6 @@ public class DetailActivity extends AppCompatActivity {
                  sendEmail();
              }
          });
-
 
          //Go to Map Activity
          btnMap.setOnClickListener(new View.OnClickListener(){
@@ -266,6 +248,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 public void saveFriend() {
+
+//    String UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//    String user = fireDb.collection("Friends").getId();
+
     double latLocation = 0;
     double lngLocation = 0;
 
@@ -283,7 +269,8 @@ public void saveFriend() {
     String address = m_etAddress.getText().toString();
     String phone = m_etPhone.getText().toString();
     String mail = m_etMail.getText().toString();
-    LatLng EASV = new LatLng(latLocation, lngLocation);
+
+    GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
 
     Map<String, Object> friend = new HashMap<>();
 
@@ -291,9 +278,7 @@ public void saveFriend() {
     friend.put(KEY_ADDRESS, address);
     friend.put(KEY_PHONE, phone);
     friend.put(KEY_MAIL,mail);
-//    friend.put(KEY_LNG,lngLocation);
-//    friend.put(KEY_LAT, latLocation);
-    friend.put(KEY_GEO,EASV);
+    friend.put(KEY_GEO,geoPoint);
 
     fireDb.collection("Friends").document().set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -308,8 +293,7 @@ public void saveFriend() {
                     Toast.makeText(DetailActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
-}
-
+    }
 
     void deleteById(){
         mData.deleteById(friend.getId());
@@ -318,9 +302,7 @@ public void saveFriend() {
     //Go backup to main view after creating a new friend.
     public void goBackToMainView(){
         Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
-
         startActivity(goBackToMainIntent);
-
     }
 
     //Gets the input friends, and creates a new friend.
@@ -432,7 +414,7 @@ public void saveFriend() {
     }
 
 
-    /** Create a File for saving an image */
+    //Create a File for saving an image
     private File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Camera01");
