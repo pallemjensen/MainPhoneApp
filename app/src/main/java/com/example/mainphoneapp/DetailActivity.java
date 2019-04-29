@@ -258,7 +258,7 @@ public class DetailActivity extends AppCompatActivity {
                         .show();
 
                 saveFriend();
-                //addFriendLocal();
+                addFriendLocal();
                 goBackToMainView();
                 break;
         }
@@ -284,7 +284,7 @@ public void saveFriend() {
     String phone = m_etPhone.getText().toString();
     String mail = m_etMail.getText().toString();
     LatLng EASV = new LatLng(latLocation, lngLocation);
-    
+
     Map<String, Object> friend = new HashMap<>();
 
     friend.put(KEY_NAME, name);
@@ -294,7 +294,6 @@ public void saveFriend() {
 //    friend.put(KEY_LNG,lngLocation);
 //    friend.put(KEY_LAT, latLocation);
     friend.put(KEY_GEO,EASV);
-
 
   //  geoFire.setLocation("Location", new GeoLocation(lat,lng));
 
