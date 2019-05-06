@@ -1,7 +1,6 @@
 package com.example.mainphoneapp.DB;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnSuccessListener;

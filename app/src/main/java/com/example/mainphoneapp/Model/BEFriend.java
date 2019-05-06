@@ -66,7 +66,7 @@ public class BEFriend implements Serializable {
     public GeoPoint getLocation(){  return m_location;  }
 
 
-    
+
     public void setLocation(GeoPoint location){
         this.m_location = location;
     }
