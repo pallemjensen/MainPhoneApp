@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDataAccess {
 
-    void insert(BEFriend f);
+    long insert(BEFriend f);
 
     void deleteById(long id);
 
