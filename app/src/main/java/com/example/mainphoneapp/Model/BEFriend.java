@@ -34,6 +34,9 @@ public class BEFriend implements Serializable {
         this.m_address = address;
     }
 
+    public BEFriend(){
+    }
+
     public String getPhone() {
         return m_phone;
     }
