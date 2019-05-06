@@ -235,9 +235,9 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                //updateFriendLocal();
-                //updateFriendInFireStore();
-                //goBackToMainView();
+                updateFriendLocal();
+                updateFriendInFireStore();
+                goBackToMainView();
                 loadFriend();
                 break;
             case R.id.saveNewFriend:
