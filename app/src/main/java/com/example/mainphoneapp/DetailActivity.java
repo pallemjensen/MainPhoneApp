@@ -33,7 +33,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -236,9 +235,9 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                //updateFriendLocal();
-                //updateFriendInFireStore();
-                //goBackToMainView();
+                updateFriendLocal();
+                updateFriendInFireStore();
+                goBackToMainView();
                 loadFriend();
                 break;
             case R.id.saveNewFriend:
@@ -267,8 +266,6 @@ public class DetailActivity extends AppCompatActivity {
         {
             lngLocation = lng;
         }
-
-        String friendId = fireDb.collection("Friends").document().getId();
 
         String name = m_etName.getText().toString();
         String address = m_etAddress.getText().toString();
@@ -312,7 +309,6 @@ public class DetailActivity extends AppCompatActivity {
                             String mail = documentSnapshot.getString(KEY_MAIL);
                             GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
                             String id = documentSnapshot.getId();
-                            String friendId = fireDb.collection("Friends").document("Palle").getId();
                             m_etName.setText(name);
                             m_etPhone.setText(phone);
                             m_etMail.setText(mail);
@@ -362,7 +358,7 @@ public class DetailActivity extends AppCompatActivity {
     friend.put(KEY_MAIL,mail);
     friend.put(KEY_GEO,geoPoint);
 
-    friendRef.set(friend)
+        fireDb.collection("Friends").document().set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
