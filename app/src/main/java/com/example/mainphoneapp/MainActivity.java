@@ -15,7 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.DB.DataAccessFactory;
+import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
+import com.example.mainphoneapp.DB.DataAccessFactorySql;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listViewFriends; // listview to show friends
 
     IDataAccess mData; // make instance of the IDataAccess interface to use in this class
+    IDataAccess mDataFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
 
-        DataAccessFactory.init(this);
-        mData = DataAccessFactory.getInstance();
+        DataAccessFactorySql.init(this);
+        mData = DataAccessFactorySql.getInstance();
+        DataAccessFactoryFirestore.init(this);
+        mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
 

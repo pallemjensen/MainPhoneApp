@@ -124,6 +124,11 @@ public class SQLiteImpl implements IDataAccess {
         throw new IllegalArgumentException("Could not get Friend by id " + id);
     }
 
+    @Override
+    public String getFirestoreDocumentId() {
+        return null;
+    }
+
 
     private static class OpenHelper extends SQLiteOpenHelper {
 

@@ -26,7 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.DB.DataAccessFactory;
+import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
+import com.example.mainphoneapp.DB.DataAccessFactorySql;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -67,6 +68,7 @@ public class DetailActivity extends AppCompatActivity {
 
     //SQL
     IDataAccess mData;
+    IDataAccess mDataFirestore;
 
 
     EditText m_etMail;
@@ -87,8 +89,9 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Log.d(TAG, " Detail activity is running");
 
-        //SQL
-        mData = DataAccessFactory.getInstance();
+        //SQL AND Firestore
+        mData = DataAccessFactorySql.getInstance();
+        mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         //GPS
 
@@ -376,7 +379,6 @@ public class DetailActivity extends AppCompatActivity {
     //Delete by ID
     void deleteById(){
         mData.deleteById(friend.getId());
-
     }
 
     //Deletes the whole document, from FireStore. (the entire friend)
