@@ -308,7 +308,7 @@ public class DetailActivity extends AppCompatActivity {
                             String phone = documentSnapshot.getString(KEY_PHONE);
                             String mail = documentSnapshot.getString(KEY_MAIL);
                             GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
-                            String id = documentSnapshot.getData().
+                            String id = documentSnapshot.getId();
                         } else {
                             Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
