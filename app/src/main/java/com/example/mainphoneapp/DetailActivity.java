@@ -317,7 +317,8 @@ public class DetailActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
                     }
                 });
         String friendId = fireDb.collection("Friends").document().getId();
