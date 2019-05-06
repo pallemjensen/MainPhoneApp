@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,13 +20,13 @@ import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
 
     ListView listViewFriends; // listview to show friends
-
     IDataAccess mData; // make instance of the IDataAccess interface with sql factory to use in this class
     IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
     private Object Tag;
@@ -46,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
-
         checkPermissions();
+
         fillList();
 
 //        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<BEFriend> arrayAdapter =
                 new ArrayAdapter<BEFriend>(this,
                         android.R.layout.simple_list_item_1,
-                        mDataFirestore.getAll() );
-        Log.d(TAG, "count of friend objects from FireStoreGetAll sent : ============== " + mDataFirestore.getAll().size());
+                        mDataFirestore.getAll());
                 listViewFriends.setAdapter(arrayAdapter);
     }
 

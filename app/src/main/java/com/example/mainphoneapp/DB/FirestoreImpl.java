@@ -14,10 +14,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.mainphoneapp.MainActivity.TAG;
 
 public class FirestoreImpl implements IDataAccess{
 
+    final List<BEFriend> list = new ArrayList<BEFriend>();
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private CollectionReference friendsColRef = fireDb.collection("Friends");
     private DocumentReference friendRef = fireDb.collection("Friends").document();
@@ -26,8 +26,7 @@ public class FirestoreImpl implements IDataAccess{
     }
 
     @Override
-    public long insert(BEFriend f) {
-        return 0;
+    public void insert(BEFriend f) {
     }
 
     @Override
@@ -42,18 +41,18 @@ public class FirestoreImpl implements IDataAccess{
 
     @Override
     public List<BEFriend> getAll() {
-        final List<BEFriend> list = new ArrayList<BEFriend>();
         friendsColRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             BEFriend beFriend = documentSnapshot.toObject(BEFriend.class);
+                            String friendId = documentSnapshot.getId();
+                            beFriend.setId(friendId);
                             list.add(beFriend);
                         }
                     }
                 });
-        Log.d(TAG, "Sending ----------------------" + list.size() + " friend objects from firestoreGetAll Method" );
         return list;
     }
 

@@ -229,7 +229,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
-                deleteById();
+                //deleteById();
                 deleteDocument();
                 goBackToMainView();
                 break;
@@ -239,14 +239,13 @@ public class DetailActivity extends AppCompatActivity {
                         .show();
                 //updateFriendLocal();
                 //updateFriendInFireStore();
-                //goBackToMainView();
                 //loadFriend();
-                mDataFirestore.getAll();
+                //mDataFirestore.getAll();
+                goBackToMainView();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
-
                 saveFriendtoFireStore();
                 addFriendLocal();
                 goBackToMainView();
@@ -377,9 +376,9 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     //Delete by ID
-    void deleteById(){
-        mData.deleteById(friend.getId());
-    }
+//    void deleteById(){
+////        mData.deleteById(friend.getId());
+////    }
 
     //Deletes the whole document, from FireStore. (the entire friend)
     public void deleteDocument(){

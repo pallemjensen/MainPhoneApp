@@ -53,7 +53,7 @@ public class SQLiteImpl implements IDataAccess {
             + "(name, phone, lat, lon, mail, picture, address) values (?,?,?,?,?,?,?)";
 
     // create a new friend in the sql lite db
-    public long insert(BEFriend f) {
+    public void insert(BEFriend f) {
         this.insertStmt.bindString(1,f.getName());
         this.insertStmt.bindString(2,f.getPhone());
         this.insertStmt.bindDouble(3,f.getLat());
@@ -62,11 +62,11 @@ public class SQLiteImpl implements IDataAccess {
         this.insertStmt.bindString(6,f.getPicture());
         this.insertStmt.bindString(7,f.getAddress());
 
-        long id = this.insertStmt.executeInsert();
+        String id = String.valueOf(this.insertStmt.executeInsert());
 
         f.setId(id);
 
-        return id;
+//        return id;
     }
 
     // Delete the current selected friend in detail activity
