@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+
+import java.util.ArrayList;
 
 import static com.example.mainphoneapp.helper.distance;
 
@@ -37,12 +41,19 @@ public class MapActivity extends AppCompatActivity {
     BEFriend friend;
     TextView m_txtDistance;
 
+    ListView listViewFriends;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         Button btnBackFromMap = findViewById(R.id.btnBackFromMap);
+        Button btnLoadFriendLocation = findViewById(R.id.btnLoadFriendLocation);
+
         m_txtDistance = this.findViewById(R.id.txtDistance);
 
         Log.d(LOGTAG, "getting the map async");
@@ -71,6 +82,8 @@ public class MapActivity extends AppCompatActivity {
                 m_map.addMarker(home);
 
 
+
+
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
                 String distance = String.valueOf(distance(55.488230,friend.getLat(),8.446936,friend.getLon(),0,0));
@@ -85,6 +98,18 @@ public class MapActivity extends AppCompatActivity {
                 onClickBackToMain();
             }
         });
+
+        btnLoadFriendLocation.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v){
+                //onClickShowFriendsLocation();
+            }
+        });
+
+
+
+
+
     }
 
     // Method to send the user back to the main activity
@@ -92,6 +117,15 @@ public class MapActivity extends AppCompatActivity {
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
     }
+
+
+    //Shows friends location on the map, adding a marker for each friend in the list.
+    private void onClickShowFriendsLocation(ArrayList<String> BEFriends){
+
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+    }
+
+
 
     // method to zoom to the level of zoom selected
     public void onClickZoom(View v) {
@@ -114,4 +148,5 @@ public class MapActivity extends AppCompatActivity {
 
         m_zoomLevelView.setAdapter(adapter);
     }
+
 }
