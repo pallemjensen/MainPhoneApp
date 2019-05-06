@@ -310,7 +310,7 @@ public class DetailActivity extends AppCompatActivity {
                             String mail = documentSnapshot.getString(KEY_MAIL);
                             GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
                             String id = documentSnapshot.getId();
-
+                            String friendId = fireDb.collection("Friends").document("Palle").getId();
                             m_etName.setText(name);
                             m_etPhone.setText(phone);
                             m_etMail.setText(mail);
@@ -328,7 +328,6 @@ public class DetailActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     }
                 });
-        String friendId = fireDb.collection("Friends").document().getId();
     }
 
     public void saveFriendtoFireStore() {
