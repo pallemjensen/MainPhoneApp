@@ -29,12 +29,10 @@ import android.widget.Toast;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
-import com.firebase.geofire.GeoFire;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -58,6 +56,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_GEO = "location";
 
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    private DocumentReference friendRef = fireDb.collection("Friends").document("Palle");
 
     File mFile = null;
     ImageView mImage;
@@ -235,7 +234,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                updateFriend();
+                updateFriendLocal();
                 updateFriendInFireStore();
                 goBackToMainView();
                 break;
@@ -253,14 +252,27 @@ public class DetailActivity extends AppCompatActivity {
 
     public void updateFriendInFireStore(){
 
-        /*String friendId = fireDb.collection("Friends").document().getId();
+        double latLocation = 0;
+        double lngLocation = 0;
+
+        if (lat!=null)
+        {
+            latLocation = lat;
+        }
+
+        if (lng!=null)
+        {
+            lngLocation = lng;
+        }
+
+        String friendId = fireDb.collection("Friends").document().getId();
 
         String name = m_etName.getText().toString();
         String address = m_etAddress.getText().toString();
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
 
-        GeoPoint geoPoint = new GeoPoint(60.5, 10.5);
+        GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
 
         Map<String, Object> friend = new HashMap<>();
 
@@ -270,7 +282,7 @@ public class DetailActivity extends AppCompatActivity {
         friend.put(KEY_MAIL,mail);
         friend.put(KEY_GEO,geoPoint);
 
-        fireDb.collection("Friends").document().update(friend)
+        friendRef.update(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -282,11 +294,33 @@ public class DetailActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(DetailActivity.this, "Update Error", Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
     }
 
     public void loadFriend(){
+        friendRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString(KEY_NAME);
+                            String address = documentSnapshot.getString(KEY_ADDRESS);
+                            String phone = documentSnapshot.getString(KEY_PHONE);
+                            String mail = documentSnapshot.getString(KEY_MAIL);
+                            GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
+                            String id = documentSnapshot.getData().
+                        } else {
+                            Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
+                    }
+                });
+        String friendId = fireDb.collection("Friends").document().getId();
     }
 
     public void saveFriendtoFireStore() {
@@ -319,7 +353,7 @@ public class DetailActivity extends AppCompatActivity {
     friend.put(KEY_MAIL,mail);
     friend.put(KEY_GEO,geoPoint);
 
-    fireDb.collection("Friends").document().set(friend)
+    friendRef.set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -329,7 +363,7 @@ public class DetailActivity extends AppCompatActivity {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(DetailActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailActivity.this, "Error adding friend to Firestore", Toast.LENGTH_SHORT).show();
                 }
             });
     }
@@ -374,7 +408,7 @@ public class DetailActivity extends AppCompatActivity {
         Log.d(TAG, "mData insert has run without crashing");
     }
 
-    public void updateFriend() {
+    public void updateFriendLocal() {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
