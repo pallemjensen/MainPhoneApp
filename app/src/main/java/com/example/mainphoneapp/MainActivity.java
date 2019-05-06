@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listViewFriends; // listview to show friends
 
-    IDataAccess mData; // make instance of the IDataAccess interface to use in this class
-    IDataAccess mDataFirestore;
+    IDataAccess mData; // make instance of the IDataAccess interface with sql factory to use in this class
+    IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
+    private Object Tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         DataAccessFactorySql.init(this);
         mData = DataAccessFactorySql.getInstance();
+
         DataAccessFactoryFirestore.init(this);
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
@@ -47,16 +50,16 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
         fillList();
 
-        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent x = new Intent(MainActivity.this, DetailActivity.class);
-
-                x.putExtra("id", mData.getAll().get(position).getId());
-                startActivity(x);
-            }
-        });
+//        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Intent x = new Intent(MainActivity.this, DetailActivity.class);
+//
+//                x.putExtra("id", mData.getAll().get(position).getId());
+//                startActivity(x);
+//            }
+//        });
     }
 
 
@@ -73,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<BEFriend> arrayAdapter =
                 new ArrayAdapter<BEFriend>(this,
                         android.R.layout.simple_list_item_1,
-                        mData.getAll() );
+                        mDataFirestore.getAll() );
+        Log.d(TAG, "count of friend objects from FireStoreGetAll sent : ============== " + mDataFirestore.getAll().size());
                 listViewFriends.setAdapter(arrayAdapter);
     }
 

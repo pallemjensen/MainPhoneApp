@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class BEFriend implements Serializable {
 
+
     private long m_id;
     private String m_name;
     private String m_phone;
@@ -33,6 +34,8 @@ public class BEFriend implements Serializable {
         this.m_picture = picture;
         this.m_address = address;
     }
+
+    public BEFriend(){}
 
     public String getPhone() {
         return m_phone;
@@ -68,7 +71,23 @@ public class BEFriend implements Serializable {
     public long getId() {return m_id;}
 
     public void setId(long id) {this.m_id = id;}
+
+    public void setAddress(String address) {
+        this.m_address = address;
     }
+
+    public void setName(String name){
+        this.m_name = name;
+    }
+
+    public void setMail(String mail){
+        this.m_mail = mail;
+    }
+
+    public void setPhone(String phone){
+        this.m_phone = phone;
+    }
+}
 
 
 

@@ -94,7 +94,6 @@ public class DetailActivity extends AppCompatActivity {
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         //GPS
-
         txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);
         btnUpdateCoords = findViewById(R.id.btnUpdateLocation);
 
@@ -238,10 +237,11 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                updateFriendLocal();
-                updateFriendInFireStore();
-                goBackToMainView();
-                loadFriend();
+                //updateFriendLocal();
+                //updateFriendInFireStore();
+                //goBackToMainView();
+                //loadFriend();
+                mDataFirestore.getAll();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
