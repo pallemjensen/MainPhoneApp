@@ -10,33 +10,27 @@ public class BEFriend implements Serializable {
     private Double m_lat;
     private Double m_lon;
     private String m_mail;
-    private String m_website;
     private String m_picture;
-    private String m_birthday;
     private String m_address;
 
-    public BEFriend(long id, String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address) {
+    public BEFriend(long id, String name, String phone, Double lat, Double lon, String mail, String picture,  String address) {
         this.m_id = id;
         this.m_name = name;
         this.m_phone = phone;
         this.m_lat = lat;
         this.m_lon = lon;
         this.m_mail = mail;
-        this.m_website = website;
         this.m_picture = picture;
-        this.m_birthday = birthday;
         this.m_address = address;
     }
 
-    public BEFriend(String name, String phone, Double lat, Double lon, String mail, String website, String picture, String birthday, String address) {
+    public BEFriend(String name, String phone, Double lat, Double lon, String mail, String picture, String address) {
         this.m_name = name;
         this.m_phone = phone;
         this.m_lat = lat;
         this.m_lon = lon;
         this.m_mail = mail;
-        this.m_website = website;
         this.m_picture = picture;
-        this.m_birthday = birthday;
         this.m_address = address;
     }
 
@@ -62,13 +56,10 @@ public class BEFriend implements Serializable {
 
     public String getMail() {return m_mail;}
 
-    public String getWebsite() {return m_website;}
-
     public String getPicture() {return m_picture;}
 
     public void setPicture(String picture) {this.m_picture = picture;}
 
-    public String getBirthday() {return m_birthday;}
 
     public String getAddress() {return m_address;}
 

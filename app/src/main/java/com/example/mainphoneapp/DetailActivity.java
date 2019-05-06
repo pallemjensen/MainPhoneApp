@@ -1,5 +1,6 @@
 package com.example.mainphoneapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,16 +29,35 @@ import android.widget.Toast;
 import com.example.mainphoneapp.DB.DataAccessFactory;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
 
     private final static String LOGTAG = "Camtag";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+    // Firestore stuff
+    private static final String KEY_NAME = "name";
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_PHONE = "phone";
+    private static final String KEY_MAIL = "mail";
+    private static final String KEY_GEO = "location";
+
+    private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    private DocumentReference friendRef = fireDb.collection("Friends").document("Palle");
 
     File mFile = null;
     ImageView mImage;
@@ -52,10 +73,7 @@ public class DetailActivity extends AppCompatActivity {
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
-    EditText m_etWeb;
-    EditText m_etBirthday;
     EditText m_etAddress;
-
 
     //GPS LOCATION
     private Button btnUpdateCoords;
@@ -84,25 +102,20 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 txtShowUpdatingCoords.setText("\n " + location.getLongitude() + " " + location.getLatitude());
-
                 lng = location.getLongitude();
                 lat = location.getLatitude();
-
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
             }
 
             @Override
             public void onProviderEnabled(String s) {
-
             }
 
             @Override
             public void onProviderDisabled(String s) {
-
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
@@ -114,6 +127,7 @@ public class DetailActivity extends AppCompatActivity {
     void configure_button() {
         // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
         btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
                 //noinspection MissingPermission, but works
@@ -124,24 +138,14 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton smsBtn = findViewById(R.id.btnSMS);
          ImageButton callBtn = findViewById(R.id.btnCALL);
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
-         ImageButton browserBtn = findViewById(R.id.btnBrowser);
+
          ImageButton btnMap = findViewById(R.id.btnMap);
 
          mImage = findViewById(R.id.imgView);
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
          m_etMail = findViewById(R.id.etMail);
-         m_etWeb = findViewById(R.id.etWebsite);
          m_etAddress = findViewById(R.id.etAddress);
-         m_etBirthday = findViewById(R.id.etBirthday);
-
-
-         m_etWeb.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 startBrowser();
-             }
-         });
 
          m_etMail.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -157,9 +161,7 @@ public class DetailActivity extends AppCompatActivity {
              }
          });
 
-
          setGui();
-
 
          smsBtn.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
@@ -179,12 +181,6 @@ public class DetailActivity extends AppCompatActivity {
                  sendEmail();
              }
          });
-         browserBtn.setOnClickListener(new View.OnClickListener() {
-
-             public void onClick(View arg0) {
-                 startBrowser();
-
-             }});
 
          //Go to Map Activity
          btnMap.setOnClickListener(new View.OnClickListener(){
@@ -215,9 +211,6 @@ public class DetailActivity extends AppCompatActivity {
          friend = mData.getById(thisid);   // load friend from database by id
          m_etName.setText(friend.getName());
          m_etPhone.setText(friend.getPhone());
-         m_etBirthday.setText(friend.getBirthday());
-         m_etAddress.setText(friend.getBirthday());
-         m_etWeb.setText(friend.getWebsite());
          m_etMail.setText(friend.getMail());
          m_etAddress.setText(friend.getAddress());
          if (friend.getPicture().isEmpty()){
@@ -226,7 +219,6 @@ public class DetailActivity extends AppCompatActivity {
              Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
              mImage.setImageBitmap(bitmap);
          }
-
         }
      }
 
@@ -237,59 +229,31 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
                 deleteById();
+                deleteDocument();
                 goBackToMainView();
                 break;
 
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                updateFriend();
-                goBackToMainView();
+                //updateFriendLocal();
+                //updateFriendInFireStore();
+                //goBackToMainView();
+                loadFriend();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
-                addFriend();
 
+                saveFriendtoFireStore();
+                addFriendLocal();
                 goBackToMainView();
                 break;
         }
         return true;
     }
 
-
-    void deleteById(){
-
-        mData.deleteById(friend.getId());
-
-    }
-
-    //Go backup to main view after creating a new friend.
-    public void goBackToMainView(){
-        Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
-
-        startActivity(goBackToMainIntent);
-
-    }
-
-    //Gets the input friends, and creates a new friend.
-    public void addFriend() {
-        String dBName = m_etName.getText().toString();
-        String dBPhone = m_etPhone.getText().toString();
-        String dBMail = m_etMail.getText().toString();
-        String dBWeb = m_etWeb.getText().toString();
-
-        if (!(dBWeb.contains("www")))
-        {
-            dBWeb = "https://www." + dBWeb;
-        }
-
-        if (!(dBWeb.contains("https://")))
-        {
-            dBWeb = "https://" + dBWeb;
-        }
-        String dBAddress = m_etAddress.getText().toString();
-        String dBBirthday = m_etBirthday.getText().toString();
+    public void updateFriendInFireStore(){
 
         double latLocation = 0;
         double lngLocation = 0;
@@ -304,6 +268,152 @@ public class DetailActivity extends AppCompatActivity {
             lngLocation = lng;
         }
 
+        String friendId = fireDb.collection("Friends").document().getId();
+
+        String name = m_etName.getText().toString();
+        String address = m_etAddress.getText().toString();
+        String phone = m_etPhone.getText().toString();
+        String mail = m_etMail.getText().toString();
+
+        GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
+
+        Map<String, Object> friend = new HashMap<>();
+
+        friend.put(KEY_NAME, name);
+        friend.put(KEY_ADDRESS, address);
+        friend.put(KEY_PHONE, phone);
+        friend.put(KEY_MAIL,mail);
+        friend.put(KEY_GEO,geoPoint);
+
+        friendRef.update(friend)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(DetailActivity.this, "Friend updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailActivity.this, "Update Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void loadFriend(){
+        friendRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString(KEY_NAME);
+                            String address = documentSnapshot.getString(KEY_ADDRESS);
+                            String phone = documentSnapshot.getString(KEY_PHONE);
+                            String mail = documentSnapshot.getString(KEY_MAIL);
+                            GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
+                            String id = documentSnapshot.getId();
+                            String friendId = fireDb.collection("Friends").document("Palle").getId();
+                            m_etName.setText(name);
+                            m_etPhone.setText(phone);
+                            m_etMail.setText(mail);
+                            m_etAddress.setText(address);
+
+                        } else {
+                            Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+    }
+
+    public void saveFriendtoFireStore() {
+
+    double latLocation = 0;
+    double lngLocation = 0;
+
+    if (lat!=null)
+    {
+        latLocation = lat;
+    }
+
+    if (lng!=null)
+    {
+        lngLocation = lng;
+    }
+
+    String name = m_etName.getText().toString();
+    String address = m_etAddress.getText().toString();
+    String phone = m_etPhone.getText().toString();
+    String mail = m_etMail.getText().toString();
+
+    GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
+
+    Map<String, Object> friend = new HashMap<>();
+
+    friend.put(KEY_NAME, name);
+    friend.put(KEY_ADDRESS, address);
+    friend.put(KEY_PHONE, phone);
+    friend.put(KEY_MAIL,mail);
+    friend.put(KEY_GEO,geoPoint);
+
+    friendRef.set(friend)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DetailActivity.this, "Friend added", Toast.LENGTH_SHORT).show();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DetailActivity.this, "Error adding friend to Firestore", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    //Delete by ID
+    void deleteById(){
+        mData.deleteById(friend.getId());
+
+    }
+
+    //Deletes the whole document, from FireStore. (the entire friend)
+    public void deleteDocument(){
+        friendRef.delete();
+    }
+
+
+    //Go backup to main view after creating a new friend.
+    public void goBackToMainView(){
+        Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
+        startActivity(goBackToMainIntent);
+    }
+
+    //Gets the input friends, and creates a new friend.
+    public void addFriendLocal() {
+        String dBName = m_etName.getText().toString();
+        String dBPhone = m_etPhone.getText().toString();
+        String dBMail = m_etMail.getText().toString();
+        String dBAddress = m_etAddress.getText().toString();
+
+        double latLocation = 0;
+        double lngLocation = 0;
+
+        if (lat!=null)
+        {
+            latLocation = lat;
+        }
+
+        if (lng!=null)
+        {
+            lngLocation = lng;
+        }
 
         String picPath = "";
         if (mFile != null) {
@@ -311,27 +421,15 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
         Log.d(TAG, "mData insert has run without crashing");
     }
 
-    public void updateFriend() {
+    public void updateFriendLocal() {
         String dBName = m_etName.getText().toString();
         String dBPhone = m_etPhone.getText().toString();
         String dBMail = m_etMail.getText().toString();
-        String dBWeb = m_etWeb.getText().toString();
         String dBAddress = m_etAddress.getText().toString();
-        String dBBirthday = m_etBirthday.getText().toString();
-
-        if (!(dBWeb.contains("www")))
-        {
-            dBWeb = "https://www." + dBWeb;
-        }
-
-        if (!(dBWeb.contains("https://")))
-        {
-            dBWeb = "https://" + dBWeb;
-        }
 
         double latLocation = friend.getLat();
         double lngLocation = friend.getLon();
@@ -353,7 +451,7 @@ public class DetailActivity extends AppCompatActivity {
             picPath = friend.getPicture();
         }
 
-        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, dBWeb, picPath, dBBirthday, dBAddress));
+        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
     }
 
     //Creates the menu bar
@@ -385,29 +483,10 @@ public class DetailActivity extends AppCompatActivity {
         emailIntent.setType("plain/text");
         String[] receivers = { m_etMail.getText().toString()};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT,
-                "Hej, Hope that it is ok, Best Regards android...;-)");
+                "Write your message here");
         startActivity(emailIntent);
-    }
-
-    //Opens a browser, with the website assigned.
-    private void startBrowser()
-    {
-        String url = m_etWeb.getText().toString();
-
-        if (!(url.contains("www")))
-        {
-            url = "https://www." + url;
-        }
-
-        if (!(url.contains("https://")))
-        {
-            url = "https://" + url;
-        }
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
     }
 
     //Opens the phones camera.
@@ -424,7 +503,8 @@ public class DetailActivity extends AppCompatActivity {
             Log.d(LOGTAG, "camera app could NOT be started");
     }
 
-    /** Create a File for saving an image */
+
+    //Create a File for saving an image
     private File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Camera01");
