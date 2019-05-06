@@ -234,9 +234,10 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                updateFriendLocal();
-                updateFriendInFireStore();
-                goBackToMainView();
+                //updateFriendLocal();
+                //updateFriendInFireStore();
+                //goBackToMainView();
+                loadFriend();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
@@ -309,6 +310,12 @@ public class DetailActivity extends AppCompatActivity {
                             String mail = documentSnapshot.getString(KEY_MAIL);
                             GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
                             String id = documentSnapshot.getId();
+
+                            m_etName.setText(name);
+                            m_etPhone.setText(phone);
+                            m_etMail.setText(mail);
+                            m_etAddress.setText(address);
+
                         } else {
                             Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
