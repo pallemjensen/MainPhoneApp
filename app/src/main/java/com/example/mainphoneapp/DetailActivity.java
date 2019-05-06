@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -228,6 +229,7 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
                 deleteById();
+                deleteDocument();
                 goBackToMainView();
                 break;
 
@@ -369,9 +371,17 @@ public class DetailActivity extends AppCompatActivity {
             });
     }
 
+    //Delete by ID
     void deleteById(){
         mData.deleteById(friend.getId());
+
     }
+
+    //Deletes the whole document, from FireStore. (the entire friend)
+    public void deleteDocument(){
+        friendRef.delete();
+    }
+
 
     //Go backup to main view after creating a new friend.
     public void goBackToMainView(){
