@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
     ListView listViewFriends; // listview to show friends
-    IDataAccess mData; // make instance of the IDataAccess interface with sql factory to use in this class
     IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
-    private Object Tag;
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private CollectionReference friendsColRef = fireDb.collection("Friends");
     private List<BEFriend> listOfFriends = new ArrayList<>();
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Fills the listFromGetAll with db items, with the getAll();
 
-    void fillList(){
+    public void fillList(){
         friendsColRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -118,8 +117,29 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                     detailAddFriend();
                 break;
+            case R.id.showFriendsOnMap:
+                Toast.makeText(this, "Plotting friends on map....", Toast.LENGTH_SHORT)
+                .show();
+                showFriendsOnMap();
+                break;
+            case R.id.showFriendsAsList:
+                Toast.makeText(this, "Showing friends on list....", Toast.LENGTH_SHORT)
+                        .show();
+                showFriendsAsList();
+                break;
         }
         return true;
+    }
+
+    private void showFriendsAsList() {
+        //fillList();
+    }
+
+    private void showFriendsOnMap() {
+        Intent friendsToMap = new Intent(MainActivity.this, MapActivityAllFriends.class);
+
+        friendsToMap.putExtra("friends", (Serializable) listOfFriends);
+        startActivity(friendsToMap);
     }
 
     // Asks the user for permission to the different mobile applications

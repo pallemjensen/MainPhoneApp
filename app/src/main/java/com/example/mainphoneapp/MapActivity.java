@@ -19,7 +19,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.mainphoneapp.Model.OurGeoPoint;
 
 import static com.example.mainphoneapp.helper.distance;
 
@@ -68,12 +67,8 @@ public class MapActivity extends AppCompatActivity {
                 home = new MarkerOptions().position(homeMarker).title(friend.getName() + " lives here");
                 easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
 
-
-
-
                 m_map.addMarker(easv_marker);
                 m_map.addMarker(home);
-
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
@@ -97,7 +92,7 @@ public class MapActivity extends AppCompatActivity {
         startActivity(mainIntent);
     }
 
-    // method to zoom to the level of zoom selected
+//     method to zoom to the level of zoom selected
     public void onClickZoom(View v) {
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
         CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(new LatLng(friend.getLocation().getLatitudeE6(),friend.getLocation().getLongitudeE6()), level);
