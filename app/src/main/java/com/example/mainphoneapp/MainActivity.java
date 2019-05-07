@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
-import com.example.mainphoneapp.DB.DataAccessFactorySql;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
-
-        //DataAccessFactorySql.init(this);
-        //mData = DataAccessFactorySql.getInstance();
 
         DataAccessFactoryFirestore.init(this);
         mDataFirestore = DataAccessFactoryFirestore.getInstance();

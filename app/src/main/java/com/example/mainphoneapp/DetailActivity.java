@@ -27,13 +27,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
-import com.example.mainphoneapp.DB.DataAccessFactorySql;
 import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -67,8 +66,7 @@ public class DetailActivity extends AppCompatActivity {
     Double lng;
     Double lat;
 
-    //SQL
-    IDataAccess mData;
+
     IDataAccess mDataFirestore;
 
 
@@ -95,8 +93,7 @@ public class DetailActivity extends AppCompatActivity {
             friendId = getIntent().getStringExtra("id");
             friendRef = fireDb.collection("Friends").document(friendId);
         }
-        //SQL AND Firestore
-        mData = DataAccessFactorySql.getInstance();
+        //Firestore
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         //GPS
@@ -249,7 +246,6 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
                         .show();
                 saveFriendtoFireStore();
-                addFriendLocal();
                 goBackToMainView();
                 break;
         }
@@ -386,65 +382,6 @@ public class DetailActivity extends AppCompatActivity {
     public void goBackToMainView(){
         Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
         startActivity(goBackToMainIntent);
-    }
-
-    //Gets the input friends, and creates a new friend.
-    public void addFriendLocal() {
-        String dBName = m_etName.getText().toString();
-        String dBPhone = m_etPhone.getText().toString();
-        String dBMail = m_etMail.getText().toString();
-        String dBAddress = m_etAddress.getText().toString();
-
-        double latLocation = 0;
-        double lngLocation = 0;
-
-        if (lat!=null)
-        {
-            latLocation = lat;
-        }
-
-        if (lng!=null)
-        {
-            lngLocation = lng;
-        }
-
-        String picPath = "";
-        if (mFile != null) {
-            picPath = mFile.getPath();
-        }
-
-        Log.d(TAG, "db data test");
-        mData.insert(new BEFriend(dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
-        Log.d(TAG, "mData insert has run without crashing");
-    }
-
-    public void updateFriendLocal() {
-        String dBName = m_etName.getText().toString();
-        String dBPhone = m_etPhone.getText().toString();
-        String dBMail = m_etMail.getText().toString();
-        String dBAddress = m_etAddress.getText().toString();
-
-        double latLocation = friend.getLat();
-        double lngLocation = friend.getLon();
-
-        if (lat!=null)
-        {
-            latLocation = lat;
-        }
-
-        if (lng!=null)
-        {
-            lngLocation = lng;
-        }
-
-        String picPath;
-        if (mFile != null) {
-            picPath = mFile.getPath();
-        } else {
-            picPath = friend.getPicture();
-        }
-
-        mData.update(new BEFriend(friend.getId(),dBName, dBPhone, latLocation, lngLocation, dBMail, picPath, dBAddress));
     }
 
     //Creates the menu bar
