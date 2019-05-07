@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_GEO = "location";
 
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
-    private DocumentReference friendRef = fireDb.collection("Friends").document("Palle");
+    private DocumentReference friendRef;
 
     File mFile = null;
     ImageView mImage;
@@ -93,6 +93,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("id")) {
             friendId = getIntent().getStringExtra("id");
+            friendRef = fireDb.collection("Friends").document(friendId);
         }
         //SQL AND Firestore
         mData = DataAccessFactorySql.getInstance();
@@ -210,12 +211,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
+
+        if (getIntent().hasExtra("id")) {
             loadFriend();
-//         m_etName.setText(friend.getName());
-//         m_etPhone.setText(friend.getPhone());
-//         m_etMail.setText(friend.getMail());
-//         m_etAddress.setText(friend.getAddress());
-         /*
+        }
+
+       /*
          if (friend.getPicture().isEmpty()){
              mImage.setImageResource(R.drawable.mybestfriend_picture);
          } else {
@@ -232,17 +233,16 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
-                //deleteById();
-                //deleteDocument();
+                deleteDocument();
                 goBackToMainView();
                 break;
 
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-                //updateFriendLocal();
-               // updateFriendInFireStore();
-                //goBackToMainView();
+
+               updateFriendInFireStore();
+                goBackToMainView();
                 loadFriend();
                 break;
             case R.id.saveNewFriend:
@@ -286,7 +286,7 @@ public class DetailActivity extends AppCompatActivity {
         friend.put(KEY_MAIL,mail);
         friend.put(KEY_GEO,geoPoint);
 
-        fireDb.collection("Friends").document(friendId).update(friend)
+        friendRef.update(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -376,15 +376,10 @@ public class DetailActivity extends AppCompatActivity {
             });
     }
 
-    //Delete by ID
-//    void deleteById(){
-////        mData.deleteById(friend.getId());
-////    }
-
     //Deletes the whole document, from FireStore. (the entire friend)
-//    public void deleteDocument(){
-//        friendRef.delete();
-//    }
+    public void deleteDocument(){
+        friendRef.delete();
+   }
 
 
     //Go backup to main view after creating a new friend.

@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
 
-        DataAccessFactorySql.init(this);
-        mData = DataAccessFactorySql.getInstance();
+        //DataAccessFactorySql.init(this);
+        //mData = DataAccessFactorySql.getInstance();
 
         DataAccessFactoryFirestore.init(this);
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
