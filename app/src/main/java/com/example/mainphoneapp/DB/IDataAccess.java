@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface IDataAccess {
 
-    long insert(BEFriend f);
-
-    void deleteAll();
+    void insert(BEFriend f);
 
     void deleteById(long id);
 
@@ -17,4 +15,6 @@ public interface IDataAccess {
     List<BEFriend> getAll();
 
     BEFriend getById(long id);
+
+    String getFirestoreDocumentId();
 }

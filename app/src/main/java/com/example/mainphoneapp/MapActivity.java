@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.example.mainphoneapp.helper.distance;
 
 
 
@@ -118,20 +119,30 @@ public class MapActivity extends AppCompatActivity {
 
         btnBackFromMap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onClickBackToDetail();
+                onClickBackToMain();
             }
         });
 
     }
 
 
+
     private void onClickBackToDetail() {
+
+    // Method to send the user back to the main activity
+    private void onClickBackToMain() {
+
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
     }
 
 
+
     public void onClickEASV(View v) {
+
+    // method to zoom to the level of zoom selected
+    public void onClickZoom(View v) {
+
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
 
         CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(EASV, level);
@@ -155,29 +166,5 @@ public class MapActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         m_zoomLevelView.setAdapter(adapter);
-    }
-
-        private String distance(double lat1, double lat2, double lon1,
-                                double lon2, double el1, double el2) {
-
-        final int R = 6371; // Radius of the earth
-
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = el1 - el2;
-
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
-        String temp = String.valueOf(Math.sqrt(distance));
-        String[] parts = temp.split("[.]");
-        String distanceRounded = parts[0];
-
-        return distanceRounded;
     }
 }

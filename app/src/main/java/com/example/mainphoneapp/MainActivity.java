@@ -1,29 +1,44 @@
 package com.example.mainphoneapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.DB.DataAccessFactory;
+import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
-
-    ListView listViewFriends;
-
-    IDataAccess mData;
+    ListView listViewFriends; // listview to show friends
+    IDataAccess mData; // make instance of the IDataAccess interface with sql factory to use in this class
+    IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
+    private Object Tag;
+    private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    private CollectionReference friendsColRef = fireDb.collection("Friends");
+    private List<BEFriend> listOfFriends = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
 
-        DataAccessFactory.init(this);
-        mData = DataAccessFactory.getInstance();
+        DataAccessFactoryFirestore.init(this);
+        mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
-
+        checkPermissions();
 
         fillList();
 
@@ -45,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent x = new Intent(MainActivity.this, DetailActivity.class);
 
-                x.putExtra("id", mData.getAll().get(position).getId());
+                x.putExtra("id", listOfFriends.get(position).getId());
+                Log.d(TAG,  "" + listOfFriends.get(position).getId());
                 startActivity(x);
             }
         });
@@ -60,20 +76,28 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //Fills the list with db items, with the getAll();
+    //Fills the listFromGetAll with db items, with the getAll();
+
     void fillList(){
-        ArrayAdapter<BEFriend> arrayAdapter =
-                new ArrayAdapter<BEFriend>(this,
-                        android.R.layout.simple_list_item_1,
-                        mData.getAll() );
-                listViewFriends.setAdapter(arrayAdapter);
-    }
-
-
-    //Deletes all items.
-    void onClickDeleteAll() {
-        mData.deleteAll();
-        fillList();
+        friendsColRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            BEFriend beFriend = documentSnapshot.toObject(BEFriend.class);
+                            String friendId = documentSnapshot.getId();
+                            beFriend.setId(friendId);
+                            listOfFriends.add(beFriend);
+                        }
+                        ArrayAdapter<BEFriend> arrayAdapter =
+                                new ArrayAdapter<>(getApplicationContext(),
+                                        android.R.layout.simple_list_item_1,
+                                        listOfFriends
+                                );
+                        arrayAdapter.notifyDataSetChanged();
+                        listViewFriends.setAdapter(arrayAdapter);
+                    }
+                });
     }
 
     //Go to detail, create empty friend template
@@ -94,9 +118,27 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                     detailAddFriend();
                 break;
-
         }
         return true;
+    }
 
+    // Asks the user for permission to the different mobile applications
+    private void checkPermissions() {
+        ArrayList<String> permissions = new ArrayList<String>();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.CAMERA);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.CALL_PHONE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.SEND_SMS);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if (permissions.size() > 0)
+            ActivityCompat.requestPermissions(this, permissions.toArray(new String[permissions.size()]), 1);
     }
 }
