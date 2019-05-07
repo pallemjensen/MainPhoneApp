@@ -61,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
 
     File mFile = null;
     ImageView mImage;
-    BEFriend friend = new BEFriend();
+    BEFriend friend;
     String TAG = MainActivity.TAG;
     Double lng;
     Double lat;
@@ -303,6 +303,8 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
+                            friend = documentSnapshot.toObject(BEFriend.class);
+
                             String name = documentSnapshot.getString(KEY_NAME);
                             String address = documentSnapshot.getString(KEY_ADDRESS);
                             String phone = documentSnapshot.getString(KEY_PHONE);

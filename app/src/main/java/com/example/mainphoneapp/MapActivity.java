@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.example.mainphoneapp.Model.OurGeoPoint;
 
 import static com.example.mainphoneapp.helper.distance;
 
@@ -63,9 +64,12 @@ public class MapActivity extends AppCompatActivity {
                 });
                 friend = (BEFriend) getIntent().getSerializableExtra("friend");
 
-                final LatLng homeMarker = new LatLng(friend.getLat(),friend.getLon());
+                final LatLng homeMarker = new LatLng(friend.getLocation().getLatitudeE6(),friend.getLocation().getLongitudeE6());
                 home = new MarkerOptions().position(homeMarker).title(friend.getName() + " lives here");
                 easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
+
+
+
 
                 m_map.addMarker(easv_marker);
                 m_map.addMarker(home);
@@ -73,7 +77,7 @@ public class MapActivity extends AppCompatActivity {
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
-                String distance = String.valueOf(distance(55.488230,friend.getLat(),8.446936,friend.getLon(),0,0));
+                String distance = String.valueOf(distance(55.488230,friend.getLocation().getLatitudeE6(),8.446936,friend.getLocation().getLongitudeE6(),0,0));
 
                 m_txtDistance.setText("Distance to EASV is " + distance + " meters.");
                 setupZoomLevel();
@@ -96,7 +100,7 @@ public class MapActivity extends AppCompatActivity {
     // method to zoom to the level of zoom selected
     public void onClickZoom(View v) {
         int level = Integer.parseInt(m_zoomLevelView.getSelectedItem().toString());
-        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(new LatLng(friend.getLat(),friend.getLon()), level);
+        CameraUpdate viewPoint = CameraUpdateFactory.newLatLngZoom(new LatLng(friend.getLocation().getLatitudeE6(),friend.getLocation().getLongitudeE6()), level);
         Log.d(LOGTAG, "Will zoom to easv to level " + level);
         m_map.animateCamera(viewPoint);
 

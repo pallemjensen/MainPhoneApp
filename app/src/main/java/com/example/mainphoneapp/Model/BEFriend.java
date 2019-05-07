@@ -15,7 +15,8 @@ public class BEFriend implements Serializable {
     private String m_mail;
     private String m_picture;
     private String m_address;
-    private GeoPoint m_location;
+    private OurGeoPoint m_ourGeo;
+    //private GeoPoint m_location;
 
     public BEFriend(String id, String name, String phone, Double lat, Double lon, String mail, String picture,  String address) {
         this.m_id = id;
@@ -40,9 +41,6 @@ public class BEFriend implements Serializable {
 
     public BEFriend(){}
 
-    public BEFriend(long aLong, String string, String string1, double aDouble, double aDouble1, String string2, String string3, String string4) {
-    }
-
     public String getPhone() {
         return m_phone;
     }
@@ -63,13 +61,16 @@ public class BEFriend implements Serializable {
 
     public String getId() {return m_id;}
 
+    public OurGeoPoint getLocation() { return m_ourGeo; }
+
+    public void setLocation(GeoPoint geoPoint) {this.m_ourGeo = new OurGeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()); }
+
+    /*
     public GeoPoint getLocation(){  return m_location;  }
 
+    public void setLocation(GeoPoint location){ this.m_location = location; }
+    */
 
-
-    public void setLocation(GeoPoint location){
-        this.m_location = location;
-    }
 
     public void setLat(Double lat) {
         this.m_lat = lat;
@@ -98,7 +99,6 @@ public class BEFriend implements Serializable {
     public void setPhone(String phone){
         this.m_phone = phone;
     }
-
 
     public String toString() {return "" + m_name;}
 
