@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,18 +20,26 @@ import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
 import com.example.mainphoneapp.DB.DataAccessFactorySql;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.example.mainphoneapp.DB.IDataAccess;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
-
     ListView listViewFriends; // listview to show friends
     IDataAccess mData; // make instance of the IDataAccess interface with sql factory to use in this class
     IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
     private Object Tag;
+    private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    private CollectionReference friendsColRef = fireDb.collection("Friends");
+    private List<BEFriend> listOfFriends = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +58,17 @@ public class MainActivity extends AppCompatActivity {
 
         fillList();
 
-//        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Intent x = new Intent(MainActivity.this, DetailActivity.class);
-//
-//                x.putExtra("id", mData.getAll().get(position).getId());
-//                startActivity(x);
-//            }
-//        });
+        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent x = new Intent(MainActivity.this, DetailActivity.class);
+
+                x.putExtra("id", listOfFriends.get(position).getId());
+                Log.d(TAG,  "" + listOfFriends.get(position).getId());
+                startActivity(x);
+            }
+        });
     }
 
 
@@ -69,13 +80,28 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //Fills the list with db items, with the getAll();
+    //Fills the listFromGetAll with db items, with the getAll();
+
     void fillList(){
-        ArrayAdapter<BEFriend> arrayAdapter =
-                new ArrayAdapter<BEFriend>(this,
-                        android.R.layout.simple_list_item_1,
-                        mDataFirestore.getAll());
-                listViewFriends.setAdapter(arrayAdapter);
+        friendsColRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            BEFriend beFriend = documentSnapshot.toObject(BEFriend.class);
+                            String friendId = documentSnapshot.getId();
+                            beFriend.setId(friendId);
+                            listOfFriends.add(beFriend);
+                        }
+                        ArrayAdapter<BEFriend> arrayAdapter =
+                                new ArrayAdapter<>(getApplicationContext(),
+                                        android.R.layout.simple_list_item_1,
+                                        listOfFriends
+                                );
+                        arrayAdapter.notifyDataSetChanged();
+                        listViewFriends.setAdapter(arrayAdapter);
+                    }
+                });
     }
 
     //Go to detail, create empty friend template

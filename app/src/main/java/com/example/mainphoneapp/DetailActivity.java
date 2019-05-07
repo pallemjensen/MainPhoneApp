@@ -32,6 +32,7 @@ import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -61,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
 
     File mFile = null;
     ImageView mImage;
-    BEFriend friend;
+    BEFriend friend = new BEFriend();
     String TAG = MainActivity.TAG;
     Double lng;
     Double lat;
@@ -82,6 +83,7 @@ public class DetailActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener listener;
     private long thisid;
+    private String friendId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,9 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Log.d(TAG, " Detail activity is running");
 
+        if (getIntent().hasExtra("id")) {
+            friendId = getIntent().getStringExtra("id");
+        }
         //SQL AND Firestore
         mData = DataAccessFactorySql.getInstance();
         mDataFirestore = DataAccessFactoryFirestore.getInstance();
@@ -205,23 +210,21 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGui(){
-
-        if (getIntent().hasExtra("id")) {
-
-         long thisid = getIntent().getLongExtra("id",1);
-         friend = mData.getById(thisid);   // load friend from database by id
-         m_etName.setText(friend.getName());
-         m_etPhone.setText(friend.getPhone());
-         m_etMail.setText(friend.getMail());
-         m_etAddress.setText(friend.getAddress());
+            loadFriend();
+//         m_etName.setText(friend.getName());
+//         m_etPhone.setText(friend.getPhone());
+//         m_etMail.setText(friend.getMail());
+//         m_etAddress.setText(friend.getAddress());
+         /*
          if (friend.getPicture().isEmpty()){
              mImage.setImageResource(R.drawable.mybestfriend_picture);
          } else {
              Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
              mImage.setImageBitmap(bitmap);
          }
+         */
         }
-     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -230,7 +233,7 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
                 //deleteById();
-                deleteDocument();
+                //deleteDocument();
                 goBackToMainView();
                 break;
 
@@ -238,10 +241,9 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
                 //updateFriendLocal();
-                //updateFriendInFireStore();
-                //loadFriend();
-                //mDataFirestore.getAll();
-                goBackToMainView();
+               // updateFriendInFireStore();
+                //goBackToMainView();
+                loadFriend();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
@@ -284,7 +286,7 @@ public class DetailActivity extends AppCompatActivity {
         friend.put(KEY_MAIL,mail);
         friend.put(KEY_GEO,geoPoint);
 
-        friendRef.update(friend)
+        fireDb.collection("Friends").document(friendId).update(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -300,7 +302,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void loadFriend(){
-        friendRef.get()
+        fireDb.collection("Friends").document(friendId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -315,7 +317,6 @@ public class DetailActivity extends AppCompatActivity {
                             m_etPhone.setText(phone);
                             m_etMail.setText(mail);
                             m_etAddress.setText(address);
-
                         } else {
                             Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
@@ -326,7 +327,7 @@ public class DetailActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, e.toString());
-                    }
+                }
                 });
     }
 
@@ -381,9 +382,9 @@ public class DetailActivity extends AppCompatActivity {
 ////    }
 
     //Deletes the whole document, from FireStore. (the entire friend)
-    public void deleteDocument(){
-        friendRef.delete();
-    }
+//    public void deleteDocument(){
+//        friendRef.delete();
+//    }
 
 
     //Go backup to main view after creating a new friend.

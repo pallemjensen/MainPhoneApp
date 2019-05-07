@@ -1,6 +1,7 @@
 package com.example.mainphoneapp.DB;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -13,13 +14,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.mainphoneapp.MainActivity.TAG;
+
 
 public class FirestoreImpl implements IDataAccess{
 
-    final List<BEFriend> list = new ArrayList<BEFriend>();
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private CollectionReference friendsColRef = fireDb.collection("Friends");
     private DocumentReference friendRef = fireDb.collection("Friends").document();
+    List<BEFriend> listofFriends = new ArrayList<>();
 
     public FirestoreImpl(Context context) {
     }
@@ -38,6 +41,7 @@ public class FirestoreImpl implements IDataAccess{
 
     }
 
+
     @Override
     public List<BEFriend> getAll() {
         friendsColRef.get()
@@ -48,11 +52,13 @@ public class FirestoreImpl implements IDataAccess{
                             BEFriend beFriend = documentSnapshot.toObject(BEFriend.class);
                             String friendId = documentSnapshot.getId();
                             beFriend.setId(friendId);
-                            list.add(beFriend);
+                            listofFriends.add(beFriend);
+                            Log.d(TAG, "1 - listFromGetAll size  ============== " + listofFriends.size());
                         }
+                        Log.d(TAG, "2 - listFromGetAll size  ============== " + listofFriends.size());
                     }
                 });
-        return list;
+        return listofFriends;
     }
 
     @Override

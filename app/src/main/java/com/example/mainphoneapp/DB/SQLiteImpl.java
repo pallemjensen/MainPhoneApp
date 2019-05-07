@@ -74,7 +74,7 @@ public class SQLiteImpl implements IDataAccess {
         this.db.delete(TABLE_NAME, "id = ?", new String[]{""+id});
     }
 
-    // Get all current friends from the db and return them in a list
+    // Get all current friends from the db and return them in a listFromGetAll
     public List<BEFriend> getAll() {
         List<BEFriend> list = new ArrayList<BEFriend>();
         Cursor cursor = this.db.query(TABLE_NAME,
