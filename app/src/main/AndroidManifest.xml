@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MapActivity"/>
+        <activity android:name=".MapActivityAllFriends"/>
         <activity android:name=".DetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
