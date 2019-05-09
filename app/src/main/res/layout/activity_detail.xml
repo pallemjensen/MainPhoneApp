@@ -149,8 +149,31 @@
                 android:layout_weight="1"
                 android:maxWidth="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_photo" />
+
+
+
         </LinearLayout>
 
+        <LinearLayout>
+
+        <Button
+            android:id="@+id/BtnChooseImage"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:text="Choose File" />
+
+        <Button
+            android:id="@+id/BtnUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Upload Image"/>
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/EditTextFileName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Enter file name" />
 
         <ImageView
             android:id="@+id/imgView"

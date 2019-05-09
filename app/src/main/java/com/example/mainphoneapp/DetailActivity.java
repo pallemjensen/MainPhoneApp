@@ -1,6 +1,7 @@
 package com.example.mainphoneapp;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -9,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,13 +28,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mainphoneapp.Helper.Upload;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,6 +54,19 @@ public class DetailActivity extends AppCompatActivity {
 
     private final static String LOGTAG = "Camtag";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int PICK_IMAGE_REQUEST = 1;
+
+
+    //Picture upload
+    private Button mButtonChooseImage;
+    private Button mButtonUpload;
+    private EditText mEditTextFileName;
+    ImageView mImage;
+
+    private Uri mImageUri;
+
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
 
     // Firestore stuff
     private static final String KEY_NAME = "name";
@@ -56,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
     private DocumentReference friendRef;
 
     File mFile = null;
-    ImageView mImage;
+
     BEFriend friend;
     String TAG = MainActivity.TAG;
     Double lng;
@@ -85,6 +108,33 @@ public class DetailActivity extends AppCompatActivity {
             friendId = getIntent().getStringExtra("id");
             friendRef = fireDb.collection("Friends").document(friendId);
         }
+
+
+        //Picture
+        mButtonChooseImage = findViewById(R.id.BtnChooseImage);
+        mButtonUpload = findViewById(R.id.BtnUploadImage);
+        mEditTextFileName = findViewById(R.id.EditTextFileName);
+        mImage = findViewById(R.id.imgView);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("friend-pictures");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friend-pictures");
+
+
+        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+
+
+        mButtonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadFile();
+            }
+        });
+
 
         //GPS
         txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);
@@ -118,6 +168,52 @@ public class DetailActivity extends AppCompatActivity {
         configure_button();
     }
 
+
+    /*
+    Returns the file extension (.jpg ect...)
+     */
+    private String getFileExtension(Uri uri){
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    /*
+    Uploads the picture, and saves the current time.
+     */
+    private void uploadFile() {
+        if (mImageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(DetailActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
+                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                    taskSnapshot.getStorage().getDownloadUrl().toString());
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(upload);
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DetailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+           } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
     void configure_button() {
         // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
         btnUpdateCoords.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +231,7 @@ public class DetailActivity extends AppCompatActivity {
 
          ImageButton btnMap = findViewById(R.id.btnMap);
 
-         mImage = findViewById(R.id.imgView);
+
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
          m_etMail = findViewById(R.id.etMail);
@@ -448,6 +544,13 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+                mImageUri = data.getData();
+            Picasso.get().load(mImageUri).fit().into(mImage);
+
+
+        }
+
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap)data.getExtras().get("data");
