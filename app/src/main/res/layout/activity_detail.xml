@@ -110,43 +110,6 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dip">
-
-        </TableRow>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:padding="5dip">
-
-
-            <ImageView
-                android:id="@+id/imgView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@color/colorPrimary"
-                android:clickable="true"
-                android:scaleType="fitCenter"
-                tools:clickable="@tools:sample/lorem/random" />
-
-            <ImageButton
-                android:id="@+id/btnTakePics"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:maxWidth="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_photo" />
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -159,7 +122,6 @@
                 android:id="@+id/txtViewNewCoords"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/button"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
@@ -168,15 +130,38 @@
         </LinearLayout>
 
 
+        <LinearLayout>
 
-        <Button
-            android:id="@+id/btnUpdateLocation"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Update Home Location" />
+            <Button
+                android:id="@+id/btnUpdateLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Update Home Location" />
 
+            <ImageButton
+                android:id="@+id/btnTakePics"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="197dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:maxWidth="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_photo" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="161dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            tools:clickable="@tools:sample/lorem/random" />
 
     </TableLayout>
 
