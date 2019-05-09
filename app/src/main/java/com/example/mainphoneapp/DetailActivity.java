@@ -241,7 +241,6 @@ public class DetailActivity extends AppCompatActivity {
     // TODO fix update so it does not set lat long to 0
     public void updateFriendInFireStore(){
 
-        
         double latLocation = 0;
         double lngLocation = 0;
 
