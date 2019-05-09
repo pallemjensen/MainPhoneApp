@@ -220,17 +220,14 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.deleteFriend:
                 Toast.makeText(this, "Friend is deleted.", Toast.LENGTH_SHORT)
                         .show();
-                deleteDocument();
+                deleteFriend();
                 goBackToMainView();
                 break;
-
             case R.id.updateFriend:
                 Toast.makeText(this, "Friend is updated.", Toast.LENGTH_SHORT)
                         .show();
-
-               updateFriendInFireStore();
+                updateFriendInFireStore();
                 goBackToMainView();
-                loadFriend();
                 break;
             case R.id.saveNewFriend:
                 Toast.makeText(this, "Friend is created.", Toast.LENGTH_SHORT)
@@ -241,7 +238,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    // TODO fix update so it does not set lat long to 0
     public void updateFriendInFireStore(){
 
         double latLocation = 0;
@@ -365,7 +362,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     //Deletes the whole document, from FireStore. (the entire friend)
-    public void deleteDocument(){
+    public void deleteFriend(){
         friendRef.delete();
    }
 
