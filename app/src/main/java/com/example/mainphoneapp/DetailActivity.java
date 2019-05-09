@@ -3,7 +3,6 @@ package com.example.mainphoneapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,13 +25,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
-import com.example.mainphoneapp.DB.IDataAccess;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -66,10 +62,6 @@ public class DetailActivity extends AppCompatActivity {
     Double lng;
     Double lat;
 
-
-    IDataAccess mDataFirestore;
-
-
     EditText m_etMail;
     EditText m_etName;
     EditText m_etPhone;
@@ -93,8 +85,6 @@ public class DetailActivity extends AppCompatActivity {
             friendId = getIntent().getStringExtra("id");
             friendRef = fireDb.collection("Friends").document(friendId);
         }
-        //Firestore
-        mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         //GPS
         txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);

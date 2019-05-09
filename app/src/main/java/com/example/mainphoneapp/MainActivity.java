@@ -16,9 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.DB.DataAccessFactoryFirestore;
 import com.example.mainphoneapp.Model.BEFriend;
-import com.example.mainphoneapp.DB.IDataAccess;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
     ListView listViewFriends; // listview to show friends
-    IDataAccess mDataFirestore; // make instance of the IDataAccess interface with firestore factory to use in this class
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private CollectionReference friendsColRef = fireDb.collection("Friends");
     private List<BEFriend> listOfFriends = new ArrayList<>();
@@ -44,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
         setContentView(R.layout.activity_main);
-
-        DataAccessFactoryFirestore.init(this);
-        mDataFirestore = DataAccessFactoryFirestore.getInstance();
 
         listViewFriends = findViewById(R.id.ListViewFriends);
         checkPermissions();
@@ -65,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     // Creates the menu bar.
     @Override

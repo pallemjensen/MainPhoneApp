@@ -1,6 +1,6 @@
-package com.example.mainphoneapp;
+package com.example.mainphoneapp.Helper;
 
-public class helper {
+public class DistanceCalculator {
 
     // Algorithm to calculate distance, based on lng and lat and height. We don't use height, so we set that to 0.
     // We changed it, so it returns the result in whole meters

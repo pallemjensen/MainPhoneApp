@@ -1,5 +1,6 @@
 package com.example.mainphoneapp.Model;
 
+import com.example.mainphoneapp.Helper.OurGeoPoint;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;

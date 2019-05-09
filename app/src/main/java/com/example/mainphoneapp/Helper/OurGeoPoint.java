@@ -1,4 +1,4 @@
-package com.example.mainphoneapp.Model;
+package com.example.mainphoneapp.Helper;
 
 import java.io.Serializable;
 
@@ -19,8 +19,8 @@ public class OurGeoPoint implements Serializable {
         this.setLongitudeE6(longitudeE6);
     }
 
-    public double getLatitudeE6() {
-        return latitudeE6;
+    public void setLongitudeE6(double longitudeE6) {
+        this.longitudeE6 = longitudeE6;
     }
 
     public void setLatitudeE6(double latitudeE6) {
@@ -31,8 +31,7 @@ public class OurGeoPoint implements Serializable {
         return longitudeE6;
     }
 
-    public void setLongitudeE6(double longitudeE6) {
-        this.longitudeE6 = longitudeE6;
+    public double getLatitudeE6() {
+        return latitudeE6;
     }
-
 }
