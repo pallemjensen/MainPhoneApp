@@ -30,7 +30,7 @@ public class MapActivity extends AppCompatActivity {
     private final LatLng EASV = new LatLng(55.488230, 8.446936);
 
     MarkerOptions easv_marker;
-    MarkerOptions home;
+    MarkerOptions friendMarker;
 
     private GoogleMap m_map;
 
@@ -65,11 +65,11 @@ public class MapActivity extends AppCompatActivity {
                 friend = (BEFriend) getIntent().getSerializableExtra("friend");
 
                 final LatLng homeMarker = new LatLng(friend.getLocation().getLatitudeE6(),friend.getLocation().getLongitudeE6());
-                home = new MarkerOptions().position(homeMarker).title(friend.getName() + " lives here");
+                friendMarker = new MarkerOptions().position(homeMarker).title(friend.getName() + " lives here");
                 easv_marker = new MarkerOptions().position(EASV).title("EASV is HERE!");
 
                 m_map.addMarker(easv_marker);
-                m_map.addMarker(home);
+                m_map.addMarker(friendMarker);
 
                 m_zoomLevelView = findViewById(R.id.spinnerZoomLevel);
 
