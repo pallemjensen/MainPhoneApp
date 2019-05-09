@@ -238,20 +238,19 @@ public class DetailActivity extends AppCompatActivity {
         }
         return true;
     }
-    // TODO fix update so it does not set lat long to 0
-    public void updateFriendInFireStore(){
-
-        double latLocation = 0;
-        double lngLocation = 0;
+        // TODO fix update so it does not set lat long to 0
+        public void updateFriendInFireStore(){
+        double currentLatitude = friend.getLocation().getLatitudeE6();
+        double currentLongtitude = friend.getLocation().getLongitudeE6();
 
         if (lat!=null)
         {
-            latLocation = lat;
+            currentLatitude = lat;
         }
 
         if (lng!=null)
         {
-            lngLocation = lng;
+            currentLongtitude = lng;
         }
 
         String name = m_etName.getText().toString();
@@ -259,7 +258,7 @@ public class DetailActivity extends AppCompatActivity {
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
 
-        GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
+        GeoPoint geoPoint = new GeoPoint(currentLatitude, currentLongtitude);
 
         Map<String, Object> friend = new HashMap<>();
 
