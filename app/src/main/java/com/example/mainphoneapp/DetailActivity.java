@@ -201,7 +201,9 @@ public class DetailActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(DetailActivity.this, "No picture selected.", Toast.LENGTH_SHORT).show();
+            imageName = "default.jpg";
         }
+
         return imageName;
     }
 
@@ -347,12 +349,23 @@ public class DetailActivity extends AppCompatActivity {
             currentLongtitude = lng;
         }
 
+            String picture;
+            String newPicture =  uploadImage();
+            String currentPicture = friend.getPicture();
+
+            if (newPicture!=currentPicture)
+            {
+               picture = newPicture;
+            }
+            else
+            {
+                picture = currentPicture;
+            }
+
         String name = m_etName.getText().toString();
         String address = m_etAddress.getText().toString();
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
-
-        //String picture =  uploadImage();
 
         GeoPoint geoPoint = new GeoPoint(currentLatitude, currentLongtitude);
 
@@ -362,9 +375,8 @@ public class DetailActivity extends AppCompatActivity {
         friend.put(KEY_ADDRESS, address);
         friend.put(KEY_PHONE, phone);
         friend.put(KEY_MAIL,mail);
-
         friend.put(KEY_GEO,geoPoint);
-        //friend.put(KEY_PICTURE_NAME, picture);
+        friend.put(KEY_PICTURE_NAME, picture);
 
         friendRef.update(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -388,7 +400,13 @@ public class DetailActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             friend = documentSnapshot.toObject(BEFriend.class);
-                            String pic = friend.getPicture();
+                            String pic;
+                            if (friend.getPicture() != null)
+                            pic = friend.getPicture();
+                            else
+                            {
+                                pic = "default.jpg";
+                            }
                             StorageReference sr = mStorageRef.child(pic);
                             sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
