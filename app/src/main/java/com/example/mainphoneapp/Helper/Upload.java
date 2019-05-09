@@ -14,8 +14,8 @@ public class Upload {
         if (name.trim().equals("")){
             name = "No Name";
         }
-        mName = name;
-        mImageUrl = imageUrl;
+        this.mName = name;
+        this.mImageUrl = imageUrl;
     }
 
     public String getName(){

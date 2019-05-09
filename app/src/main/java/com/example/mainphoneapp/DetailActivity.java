@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +33,7 @@ import com.example.mainphoneapp.Helper.Upload;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -74,6 +76,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_PHONE = "phone";
     private static final String KEY_MAIL = "mail";
     private static final String KEY_GEO = "location";
+    private static final String KEY_PICTURE_NAME = "picture";
 
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private DocumentReference friendRef;
@@ -109,7 +112,6 @@ public class DetailActivity extends AppCompatActivity {
             friendRef = fireDb.collection("Friends").document(friendId);
         }
 
-
         //Picture
         mButtonChooseImage = findViewById(R.id.BtnChooseImage);
         mButtonUpload = findViewById(R.id.BtnUploadImage);
@@ -117,8 +119,7 @@ public class DetailActivity extends AppCompatActivity {
         mImage = findViewById(R.id.imgView);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("friend-pictures");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friend-pictures");
-
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Friends");
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +128,11 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadFile();
             }
         });
-
 
         //GPS
         txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);
@@ -181,19 +179,19 @@ public class DetailActivity extends AppCompatActivity {
     /*
     Uploads the picture, and saves the current time.
      */
-    private void uploadFile() {
+    private String uploadFile() {
+        String imageName = System.currentTimeMillis() + "." + getFileExtension(mImageUri);
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child(imageName);
             fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(DetailActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                    taskSnapshot.getStorage().getDownloadUrl().toString());
-                                    String uploadId = mDatabaseRef.push().getKey();
-                                    mDatabaseRef.child(uploadId).setValue(upload);
-
+//                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+//                                    taskSnapshot.getStorage().getDownloadUrl().toString());
+//                                    String uploadId = mDatabaseRef.push().getKey();
+//                                    mDatabaseRef.child(uploadId).setValue(upload);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -204,8 +202,8 @@ public class DetailActivity extends AppCompatActivity {
            } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
+        return imageName;
     }
-
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -230,7 +228,6 @@ public class DetailActivity extends AppCompatActivity {
          ImageButton emailBtn = findViewById(R.id.btnEMAIL);
 
          ImageButton btnMap = findViewById(R.id.btnMap);
-
 
          m_etName = findViewById(R.id.etName);
          m_etPhone = findViewById(R.id.etPhone);
@@ -330,11 +327,12 @@ public class DetailActivity extends AppCompatActivity {
                         .show();
                 saveFriendtoFireStore();
                 goBackToMainView();
+
                 break;
         }
         return true;
     }
-        // TODO fix update so it does not set lat long to 0
+
         public void updateFriendInFireStore(){
         double currentLatitude = friend.getLocation().getLatitudeE6();
         double currentLongtitude = friend.getLocation().getLongitudeE6();
@@ -354,6 +352,8 @@ public class DetailActivity extends AppCompatActivity {
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
 
+        //String picture =  uploadFile();
+
         GeoPoint geoPoint = new GeoPoint(currentLatitude, currentLongtitude);
 
         Map<String, Object> friend = new HashMap<>();
@@ -362,7 +362,9 @@ public class DetailActivity extends AppCompatActivity {
         friend.put(KEY_ADDRESS, address);
         friend.put(KEY_PHONE, phone);
         friend.put(KEY_MAIL,mail);
+
         friend.put(KEY_GEO,geoPoint);
+        //friend.put(KEY_PICTURE_NAME, picture);
 
         friendRef.update(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -386,17 +388,10 @@ public class DetailActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             friend = documentSnapshot.toObject(BEFriend.class);
-
-                            String name = documentSnapshot.getString(KEY_NAME);
-                            String address = documentSnapshot.getString(KEY_ADDRESS);
-                            String phone = documentSnapshot.getString(KEY_PHONE);
-                            String mail = documentSnapshot.getString(KEY_MAIL);
-                            GeoPoint geopoint = documentSnapshot.getGeoPoint(KEY_GEO);
-                            String id = documentSnapshot.getId();
-                            m_etName.setText(name);
-                            m_etPhone.setText(phone);
-                            m_etMail.setText(mail);
-                            m_etAddress.setText(address);
+                            m_etName.setText(friend.getName());
+                            m_etPhone.setText(friend.getPhone());
+                            m_etMail.setText(friend.getMail());
+                            m_etAddress.setText(friend.getAddress());
                         } else {
                             Toast.makeText(DetailActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
@@ -410,6 +405,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 });
     }
+
 
     public void saveFriendtoFireStore() {
 
@@ -430,6 +426,7 @@ public class DetailActivity extends AppCompatActivity {
     String address = m_etAddress.getText().toString();
     String phone = m_etPhone.getText().toString();
     String mail = m_etMail.getText().toString();
+    String picture = uploadFile();
 
     GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
 
@@ -440,6 +437,8 @@ public class DetailActivity extends AppCompatActivity {
     friend.put(KEY_PHONE, phone);
     friend.put(KEY_MAIL,mail);
     friend.put(KEY_GEO,geoPoint);
+    friend.put(KEY_PICTURE_NAME, picture);
+
 
         fireDb.collection("Friends").document().set(friend)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -547,8 +546,6 @@ public class DetailActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
                 mImageUri = data.getData();
             Picasso.get().load(mImageUri).fit().into(mImage);
-
-
         }
 
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
