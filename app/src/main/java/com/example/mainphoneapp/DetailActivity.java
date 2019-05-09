@@ -4,14 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -29,11 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mainphoneapp.Helper.Upload;
 import com.example.mainphoneapp.Model.BEFriend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -61,8 +57,6 @@ public class DetailActivity extends AppCompatActivity {
 
     //Picture upload
     private Button mButtonChooseImage;
-    private Button mButtonUpload;
-    private EditText mEditTextFileName;
     ImageView mImage;
 
     private Uri mImageUri;
@@ -114,8 +108,6 @@ public class DetailActivity extends AppCompatActivity {
 
         //Picture
         mButtonChooseImage = findViewById(R.id.BtnChooseImage);
-        mButtonUpload = findViewById(R.id.BtnUploadImage);
-        mEditTextFileName = findViewById(R.id.EditTextFileName);
         mImage = findViewById(R.id.imgView);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("friend-pictures");
@@ -125,12 +117,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openFileChooser();
-            }
-        });
-
-        mButtonUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
             }
         });
 
@@ -177,21 +163,18 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     /*
-    Uploads the picture, and saves the current time.
+    Uploads the picture, and saves the picture with a name consisting of current time + extension..
      */
-    private String uploadFile() {
-        String imageName = System.currentTimeMillis() + "." + getFileExtension(mImageUri);
+    private String uploadImage() {
+        String imageName = "";
         if (mImageUri != null) {
+            imageName = System.currentTimeMillis() + "." + getFileExtension(mImageUri);
             StorageReference fileReference = mStorageRef.child(imageName);
             fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(DetailActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
-//                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-//                                    taskSnapshot.getStorage().getDownloadUrl().toString());
-//                                    String uploadId = mDatabaseRef.push().getKey();
-//                                    mDatabaseRef.child(uploadId).setValue(upload);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -199,8 +182,25 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(DetailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-           } else {
-            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+           } else if (mFile!= null){
+            imageName = System.currentTimeMillis() + "." + getFileExtension(Uri.fromFile(mFile));
+            StorageReference fileReference = mStorageRef.child(imageName);
+            fileReference.putFile(Uri.fromFile(mFile)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(DetailActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DetailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else
+        {
+            Toast.makeText(DetailActivity.this, "No picture selected.", Toast.LENGTH_SHORT).show();
         }
         return imageName;
     }
@@ -352,7 +352,7 @@ public class DetailActivity extends AppCompatActivity {
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
 
-        //String picture =  uploadFile();
+        //String picture =  uploadImage();
 
         GeoPoint geoPoint = new GeoPoint(currentLatitude, currentLongtitude);
 
@@ -382,12 +382,20 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void loadFriend(){
-        fireDb.collection("Friends").document(friendId).get()
+                    fireDb.collection("Friends").document(friendId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             friend = documentSnapshot.toObject(BEFriend.class);
+                            String pic = friend.getPicture();
+                            StorageReference sr = mStorageRef.child(pic);
+                            sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Picasso.get().load(uri).fit().into(mImage);
+                                        }
+                                    });
                             m_etName.setText(friend.getName());
                             m_etPhone.setText(friend.getPhone());
                             m_etMail.setText(friend.getMail());
@@ -404,8 +412,8 @@ public class DetailActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                 }
                 });
-    }
 
+    }
 
     public void saveFriendtoFireStore() {
 
@@ -426,7 +434,7 @@ public class DetailActivity extends AppCompatActivity {
     String address = m_etAddress.getText().toString();
     String phone = m_etPhone.getText().toString();
     String mail = m_etMail.getText().toString();
-    String picture = uploadFile();
+    String picture = uploadImage();
 
     GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
 
