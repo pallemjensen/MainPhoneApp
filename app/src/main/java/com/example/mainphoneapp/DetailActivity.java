@@ -349,18 +349,17 @@ public class DetailActivity extends AppCompatActivity {
             currentLongtitude = lng;
         }
 
-            String picture;
-            String newPicture =  uploadImage();
-            String currentPicture = friend.getPicture();
+        String picture;
+        String newPicture =  uploadImage();
+        String currentPicture = friend.getPicture();
 
-            if (newPicture!=currentPicture)
-            {
-               picture = newPicture;
-            }
-            else
-            {
-                picture = currentPicture;
-            }
+        if (newPicture!=currentPicture)
+        {
+            picture = newPicture;
+        }
+        else {
+            picture = currentPicture;
+        }
 
         String name = m_etName.getText().toString();
         String address = m_etAddress.getText().toString();
