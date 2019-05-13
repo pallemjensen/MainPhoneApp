@@ -297,16 +297,7 @@ public class DetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra("id")) {
             loadFriend();
         }
-
-       /*
-         if (friend.getPicture().isEmpty()){
-             mImage.setImageResource(R.drawable.mybestfriend_picture);
-         } else {
-             Bitmap bitmap = BitmapFactory.decodeFile(friend.getPicture());
-             mImage.setImageBitmap(bitmap);
-         }
-         */
-        }
+    }
 
 
     @Override
@@ -483,6 +474,7 @@ public class DetailActivity extends AppCompatActivity {
     //Deletes the whole document, from FireStore. (the entire friend)
     public void deleteFriend(){
         friendRef.delete();
+        mStorageRef.child(friend.getPicture()).delete();
    }
 
 
