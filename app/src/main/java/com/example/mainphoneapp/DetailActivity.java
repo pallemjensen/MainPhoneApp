@@ -183,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
            } else if (mFile!= null){
-            imageName = System.currentTimeMillis() + "." + getFileExtension(Uri.fromFile(mFile));
+            imageName = System.currentTimeMillis() + "." + "png";
             StorageReference fileReference = mStorageRef.child(imageName);
             fileReference.putFile(Uri.fromFile(mFile)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -340,16 +340,11 @@ public class DetailActivity extends AppCompatActivity {
             currentLongtitude = lng;
         }
 
-        String picture;
-        String newPicture =  uploadImage();
-        String currentPicture = friend.getPicture();
+        String picture = friend.getPicture();
 
-        if (newPicture!=currentPicture)
+        if (mImageUri != null || mFile != null )
         {
-            picture = newPicture;
-        }
-        else {
-            picture = currentPicture;
+            picture = uploadImage();
         }
 
         String name = m_etName.getText().toString();
@@ -474,7 +469,9 @@ public class DetailActivity extends AppCompatActivity {
     //Deletes the whole document, from FireStore. (the entire friend)
     public void deleteFriend(){
         friendRef.delete();
-        mStorageRef.child(friend.getPicture()).delete();
+        if (!friend.getPicture().equals("default.jpg") ) {
+            mStorageRef.child(friend.getPicture()).delete();
+        }
    }
 
 
