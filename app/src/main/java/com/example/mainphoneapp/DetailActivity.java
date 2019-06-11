@@ -61,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private Uri mImageUri;
 
+
+    // Storage - for pictures.
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
@@ -221,7 +223,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //noinspection MissingPermission, but works
-                locationManager.requestLocationUpdates("gps", 5000, 0, listener);
+                locationManager.requestLocationUpdates("gps", 5000, 0, listener);  // minTime = hvornår lokationen skal opdateres. i millisekunder (pas på mht strøm)
             }
         });
 
@@ -326,6 +328,9 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+
+
+
         public void updateFriendInFireStore(){
         double currentLatitude = friend.getLocation().getLatitudeE6();
         double currentLongtitude = friend.getLocation().getLongitudeE6();
@@ -352,7 +357,9 @@ public class DetailActivity extends AppCompatActivity {
         String phone = m_etPhone.getText().toString();
         String mail = m_etMail.getText().toString();
 
+        // Object
         GeoPoint geoPoint = new GeoPoint(currentLatitude, currentLongtitude);
+
 
         Map<String, Object> friend = new HashMap<>();
 
@@ -441,8 +448,11 @@ public class DetailActivity extends AppCompatActivity {
 
     GeoPoint geoPoint = new GeoPoint(latLocation, lngLocation);
 
+
     Map<String, Object> friend = new HashMap<>();
 
+
+    // Key , Object.
     friend.put(KEY_NAME, name);
     friend.put(KEY_ADDRESS, address);
     friend.put(KEY_PHONE, phone);
@@ -466,7 +476,7 @@ public class DetailActivity extends AppCompatActivity {
             });
     }
 
-    //Deletes the whole document, from FireStore. (the entire friend)
+    // Deletes the whole document, from FireStore. (the entire friend)
     public void deleteFriend(){
         friendRef.delete();
         if (!friend.getPicture().equals("default.jpg") ) {
@@ -475,13 +485,13 @@ public class DetailActivity extends AppCompatActivity {
    }
 
 
-    //Go backup to main view after creating a new friend.
+    // Go backup to main view after creating a new friend.
     public void goBackToMainView(){
         Intent goBackToMainIntent = new Intent(DetailActivity.this, MainActivity.class);
         startActivity(goBackToMainIntent);
     }
 
-    //Creates the menu bar
+    // Creates the menu bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -504,11 +514,11 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Opens built in mail app.
+    //Opens built in mail app. and fills field.
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        String[] receivers = { m_etMail.getText().toString()};
+        String[] receivers = { m_etMail.getText().toString()}; // Modtager liste, ud fra tekst felt
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT,
@@ -531,7 +541,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    //Create a File for saving an image
+    // Create a File for saving an image
     private File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Camera01");
