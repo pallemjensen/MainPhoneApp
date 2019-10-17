@@ -32,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainPhoneApp";
     ListView listViewFriends; // listview to show friends
+
+    // reference til firestore
     private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    // Collection reference - friends.
     private CollectionReference friendsColRef = fireDb.collection("Friends");
     private List<BEFriend> listOfFriends = new ArrayList<>();
 
@@ -40,13 +43,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Main Phone App");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // sets the view
 
         listViewFriends = findViewById(R.id.ListViewFriends);
-        checkPermissions();
 
-        fillList();
+        checkPermissions(); // calls method to check for permissons.
 
+        fillList(); // fills the list with friends.
+
+        // on click method, to go to detailActivity with the Id of the selected friend.
         listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     // Creates the menu bar.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //Fills the listFromGetAll with db items, with the getAll();
+    // Fills the listFromGetAll with db items, with the getAll();
 
     public void fillList(){
         friendsColRef.get()
@@ -81,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             beFriend.setId(friendId);
                             listOfFriends.add(beFriend);
                         }
+                        // Puts our data in a layout
                         ArrayAdapter<BEFriend> arrayAdapter =
                                 new ArrayAdapter<>(getApplicationContext(),
                                         android.R.layout.simple_list_item_1,
