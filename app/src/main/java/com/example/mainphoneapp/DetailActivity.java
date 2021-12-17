@@ -55,8 +55,6 @@ public class DetailActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
 
-    //Picture upload
-    private Button mButtonChooseImage;
     ImageView mImage;
 
     private Uri mImageUri;
@@ -64,7 +62,6 @@ public class DetailActivity extends AppCompatActivity {
 
     // Storage - for pictures.
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
 
     // Firestore stuff
     private static final String KEY_NAME = "name";
@@ -74,7 +71,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String KEY_GEO = "location";
     private static final String KEY_PICTURE_NAME = "picture";
 
-    private FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore fireDb = FirebaseFirestore.getInstance();
     private DocumentReference friendRef;
 
     File mFile = null;
@@ -94,8 +91,12 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txtShowUpdatingCoords;
     private LocationManager locationManager;
     private LocationListener listener;
-    private long thisid;
+    private final long thisid;
     private String friendId;
+
+    public DetailActivity(long thisid) {
+        this.thisid = thisid;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,18 +110,14 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         //Picture
-        mButtonChooseImage = findViewById(R.id.BtnChooseImage);
+        //Picture upload
+        Button mButtonChooseImage = findViewById(R.id.BtnChooseImage);
         mImage = findViewById(R.id.imgView);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("friend-pictures");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Friends");
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Friends");
 
-        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        mButtonChooseImage.setOnClickListener(v -> openFileChooser());
 
         //GPS
         txtShowUpdatingCoords = findViewById(R.id.txtViewNewCoords);
